@@ -6,15 +6,15 @@
     <title>Saint Altar Light</title>
     <style>
       :root {
-        --bg: #0b0d12;
-        --surface: #141824;
-        --surface2: #0f1320;
-        --text: #e9ecf1;
-        --muted: rgba(233, 236, 241, 0.72);
-        --accent: #d6b36a;
-        --danger: #d65a5a;
-        --border: rgba(233, 236, 241, 0.12);
-        --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        --bg: #1a1d2e;
+        --surface: #252940;
+        --surface2: #1e2235;
+        --text: #f5f7ff;
+        --muted: rgba(245, 247, 255, 0.85);
+        --accent: #ffd78a;
+        --danger: #ff6b6b;
+        --border: rgba(245, 247, 255, 0.18);
+        --shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
       }
 
       * {
@@ -25,8 +25,9 @@
       body {
         height: 100%;
         margin: 0;
-        background: radial-gradient(1200px 600px at 30% 20%, rgba(214, 179, 106, 0.12), transparent 60%),
-          radial-gradient(900px 500px at 70% 10%, rgba(120, 170, 255, 0.08), transparent 55%),
+        background: radial-gradient(1400px 800px at 40% 15%, rgba(255, 215, 138, 0.18), transparent 65%),
+          radial-gradient(1000px 600px at 75% 20%, rgba(140, 180, 255, 0.12), transparent 60%),
+          radial-gradient(800px 500px at 20% 70%, rgba(180, 140, 255, 0.08), transparent 55%),
           var(--bg);
         color: var(--text);
         font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -66,13 +67,13 @@
       }
 
       .sigil {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-        background: radial-gradient(circle at 30% 30%, rgba(214, 179, 106, 0.9), rgba(214, 179, 106, 0.15) 55%, rgba(214, 179, 106, 0.05) 70%),
-          rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(214, 179, 106, 0.25);
-        box-shadow: 0 10px 28px rgba(214, 179, 106, 0.08);
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: radial-gradient(circle at 30% 30%, rgba(255, 215, 138, 0.95), rgba(255, 215, 138, 0.2) 55%, rgba(255, 215, 138, 0.08) 70%),
+          rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 215, 138, 0.35);
+        box-shadow: 0 12px 32px rgba(255, 215, 138, 0.15);
       }
 
       .title {
@@ -82,49 +83,58 @@
       }
 
       .title h1 {
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 700;
         margin: 0;
         letter-spacing: 0.2px;
+        background: linear-gradient(135deg, #fff 0%, #ffd78a 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
       .title .sub {
         font-size: 13px;
         color: var(--muted);
-        margin-top: 2px;
+        margin-top: 3px;
       }
 
       .btn {
         appearance: none;
         border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(255, 255, 255, 0.05);
         color: var(--text);
-        padding: 10px 12px;
-        border-radius: 12px;
+        padding: 11px 14px;
+        border-radius: 14px;
         cursor: pointer;
-        transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+        transition: transform 150ms ease, background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+        font-size: 14px;
+        font-weight: 500;
       }
 
       .btn:hover {
-        background: rgba(255, 255, 255, 0.04);
-        border-color: rgba(233, 236, 241, 0.18);
-        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(245, 247, 255, 0.28);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
       }
 
       .btn:disabled {
         opacity: 0.4;
         cursor: not-allowed;
         transform: none;
+        box-shadow: none;
       }
 
       .btn.primary {
-        background: linear-gradient(180deg, rgba(214, 179, 106, 0.18), rgba(214, 179, 106, 0.08));
-        border-color: rgba(214, 179, 106, 0.35);
+        background: linear-gradient(135deg, rgba(255, 215, 138, 0.25), rgba(255, 215, 138, 0.1));
+        border-color: rgba(255, 215, 138, 0.45);
+        color: #fff;
       }
 
       .btn.primary:hover {
-        background: linear-gradient(180deg, rgba(214, 179, 106, 0.24), rgba(214, 179, 106, 0.1));
-        border-color: rgba(214, 179, 106, 0.48);
+        background: linear-gradient(135deg, rgba(255, 215, 138, 0.35), rgba(255, 215, 138, 0.15));
+        border-color: rgba(255, 215, 138, 0.6);
       }
 
       .btn.danger {
@@ -139,39 +149,44 @@
       }
 
       .card {
-        background: linear-gradient(180deg, rgba(20, 24, 36, 0.95), rgba(15, 19, 32, 0.95));
+        background: linear-gradient(180deg, rgba(37, 41, 64, 0.98), rgba(30, 34, 53, 0.98));
         border: 1px solid var(--border);
-        border-radius: 16px;
+        border-radius: 20px;
         box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
       }
 
       .gridStart {
         display: grid;
-        grid-template-columns: 8fr 4fr;
-        gap: 16px;
-        padding: 16px 0 28px;
+        grid-template-columns: 7fr 5fr;
+        gap: 20px;
+        padding: 20px 0 32px;
       }
 
       .hero {
-        padding: 18px;
-        min-height: 520px;
+        padding: 24px;
+        min-height: 560px;
         position: relative;
         overflow: hidden;
       }
 
       .hero .heroTitle {
-        font-size: 28px;
+        font-size: 36px;
         font-weight: 800;
         margin: 0;
-        letter-spacing: 0.2px;
+        letter-spacing: 0.3px;
+        background: linear-gradient(135deg, #fff 0%, #ffd78a 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
       .hero .heroDesc {
-        margin-top: 8px;
-        font-size: 15px;
+        margin-top: 12px;
+        font-size: 16px;
         color: var(--muted);
-        line-height: 1.6;
-        max-width: 44ch;
+        line-height: 1.7;
+        max-width: 48ch;
       }
 
       .heroCanvas {
@@ -190,9 +205,12 @@
       }
 
       .panel h2 {
-        font-size: 16px;
-        margin: 0 0 10px;
-        color: rgba(233, 236, 241, 0.92);
+        font-size: 15px;
+        margin: 0 0 12px;
+        color: rgba(245, 247, 255, 0.95);
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
       }
 
       .hint {
@@ -390,10 +408,10 @@
         min-height: 72px;
         resize: vertical;
         border-radius: 14px;
-        border: 1px solid rgba(233, 236, 241, 0.12);
-        background: rgba(0, 0, 0, 0.18);
-        color: rgba(233, 236, 241, 0.92);
-        padding: 10px 12px;
+        border: 1px solid rgba(245, 247, 255, 0.18);
+        background: rgba(0, 0, 0, 0.22);
+        color: rgba(245, 247, 255, 0.95);
+        padding: 12px 14px;
         font-family: inherit;
         font-size: 14px;
         line-height: 1.55;
@@ -401,38 +419,42 @@
       }
 
       .chatInput textarea:focus {
-        border-color: rgba(214, 179, 106, 0.35);
-        box-shadow: 0 0 0 3px rgba(214, 179, 106, 0.12);
+        border-color: rgba(255, 215, 138, 0.45);
+        box-shadow: 0 0 0 4px rgba(255, 215, 138, 0.15);
       }
 
       .opt {
         text-align: left;
-        padding: 12px;
-        border-radius: 14px;
-        border: 1px solid rgba(233, 236, 241, 0.14);
-        background: rgba(255, 255, 255, 0.02);
+        padding: 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(245, 247, 255, 0.2);
+        background: rgba(255, 255, 255, 0.04);
+        cursor: pointer;
+        transition: transform 150ms ease, background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
       }
 
       .opt:hover {
-        background: rgba(255, 255, 255, 0.04);
-        border-color: rgba(233, 236, 241, 0.22);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(245, 247, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
       }
 
       .opt .meta {
-        margin-top: 6px;
+        margin-top: 8px;
         display: flex;
         gap: 10px;
         align-items: center;
-        color: rgba(233, 236, 241, 0.65);
+        color: rgba(245, 247, 255, 0.75);
         font-size: 12px;
       }
 
       .tag {
-        border: 1px solid rgba(214, 179, 106, 0.3);
-        color: rgba(214, 179, 106, 0.95);
-        padding: 2px 8px;
+        border: 1px solid rgba(255, 215, 138, 0.4);
+        color: rgba(255, 215, 138, 0.98);
+        padding: 3px 10px;
         border-radius: 999px;
-        background: rgba(214, 179, 106, 0.08);
+        background: rgba(255, 215, 138, 0.12);
       }
 
       .overlay {
@@ -441,18 +463,29 @@
         display: none;
         align-items: center;
         justify-content: center;
-        background: rgba(0, 0, 0, 0.62);
-        padding: 20px;
+        background: rgba(0, 0, 0, 0.68);
+        padding: 24px;
         z-index: 999;
+        opacity: 0;
+        transition: opacity 200ms ease;
       }
 
       .overlay.show {
         display: flex;
+        opacity: 1;
       }
 
       .modal {
         width: min(560px, 100%);
         padding: 16px;
+        transform: translateY(10px) scale(0.98);
+        opacity: 0;
+        transition: transform 200ms ease, opacity 200ms ease;
+      }
+
+      .overlay.show .modal {
+        transform: translateY(0) scale(1);
+        opacity: 1;
       }
 
       .webModal {
@@ -491,44 +524,44 @@
         display: flex;
         justify-content: space-between;
         font-size: 13px;
-        color: rgba(233, 236, 241, 0.8);
+        color: rgba(245, 247, 255, 0.9);
       }
 
       .textInput,
       select {
         width: 100%;
-        padding: 10px 12px;
-        border-radius: 12px;
-        border: 1px solid rgba(233, 236, 241, 0.12);
-        background: rgba(0, 0, 0, 0.18);
-        color: rgba(233, 236, 241, 0.92);
+        padding: 12px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(245, 247, 255, 0.18);
+        background: rgba(0, 0, 0, 0.22);
+        color: rgba(245, 247, 255, 0.95);
         outline: none;
-        margin-top: 8px;
+        margin-top: 10px;
         font-family: inherit;
         font-size: 14px;
       }
 
       .textInput:focus,
       select:focus {
-        border-color: rgba(214, 179, 106, 0.35);
-        box-shadow: 0 0 0 3px rgba(214, 179, 106, 0.12);
+        border-color: rgba(255, 215, 138, 0.45);
+        box-shadow: 0 0 0 4px rgba(255, 215, 138, 0.15);
       }
 
       input[type="range"] {
         width: 100%;
-        margin-top: 8px;
+        margin-top: 10px;
       }
 
       .row2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        gap: 12px;
       }
 
       .small {
-        font-size: 12px;
-        color: rgba(233, 236, 241, 0.62);
-        line-height: 1.5;
+        font-size: 13px;
+        color: rgba(245, 247, 255, 0.78);
+        line-height: 1.6;
       }
 
       @media (max-width: 980px) {
@@ -564,25 +597,133 @@
             <div class="heroOverlay">
               <div class="heroTitle">在静默中倾听，在光里宽恕。</div>
               <div class="heroDesc">你将扮演神父，接待一位又一位来访者。通过回应与指引，帮助他们卸下负担，也让自己的灵性逐步成长。</div>
-              <div class="hint" style="margin-top: 14px">
+              <div class="hint" style="margin-top: 18px">
                 操作：<span class="kbd">空格</span> 继续 / <span class="kbd">1-4</span> 选择 / <span class="kbd">Esc</span> 暂停
               </div>
             </div>
           </div>
           <div class="card panel">
-            <h2>开始</h2>
+            <h2>🎮 游戏</h2>
+            <div class="btnRow" style="margin-bottom: 16px">
+              <button class="btn primary" id="btnNew" type="button">✨ 新游戏</button>
+              <button class="btn primary" id="btnContinue" type="button" disabled">📂 继续</button>
+            </div>
+            
+            <h2>📚 功能</h2>
+            <div class="btnRow" style="margin-bottom: 16px">
+              <button class="btn" id="btnHow" type="button">📜 玩法说明</button>
+              <button class="btn" id="btnBible" type="button">📖 读圣经</button>
+              <button class="btn" id="btnPrayer" type="button">🙏 祈祷</button>
+              <button class="btn" id="btnSkills" type="button">⚡ 技能</button>
+              <button class="btn" id="btnAchievements" type="button">🏆 成就</button>
+              <button class="btn" id="btnCollection" type="button">📚 收藏</button>
+              <button class="btn" id="btnConfessional" type="button">💬 忏悔室</button>
+            </div>
+            
+            <h2>⚙️ 其他</h2>
             <div class="btnRow">
-              <button class="btn primary" id="btnNew" type="button">新游戏</button>
-              <button class="btn primary" id="btnContinue" type="button" disabled>继续</button>
-              <button class="btn" id="btnConfessional" type="button">忏悔室</button>
-              <button class="btn" id="btnHow" type="button">玩法说明</button>
               <button class="btn" id="btnQuit" type="button">退出</button>
             </div>
-            <div id="howBox" class="card" style="margin-top: 12px; padding: 12px; display: none">
-              <div class="small">
-                核心循环：对话推进 → 关键节点选择 → 宽恕结算 → 成长反馈 → 下一位来访者。<br />
-                你每次选择会影响“本回合宽恕能量”和“正确引导次数”。当回合结束时，将根据表现给予经验与等级成长，并自动存档。<br />
-                本独立版为单文件运行：双击本页面即可，无需 Unity。
+            <div id="howBox" class="card" style="margin-top: 16px; padding: 16px; display: none">
+              <div class="small" style="line-height: 1.85">
+                <h3 style="margin: 0 0 12px 0; color: #ffd78a; font-size: 18px">📜 游戏规则</h3>
+                
+                <strong>【核心循环】</strong><br/>
+                每天接待1位信众 → 对话与选择 → 回合结算 → 社区议程 → 随机事件（概率）→ 下一天<br/><br/>
+                
+                <strong>【对话选择】</strong><br/>
+                • 每次选择会影响「宽恕能量」和「正确引导次数」<br/>
+                • 正确引导次数 ≥2 且 宽恕能量 ≥18 → 获得30经验<br/>
+                • 否则获得10经验<br/><br/>
+                
+                <strong>【灵性等级】</strong><br/>
+                • 经验达到当前等级×100 → 升级<br/>
+                • 等级N → 每天自动加成：繁荣度+N/2、虔诚度+N/2、和谐度+N/2、犯罪率-N/2（向下取整）<br/><br/>
+                
+                <strong>【属性系统】</strong><br/>
+                • 边际效益递减：属性越接近极限，增长/降低越困难<br/>
+                • 自然回归：属性会略微向中间值(50)靠拢<br/>
+                • 需要持续努力才能维持高属性
+                
+                <strong>【社区维度】</strong><br/>
+                • 繁荣度：社区的经济状况<br/>
+                • 犯罪率：社区的治安情况（越低越好）<br/>
+                • 虔诚度：社区的信仰氛围<br/>
+                • 和谐度：社区的人际和睦程度<br/><br/>
+                
+                <strong>【修士派遣】</strong><br/>
+                • 每天可派遣1名修士外出<br/>
+                • 2-4天后归来，带来善/平/坏三种结果<br/><br/>
+                
+                <strong>【随机事件】</strong><br/>
+                • 每天有概率触发随机事件<br/>
+                • 选择后会显示结果类型（好/中/坏）和具体影响<br/><br/>
+                
+                <strong>【昼夜与季节】</strong><br/>
+                • 场景会根据天数变化<br/>
+                • 每8天完成一个昼夜循环<br/>
+                • 每7天切换一个季节（春夏秋冬）<br/><br/>
+                
+                <strong>【技能树】</strong><br/>
+                • 升级获得技能点<br/>
+                • 解锁技能获得被动加成<br/>
+                • 技能包括：额外经验、属性加成等<br/><br/>
+                
+                <strong>【读圣经】</strong><br/>
+                • 每5天可阅读一节经文<br/>
+                • 获得经验、属性加成等奖励<br/>
+                • 超过5天未阅读会收到提醒<br/>
+                • 阅读过的经文会自动收集<br/><br/>
+                
+                <strong>【祈祷】</strong><br/>
+                • 每5天可进行一次祈祷<br/>
+                • 选择不同的祈祷主题<br/>
+                • 获得对应的社区属性加成<br/>
+                • 超过5天未祈祷会收到提醒<br/><br/>
+                
+                <strong>【属性系统】</strong><br/>
+                • 威严/人心：对话选择影响此属性<br/>
+                • 圣洁/世俗：对话选择影响此属性<br/>
+                • 不同属性组合提供每日加成<br/>
+                • 平衡时获得额外经验奖励<br/><br/>
+                
+                <strong>【属性效果】</strong><br/>
+                • 威严：降低犯罪率，提升虔诚度<br/>
+                • 人心：提升和谐度<br/>
+                • 圣洁：大幅提升虔诚度<br/>
+                • 世俗：提升繁荣度<br/>
+                • 中庸：越平衡，经验加成越高<br/><br/>
+                
+                <strong>【收藏系统】</strong><br/>
+                • 收集阅读过的经文<br/>
+                • 收集见过的信众故事<br/>
+                • 查看收集进度和内容<br/><br/>
+                
+                <strong>【成就系统】</strong><br/>
+                • 完成特定目标解锁成就<br/>
+                • 记录你的牧养历程<br/><br/>
+                
+                <h3 style="margin: 16px 0 10px 0; color: #ffd78a; font-size: 18px">🎯 通关条件（第30天判定）</h3>
+                
+                <strong>【圣神父】</strong><br/>
+                • 虔诚度 ≥80 且 和谐度 ≥80 且 繁荣度 ≥80 且 犯罪率 ≤20<br/><br/>
+                
+                <strong>【摆烂神父】</strong><br/>
+                • 虔诚度 ≤20 且 和谐度 ≤20 且 繁荣度 ≤20 且 犯罪率 ≥80<br/><br/>
+                
+                <strong>【破碎教区】</strong><br/>
+                • 和谐度 ≤20<br/><br/>
+                
+                <strong>【俗世管家】</strong><br/>
+                • 繁荣度 ≥80 且 虔诚度 ≤20<br/><br/>
+                
+                <strong>【铁腕执事】</strong><br/>
+                • 犯罪率 ≤20 且 和谐度 ≤20<br/><br/>
+                
+                <strong>【平凡神父】</strong><br/>
+                • 其他情况<br/><br/>
+                
+                <em>本独立版为单文件运行：双击本页面即可，无需 Unity。</em>
               </div>
             </div>
             <div class="hint" style="margin-top: 12px" id="saveHint"></div>
@@ -599,6 +740,8 @@
             <div class="card stats">
               <div>
                 <div class="statRow"><span>天数</span><span id="statDay">第 1 天</span></div>
+                <div class="statRow"><span>时间</span><span id="statTime">-</span></div>
+                <div class="statRow"><span>季节</span><span id="statSeason">-</span></div>
                 <div class="statRow"><span>当前来访者</span><span id="statBeliever">-</span></div>
                 <div class="statRow"><span>罪之主题</span><span id="statSin">-</span></div>
                 <div class="statRow"><span>本回合宽恕能量</span><span id="statSessionEnergy">0</span></div>
@@ -606,6 +749,7 @@
               <div style="border-top: 1px solid rgba(233, 236, 241, 0.1); padding-top: 12px">
                 <div class="statRow"><span>总宽恕能量</span><span id="statEnergy">0</span></div>
                 <div class="statRow"><span>灵性等级</span><span id="statLevel">1</span></div>
+                <div class="statRow"><span>技能点</span><span id="statSkillPoints">0</span></div>
                 <div class="statRow"><span>经验</span><span id="statXp">0 / 100</span></div>
                 <div class="bar" aria-hidden="true"><div id="xpBar"></div></div>
               </div>
@@ -884,6 +1028,135 @@
         </div>
       </div>
     </div>
+
+    <div class="overlay" id="overlayAchievement" role="dialog" aria-modal="true">
+      <div class="card modal" style="text-align: center; background: linear-gradient(180deg, rgba(214,179,106,0.15), rgba(20,24,36,0.95));">
+        <div style="font-size: 48px; margin-bottom: 8px;">🎉</div>
+        <h3 style="color: #d6b36a; margin-bottom: 8px;">成就解锁！</h3>
+        <div id="achievementIcon" style="font-size: 36px; margin-bottom: 8px;"></div>
+        <div id="achievementName" style="font-size: 20px; font-weight: bold; color: #e9ecf1; margin-bottom: 8px;"></div>
+        <div id="achievementDesc" class="small" style="color: rgba(233,236,241,0.7);"></div>
+        <div class="btnRow" style="margin-top: 16px">
+          <button class="btn primary" id="btnAchievementContinue" type="button">太棒了！</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlayAchievements" role="dialog" aria-modal="true">
+          <div class="card modal" style="max-width: 600px;">
+            <h3>🏆 成就</h3>
+            <div id="achievementsList" style="margin-top: 12px; max-height: 400px; overflow-y: auto;"></div>
+            <div class="btnRow" style="margin-top: 14px">
+              <button class="btn primary" id="btnCloseAchievements" type="button">关闭</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay" id="overlaySkills" role="dialog" aria-modal="true">
+          <div class="card modal" style="max-width: 700px;">
+            <h3>⚡ 技能树</h3>
+            <div class="statRow" style="margin-bottom: 10px;">
+              <span>可用技能点</span>
+              <span id="skillPointsDisplay">0</span>
+            </div>
+            <div id="skillsList" style="margin-top: 12px; max-height: 400px; overflow-y: auto;"></div>
+            <div class="btnRow" style="margin-top: 14px">
+              <button class="btn primary" id="btnCloseSkills" type="button">关闭</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay" id="overlayBible" role="dialog" aria-modal="true">
+          <div class="card modal" style="max-width: 650px;">
+            <h3>📖 读圣经</h3>
+            <div class="small" style="margin: 10px 0; color: rgba(233,236,241,0.7);">
+              每天可阅读一节经文，获得不同的加成效果。
+            </div>
+            <div id="bibleVerse" style="margin-top: 12px; padding: 12px; background: rgba(214,179,106,0.1); border: 1px solid rgba(214,179,106,0.3); border-radius: 6px;">
+              <div id="bibleReference" style="font-weight: bold; color: #d6b36a; margin-bottom: 8px;"></div>
+              <div id="bibleText" style="line-height: 1.7;"></div>
+            </div>
+            <div id="bibleReward" style="margin-top: 12px; padding: 10px; background: rgba(154,255,198,0.1); border: 1px solid rgba(154,255,198,0.3); border-radius: 6px; display: none;">
+            </div>
+            <div class="btnRow" style="margin-top: 14px">
+              <button class="btn primary" id="btnReadBible" type="button">📖 阅读今日经文</button>
+              <button class="btn" id="btnCloseBible" type="button">关闭</button>
+            </div>
+            <div class="small" style="margin-top: 10px; color: rgba(233,236,241,0.5);" id="bibleStatus">
+              今日还未阅读
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay" id="overlayPrayer" role="dialog" aria-modal="true">
+          <div class="card modal" style="max-width: 600px;">
+            <h3>🙏 祈祷</h3>
+            <div class="small" style="margin: 10px 0; color: rgba(245,247,255,0.75);">
+              每天可以进行一次祈祷，获得心灵的慰藉和神圣的祝福。
+            </div>
+            <div id="prayerContent" style="margin-top: 12px;">
+              <div id="prayerPrompt" style="padding: 16px; background: rgba(255,215,138,0.1); border: 1px solid rgba(255,215,138,0.3); border-radius: 12px; text-align: center;">
+                <div style="font-size: 24px; margin-bottom: 8px;">🕯️</div>
+                <div id="prayerText" style="color: #ffd78a; font-weight: bold; margin-bottom: 8px;">你心中所想，皆可诉说</div>
+                <div class="small" style="color: rgba(245,247,255,0.7);">选择一个主题进行祈祷</div>
+              </div>
+              <div id="prayerOptions" style="margin-top: 16px;"></div>
+            </div>
+            <div id="prayerResult" style="margin-top: 12px; padding: 14px; background: rgba(154,255,198,0.1); border: 1px solid rgba(154,255,198,0.3); border-radius: 12px; display: none;">
+            </div>
+            <div class="btnRow" style="margin-top: 14px">
+              <button class="btn primary" id="btnPray" type="button" style="display: none;">🙏 祈祷</button>
+              <button class="btn" id="btnClosePrayer" type="button">关闭</button>
+            </div>
+            <div class="small" style="margin-top: 10px; color: rgba(245,247,255,0.6);" id="prayerStatus">
+              今日还未祈祷
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay" id="overlayCollection" role="dialog" aria-modal="true">
+          <div class="card modal" style="max-width: 750px;">
+            <h3>📚 收藏</h3>
+            <div style="display: flex; gap: 10px; margin-top: 12px;">
+              <button class="btn" id="btnCollectionVerses" type="button" style="flex: 1;">📖 经文</button>
+              <button class="btn" id="btnCollectionBelievers" type="button" style="flex: 1;">👥 信众</button>
+            </div>
+            <div id="collectionContent" style="margin-top: 14px; max-height: 400px; overflow-y: auto;"></div>
+            <div class="btnRow" style="margin-top: 14px">
+              <button class="btn primary" id="btnCloseCollection" type="button">关闭</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay" id="overlayBibleReminder" role="dialog" aria-modal="true">
+          <div class="card modal" style="max-width: 550px; text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 12px;">📖</div>
+            <h3 style="color: #ffd78a; margin-bottom: 12px;">该读圣经了！</h3>
+            <div class="small" style="color: rgba(245,247,255,0.8); margin-bottom: 16px; line-height: 1.7;">
+              你已经有 <span id="bibleReminderDays" style="color: #ffd78a; font-weight: bold;">5</span> 天没有读圣经了。<br>
+              阅读神圣的经文可以获得祝福和力量！
+            </div>
+            <div class="btnRow">
+              <button class="btn primary" id="btnBibleReminderGo" type="button">📖 现在去读</button>
+              <button class="btn" id="btnBibleReminderLater" type="button">稍后再说</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay" id="overlayPrayerReminder" role="dialog" aria-modal="true">
+          <div class="card modal" style="max-width: 550px; text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 12px;">🙏</div>
+            <h3 style="color: #ffd78a; margin-bottom: 12px;">该祈祷了！</h3>
+            <div class="small" style="color: rgba(245,247,255,0.8); margin-bottom: 16px; line-height: 1.7;">
+              你已经有 <span id="prayerReminderDays" style="color: #ffd78a; font-weight: bold;">5</span> 天没有祈祷了。<br>
+              向主献上你的祷告，获得神圣的指引！
+            </div>
+            <div class="btnRow">
+              <button class="btn primary" id="btnPrayerReminderGo" type="button">🙏 现在祈祷</button>
+              <button class="btn" id="btnPrayerReminderLater" type="button">稍后再说</button>
+            </div>
+          </div>
+        </div>
 
     <script>
       (function () {
@@ -1213,6 +1486,123 @@
                 "我开始厌恶钟声，厌恶经文，厌恶一切‘安慰’。因为安慰像谎。",
               end: "如果神仍在，为何让我这样空？",
             },
+            {
+              id: "sc_theft_orphan",
+              name: "露西娅",
+              sinType: "Theft",
+              difficulty: 2,
+              summary: "孤儿院里长大的她，为了保护弟弟偷了面包。",
+              opener: "神父，我偷了面包……可我只是想让弟弟吃饱。",
+              detail:
+                "我们从孤儿院逃出来，躲在废弃的马厩里。弟弟饿得哭，我看见面包师傅转过身，手就伸了过去。",
+              turning:
+                "我以前总告诉自己：绝不做小偷。可肚子饿的时候，原则比纸还薄。",
+              end: "我该怎么办？我们不能再回孤儿院，可我也不想再偷。",
+            },
+            {
+              id: "sc_pride_artist",
+              name: "雷米",
+              sinType: "Pride",
+              difficulty: 3,
+              summary: "年轻的画家，因才华被人称赞而变得傲慢。",
+              opener: "神父，我……我看不起那些不懂艺术的人。",
+              detail:
+                "我为教堂画了壁画，所有人都来称赞。后来我觉得，只有我能画出神的荣光，别人的画都像涂鸦。",
+              turning:
+                "可我画不出了。手在抖，心在慌。我是不是把自己摆得太高了？",
+              end: "我还能找回谦卑吗？还是我已经把才气变成了牢狱？",
+            },
+            {
+              id: "sc_wrath_bull",
+              name: "托马斯",
+              sinType: "Wrath",
+              difficulty: 3,
+              summary: "他的牛被毒死，愤怒让他想要报复全村。",
+              opener: "神父，我想要杀人的心像火一样烧。",
+              detail:
+                "我养了十年的牛，昨晚被人毒死在棚里。我知道是谁干的——那个跟我争牧场的人。我磨好了刀，想让他血债血偿。",
+              turning:
+                "我既恨他，又怕自己真的下手。我不想变成杀人犯，可这口气咽不下。",
+              end: "请你拉住我，不要让我犯下更大的罪。",
+            },
+            {
+              id: "sc_greed_hoard",
+              name: "哈维",
+              sinType: "Greed",
+              difficulty: 4,
+              summary: "守财奴，把金币藏在床底，却舍不得为生病的妻子买药。",
+              opener: "神父，我把金币看得比我妻子的命还重。",
+              detail:
+                "妻子咳嗽得厉害，需要买药。可我看着床底的钱袋，手却伸不出去。我告诉自己：‘再等等，也许明天就好了。’",
+              turning:
+                "昨夜她咳醒，说看见死神在门口。我却还在想：这药钱值不值。",
+              end: "我怎么才能把钱看得轻一点，把人看得重一点？",
+            },
+            {
+              id: "sc_sloth_promise",
+              name: "凯瑟琳",
+              sinType: "Sloth",
+              difficulty: 2,
+              summary: "答应帮邻居照顾孩子，却因为懒惰而忘了。",
+              opener: "神父，我答应过的事，却因为懒而没做到……",
+              detail:
+                "邻居要去看医生，托我照看她的小女儿。可我坐在椅子上，阳光一晒就睡着了。孩子摔了一跤，磕破了头。",
+              turning:
+                "我不是坏人，可我总觉得‘还有时间’，总觉得‘等一下再做’。结果就是什么都没做。",
+              end: "我怎么才能改掉这拖延的毛病？",
+            },
+            {
+              id: "sc_lust_letters",
+              name: "朱利安",
+              sinType: "Lust",
+              difficulty: 3,
+              summary: "他写了许多下流的信给镇上的姑娘，败坏了她们的名声。",
+              opener: "神父，我用笔毁了好几个姑娘的名声。",
+              detail:
+                "我用匿名的方式，给镇上的姑娘写情书——那些信里充满了不堪入目的话。有人被退婚，有人被家人锁起来。",
+              turning:
+                "我以为只是玩笑。直到看见那个要出嫁的姑娘在井边哭，我才知道我做了什么。",
+              end: "我怎么才能弥补？怎么才能让那些话像没有说过一样？",
+            },
+            {
+              id: "sc_fear_future",
+              name: "夏洛特",
+              sinType: "Fear",
+              difficulty: 3,
+              summary: "对未来的恐惧让她不敢做任何决定。",
+              opener: "神父，我怕得连门都不敢出。",
+              detail:
+                "明年我就要满三十了，还没结婚，也没手艺。我怕找工作被拒绝，怕跟人说话，怕每一天的到来。",
+              turning:
+                "我告诉自己‘明天再想’，可明天来的时候，我又把自己锁在昨天。",
+              end: "我该怎么迈出第一步？",
+            },
+            {
+              id: "sc_heresy_doubt",
+              name: "马克西米利安",
+              sinType: "Heresy",
+              difficulty: 4,
+              summary: "他翻译了禁书，开始怀疑教会的教义。",
+              opener: "神父，我读了不该读的书，现在脑子里一团乱。",
+              detail:
+                "我从一个商人手里买到一本禁书。里面写的东西跟教会说的完全不一样。我读了，觉得有些地方说得也有道理。",
+              turning:
+                "我害怕被人发现，可又忍不住去想那些问题。我是不是已经成了异端？",
+              end: "请告诉我：疑问本身是罪吗？",
+            },
+            {
+              id: "sc_despair_aging",
+              name: "薇奥莱特",
+              sinType: "Despair",
+              difficulty: 3,
+              summary: "她因年华老去而绝望，甚至不愿再照镜子。",
+              opener: "神父，我害怕镜子里的自己。",
+              detail:
+                "白发越来越多，皱纹爬上眼角。我把镜子都藏起来，不想看见自己衰老的样子。我觉得自己再也没有价值了。",
+              turning:
+                "年轻时我是村里最漂亮的姑娘。现在我觉得自己像一棵枯萎的花，没人会再看一眼。",
+              end: "一个老去的人，还能有什么用？",
+            },
           ];
 
           var buildScenarioNodes = function (s) {
@@ -1342,6 +1732,8 @@
         var overlayEvent = $("overlayEvent");
         var overlayEnding = $("overlayEnding");
         var overlayMonkReport = $("overlayMonkReport");
+        var overlayAchievement = $("overlayAchievement");
+        var overlayAchievements = $("overlayAchievements");
         var deepseekFrame = $("deepseekFrame");
 
         var CONF_HISTORY_KEY = "sal_confessional_history_v1";
@@ -1362,6 +1754,347 @@
           empathy: 50,
           purity: 50,
           worldliness: 50,
+        };
+
+        var ACHIEVEMENTS = [
+          { id: "first_step", name: "第一步", desc: "完成第一个信众的忏悔", icon: "🙏" },
+          { id: "level_5", name: "灵性成长", desc: "达到5级", icon: "⭐" },
+          { id: "level_10", name: "圣光降临", desc: "达到10级", icon: "✨" },
+          { id: "all_sins", name: "罪的牧者", desc: "听过所有类型的罪孽", icon: "📿" },
+          { id: "perfect_day", name: "完美的一天", desc: "一天内获得完美宽恕评价", icon: "🌟" },
+          { id: "community_hero", name: "社区英雄", desc: "繁荣度、虔诚度、和谐度均达到80+", icon: "🏆" },
+          { id: "peacemaker", name: "和平使者", desc: "犯罪率降低到10以下", icon: "🕊️" },
+          { id: "monk_master", name: "修士导师", desc: "成功完成10次修士派遣任务", icon: "👨‍🏫" },
+          { id: "event_survivor", name: "事件幸存者", desc: "经历5次随机事件", icon: "🎲" },
+          { id: "holy_end", name: "圣神父", desc: "达成圣神父结局", icon: "👑" },
+          { id: "30_days", name: "坚持就是胜利", desc: "完成30天的旅程", icon: "📅" },
+          { id: "confessional", name: "倾听者", desc: "使用过忏悔室功能", icon: "💬" }
+        ];
+
+        var unlockedAchievements = [];
+        var totalBelieversHelped = 0;
+        var sinsHeard = new Set();
+        var monkMissionsCompleted = 0;
+        var eventsExperienced = 0;
+        var perfectDays = 0;
+        
+        // 技能树系统
+        var skillPoints = 0;
+        var unlockedSkills = [];
+        
+        // 昼夜和季节系统
+        var timeOfDay = "day"; // "day", "evening", "night", "dawn"
+        var currentSeason = "spring"; // "spring", "summer", "autumn", "winter"
+        
+        // 技能树定义
+        var SKILLS = [
+          {
+            id: "merciful_hearing",
+            name: "慈爱的倾听",
+            desc: "每次正确引导额外获得+2经验",
+            icon: "👂",
+            cost: 2,
+            unlocked: false
+          },
+          {
+            id: "wise_counsel",
+            name: "智慧的劝告",
+            desc: "繁荣度和虔诚度额外+1/天",
+            icon: "📖",
+            cost: 3,
+            unlocked: false
+          },
+          {
+            id: "peaceful_presence",
+            name: "平和的气场",
+            desc: "犯罪率额外-1/天",
+            icon: "🕊️",
+            cost: 2,
+            unlocked: false
+          },
+          {
+            id: "divine_favor",
+            name: "神圣的恩惠",
+            desc: "灵性等级每日加成额外+1",
+            icon: "✨",
+            cost: 4,
+            unlocked: false
+          },
+          {
+            id: "community_builder",
+            name: "社区建设者",
+            desc: "和谐度额外+1/天",
+            icon: "🏠",
+            cost: 3,
+            unlocked: false
+          },
+          {
+            id: "saintly_patience",
+            name: "圣者的耐心",
+            desc: "宽恕能量更容易获得",
+            icon: "🙏",
+            cost: 5,
+            unlocked: false
+          },
+          {
+            id: "healing_touch",
+            name: "治愈之手",
+            desc: "和谐度额外+2/天",
+            icon: "❤️",
+            cost: 4,
+            unlocked: false
+          },
+          {
+            id: "righteous_path",
+            name: "义人之途",
+            desc: "虔诚度额外+2/天",
+            icon: "✝️",
+            cost: 4,
+            unlocked: false
+          },
+          {
+            id: "prosperous_hands",
+            name: "繁茂之手",
+            desc: "繁荣度额外+2/天",
+            icon: "🌾",
+            cost: 4,
+            unlocked: false
+          },
+          {
+            id: "vigilant_guardian",
+            name: "警醒的守护者",
+            desc: "犯罪率额外-2/天",
+            icon: "🛡️",
+            cost: 4,
+            unlocked: false
+          },
+          {
+            id: "blessed_reader",
+            name: "蒙福的读经者",
+            desc: "读圣经奖励翻倍",
+            icon: "📜",
+            cost: 6,
+            unlocked: false
+          },
+          {
+            id: "devoted_prayer",
+            name: "虔诚的祷告者",
+            desc: "祈祷奖励翻倍",
+            icon: "🕯️",
+            cost: 6,
+            unlocked: false
+          }
+        ];
+
+        // 读圣经经文数据
+        var BIBLE_VERSES = [
+          {
+            reference: "诗篇 23:1",
+            text: "耶和华是我的牧者，我必不至缺乏。",
+            reward: { type: "xp", value: 15, desc: "获得15点经验" }
+          },
+          {
+            reference: "马太福音 5:9",
+            text: "使人和睦的人有福了，因为他们必称为神的儿子。",
+            reward: { type: "harmony", value: 5, desc: "和谐度+5" }
+          },
+          {
+            reference: "箴言 3:5-6",
+            text: "你要专心仰赖耶和华，不可倚靠自己的聪明；在你一切所行的事上都要认定他，他必指引你的路。",
+            reward: { type: "piety", value: 5, desc: "虔诚度+5" }
+          },
+          {
+            reference: "以赛亚书 41:10",
+            text: "你不要害怕，因为我与你同在；不要惊惶，因为我是你的神。我必坚固你，我必帮助你；我必用我公义的右手扶持你。",
+            reward: { type: "energy", value: 8, desc: "获得8点宽恕能量" }
+          },
+          {
+            reference: "约翰福音 3:16",
+            text: "神爱世人，甚至将他的独生子赐给他们，叫一切信他的，不至灭亡，反得永生。",
+            reward: { type: "xp", value: 20, desc: "获得20点经验" }
+          },
+          {
+            reference: "罗马书 8:28",
+            text: "我们晓得万事都互相效力，叫爱神的人得益处，就是按他旨意被召的人。",
+            reward: { type: "prosperity", value: 5, desc: "繁荣度+5" }
+          },
+          {
+            reference: "哥林多前书 13:4-7",
+            text: "爱是恒久忍耐，又有恩慈；爱是不嫉妒；爱是不自夸，不张狂，不作害羞的事，不求自己的益处，不轻易发怒，不计算人的恶，不喜欢不义，只喜欢真理；凡事包容，凡事相信，凡事盼望，凡事忍耐。",
+            reward: { type: "harmony", value: 6, desc: "和谐度+6" }
+          },
+          {
+            reference: "腓立比书 4:13",
+            text: "我靠着那加给我力量的，凡事都能做。",
+            reward: { type: "skillPoint", value: 1, desc: "获得1个技能点" }
+          },
+          {
+            reference: "加拉太书 5:22-23",
+            text: "圣灵所结的果子，就是仁爱、喜乐、和平、忍耐、恩慈、良善、信实、温柔、节制。这样的事没有律法禁止。",
+            reward: { type: "piety", value: 6, desc: "虔诚度+6" }
+          },
+          {
+            reference: "提摩太后书 1:7",
+            text: "因为神赐给我们，不是胆怯的心，乃是刚强、仁爱、谨守的心。",
+            reward: { type: "crime", value: -5, desc: "犯罪率-5" }
+          },
+          {
+            reference: "诗篇 118:24",
+            text: "这是耶和华所定的日子，我们在其中要高兴欢喜。",
+            reward: { type: "energy", value: 10, desc: "获得10点宽恕能量" }
+          },
+          {
+            reference: "希伯来书 13:16",
+            text: "只是不可忘记行善和捐输的事，因为这样的祭是神所喜悦的。",
+            reward: { type: "prosperity", value: 6, desc: "繁荣度+6" }
+          }
+        ];
+
+        // 祈祷主题数据
+        var PRAYER_THEMES = [
+          {
+            id: "peace",
+            name: "祈求平安",
+            icon: "🕊️",
+            desc: "为社区的和平祈祷",
+            prompt: "愿你的平安降临这片土地，驱散一切恐惧和纷争",
+            rewards: [
+              { type: "harmony", value: 4, desc: "和谐度+4" },
+              { type: "crime", value: -3, desc: "犯罪率-3" }
+            ]
+          },
+          {
+            id: "prosperity",
+            name: "祈求富足",
+            icon: "🌾",
+            desc: "为社区的繁荣祈祷",
+            prompt: "愿你眷顾这片土地，赐下丰收和富足",
+            rewards: [
+              { type: "prosperity", value: 5, desc: "繁荣度+5" },
+              { type: "xp", value: 12, desc: "获得12点经验" }
+            ]
+          },
+          {
+            id: "wisdom",
+            name: "祈求智慧",
+            icon: "💡",
+            desc: "为指引他人的智慧祈祷",
+            prompt: "愿你赐我智慧，能够更好地安慰和引导每一个灵魂",
+            rewards: [
+              { type: "piety", value: 4, desc: "虔诚度+4" },
+              { type: "skillPoint", value: 0.5, desc: "有机会获得技能点" }
+            ]
+          },
+          {
+            id: "forgiveness",
+            name: "祈求宽恕",
+            icon: "🙏",
+            desc: "为自己和他人的过错祈祷",
+            prompt: "愿你宽恕我们的过犯，如同我们宽恕别人一样",
+            rewards: [
+              { type: "energy", value: 12, desc: "获得12点宽恕能量" },
+              { type: "harmony", value: 3, desc: "和谐度+3" }
+            ]
+          },
+          {
+            id: "health",
+            name: "祈求健康",
+            icon: "❤️",
+            desc: "为社区众人的健康祈祷",
+            prompt: "愿你医治伤痛，赐下健康和平安",
+            rewards: [
+              { type: "harmony", value: 4, desc: "和谐度+4" },
+              { type: "piety", value: 3, desc: "虔诚度+3" }
+            ]
+          }
+        ];
+
+        // 读圣经状态
+        var lastReadBibleDay = 0;
+        var currentVerse = null;
+        
+        // 祈祷状态
+        var lastPrayedDay = 0;
+        var selectedPrayerTheme = null;
+        
+        // 收藏系统
+        var collectedVerses = []; // 收集的经文ID列表
+        var collectedBelievers = []; // 收集的信众ID列表
+        
+        // 提醒系统
+        var bibleReminderDismissed = false; // 是否已推迟读经提醒
+        var prayerReminderDismissed = false; // 是否已推迟祈祷提醒
+        
+        // 根据天数计算时间和季节
+        var getTimeAndSeason = function (day) {
+          var phase = (day - 1) % 8;
+          var time;
+          if (phase < 2) time = "dawn";
+          else if (phase < 4) time = "day";
+          else if (phase < 6) time = "evening";
+          else time = "night";
+          
+          var seasonPhase = Math.floor((day - 1) / 7) % 4;
+          var seasons = ["spring", "summer", "autumn", "winter"];
+          
+          return { time: time, season: seasons[seasonPhase] };
+        };
+        
+        // 时间和季节的配色方案
+        var getColorScheme = function(time, season) {
+          var timeColors = {
+            dawn: {
+              bgTop: "rgba(255,180,100,0.15)",
+              bgBottom: "rgba(255,100,50,0.08)",
+              accent: "rgba(255,150,100,0.10)",
+              glassTint: "rgba(255,120,80,0.08)"
+            },
+            day: {
+              bgTop: "rgba(120,170,255,0.10)",
+              bgBottom: "rgba(20,24,36,0.02)",
+              accent: "rgba(214,179,106,0.10)",
+              glassTint: "rgba(120,170,255,0.05)"
+            },
+            evening: {
+              bgTop: "rgba(200,80,120,0.12)",
+              bgBottom: "rgba(80,40,60,0.08)",
+              accent: "rgba(255,150,100,0.08)",
+              glassTint: "rgba(200,80,120,0.06)"
+            },
+            night: {
+              bgTop: "rgba(20,30,60,0.15)",
+              bgBottom: "rgba(5,10,20,0.12)",
+              accent: "rgba(150,180,255,0.08)",
+              glassTint: "rgba(80,100,150,0.06)"
+            }
+          };
+          
+          var seasonTints = {
+            spring: "rgba(150,255,180,0.05)",
+            summer: "rgba(255,220,100,0.05)",
+            autumn: "rgba(255,150,80,0.05)",
+            winter: "rgba(200,220,255,0.05)"
+          };
+          
+          var base = timeColors[time] || timeColors.day;
+          var seasonTint = seasonTints[season] || "rgba(0,0,0,0)";
+          
+          return {
+            ...base,
+            seasonTint: seasonTint,
+            timeLabel: {
+              dawn: "黎明",
+              day: "白天",
+              evening: "黄昏",
+              night: "夜晚"
+            }[time] || "白天",
+            seasonLabel: {
+              spring: "春季",
+              summer: "夏季",
+              autumn: "秋季",
+              winter: "冬季"
+            }[season] || "春季"
+          };
         };
 
         var DEFAULT_COMMUNITY = { prosperity: 30, crime: 30, piety: 30, harmony: 30 };
@@ -1545,6 +2278,20 @@
               lastLoggedNodeId: state.session.lastLoggedNodeId,
               log: state.session.log.slice(-60),
             },
+            skillPoints: skillPoints,
+            unlockedSkills: unlockedSkills,
+            unlockedAchievements: unlockedAchievements,
+            totalBelieversHelped: totalBelieversHelped,
+            sinsHeard: Array.from(sinsHeard),
+            monkMissionsCompleted: monkMissionsCompleted,
+            eventsExperienced: eventsExperienced,
+            perfectDays: perfectDays,
+            lastReadBibleDay: lastReadBibleDay,
+            lastPrayedDay: lastPrayedDay,
+            collectedVerses: collectedVerses,
+            collectedBelievers: collectedBelievers,
+            bibleReminderDismissed: bibleReminderDismissed,
+            prayerReminderDismissed: prayerReminderDismissed
           };
           safeSetItem(STORAGE_KEY, JSON.stringify(payload));
           state.lastAutoSaveAt = payload.savedAt;
@@ -1579,6 +2326,23 @@
               state.session.log = Array.isArray(payload.session.log) ? payload.session.log : [];
             }
             state.lastAutoSaveAt = payload.savedAt || 0;
+            
+            // 加载技能树和成就
+            if (typeof payload.skillPoints === "number") skillPoints = payload.skillPoints;
+            if (Array.isArray(payload.unlockedSkills)) unlockedSkills = payload.unlockedSkills;
+            if (Array.isArray(payload.unlockedAchievements)) unlockedAchievements = payload.unlockedAchievements;
+            if (typeof payload.totalBelieversHelped === "number") totalBelieversHelped = payload.totalBelieversHelped;
+            if (Array.isArray(payload.sinsHeard)) sinsHeard = new Set(payload.sinsHeard);
+            if (typeof payload.monkMissionsCompleted === "number") monkMissionsCompleted = payload.monkMissionsCompleted;
+            if (typeof payload.eventsExperienced === "number") eventsExperienced = payload.eventsExperienced;
+            if (typeof payload.perfectDays === "number") perfectDays = payload.perfectDays;
+            if (typeof payload.lastReadBibleDay === "number") lastReadBibleDay = payload.lastReadBibleDay;
+            if (typeof payload.lastPrayedDay === "number") lastPrayedDay = payload.lastPrayedDay;
+            if (Array.isArray(payload.collectedVerses)) collectedVerses = payload.collectedVerses;
+            if (Array.isArray(payload.collectedBelievers)) collectedBelievers = payload.collectedBelievers;
+            if (typeof payload.bibleReminderDismissed === "boolean") bibleReminderDismissed = payload.bibleReminderDismissed;
+            if (typeof payload.prayerReminderDismissed === "boolean") prayerReminderDismissed = payload.prayerReminderDismissed;
+            
             if (payload.v === 1 || payload.v === 2 || payload.v === 3) saveGame();
             return true;
           } catch (e) {
@@ -1659,6 +2423,10 @@
           state.dayFlow.done = false;
           state.session.believerIndex = ((believerIndex % DATA.believers.length) + DATA.believers.length) % DATA.believers.length;
           var b = currentBeliever();
+          
+          // 收集这个信众的故事
+          collectBeliever(b.id);
+          
           state.session.sinType = b.sinType;
           state.session.sessionEnergy = 0;
           state.session.correct = 0;
@@ -1759,11 +2527,19 @@
           if (state.view !== "game") return;
           var b = currentBeliever();
           $("statDay").textContent = "第 " + String(state.day) + " 天";
+          
+          // 更新时间和季节
+          var timeSeason = getTimeAndSeason(state.day);
+          var scheme = getColorScheme(timeSeason.time, timeSeason.season);
+          $("statTime").textContent = scheme.timeLabel;
+          $("statSeason").textContent = scheme.seasonLabel;
+          
           $("statBeliever").textContent = b.name + " · 难度 " + b.difficulty;
           $("statSin").textContent = SIN_LABEL[state.session.sinType] || state.session.sinType;
           $("statSessionEnergy").textContent = String(state.session.sessionEnergy);
           $("statEnergy").textContent = String(state.stats.energy);
           $("statLevel").textContent = String(state.stats.level);
+          $("statSkillPoints").textContent = String(skillPoints);
           var xpInLevel = state.stats.xp % 100;
           $("statXp").textContent = xpInLevel + " / 100";
           $("xpBar").style.width = clamp((xpInLevel / 100) * 100, 0, 100).toFixed(2) + "%";
@@ -2166,6 +2942,468 @@
           pragmatic: { worldliness: 0.55, empathy: 0.12 },
         };
 
+        var unlockAchievement = function (achievementId) {
+          if (unlockedAchievements.includes(achievementId)) return;
+          
+          var achievement = ACHIEVEMENTS.find(function (a) { return a.id === achievementId; });
+          if (!achievement) return;
+          
+          unlockedAchievements.push(achievementId);
+          
+          $("achievementIcon").textContent = achievement.icon;
+          $("achievementName").textContent = achievement.name;
+          $("achievementDesc").textContent = achievement.desc;
+          openOverlay(overlayAchievement);
+          
+          saveAchievements();
+        };
+
+        var saveAchievements = function () {
+          try {
+            localStorage.setItem("sal_achievements_v1", JSON.stringify({
+              unlocked: unlockedAchievements,
+              stats: {
+                totalBelieversHelped: totalBelieversHelped,
+                sinsHeard: Array.from(sinsHeard),
+                monkMissionsCompleted: monkMissionsCompleted,
+                eventsExperienced: eventsExperienced,
+                perfectDays: perfectDays
+              }
+            }));
+          } catch (e) {}
+        };
+
+        var loadAchievements = function () {
+          try {
+            var saved = localStorage.getItem("sal_achievements_v1");
+            if (saved) {
+              var data = JSON.parse(saved);
+              unlockedAchievements = data.unlocked || [];
+              var stats = data.stats || {};
+              totalBelieversHelped = stats.totalBelieversHelped || 0;
+              sinsHeard = new Set(stats.sinsHeard || []);
+              monkMissionsCompleted = stats.monkMissionsCompleted || 0;
+              eventsExperienced = stats.eventsExperienced || 0;
+              perfectDays = stats.perfectDays || 0;
+            }
+          } catch (e) {}
+        };
+        
+        var saveSkills = function () {
+          try {
+            localStorage.setItem("sal_skills_v1", JSON.stringify({
+              skillPoints: skillPoints,
+              unlockedSkills: unlockedSkills
+            }));
+          } catch (e) {}
+        };
+        
+        var loadSkills = function () {
+          try {
+            var saved = localStorage.getItem("sal_skills_v1");
+            if (saved) {
+              var data = JSON.parse(saved);
+              skillPoints = data.skillPoints || 0;
+              unlockedSkills = data.unlockedSkills || [];
+            }
+          } catch (e) {}
+        };
+        
+        var unlockSkill = function (skillId) {
+          var skill = SKILLS.find(function (s) { return s.id === skillId; });
+          if (!skill || unlockedSkills.includes(skillId) || skillPoints < skill.cost) return;
+          
+          skillPoints -= skill.cost;
+          unlockedSkills.push(skillId);
+          saveSkills();
+          
+          // 显示成就一样的提示
+          var overlay = $("overlayAchievement");
+          $("achievementIcon").textContent = skill.icon;
+          $("achievementName").textContent = "技能解锁！";
+          $("achievementDesc").textContent = skill.name + "：" + skill.desc;
+          openOverlay(overlay);
+        };
+        
+        var hasSkill = function (skillId) {
+          return unlockedSkills.includes(skillId);
+        };
+        
+        var renderSkillsList = function () {
+          $("skillPointsDisplay").textContent = String(skillPoints);
+          var container = $("skillsList");
+          container.innerHTML = "";
+          
+          SKILLS.forEach(function (skill) {
+            var isUnlocked = unlockedSkills.includes(skill.id);
+            var canUnlock = !isUnlocked && skillPoints >= skill.cost;
+            
+            var div = document.createElement("div");
+            div.style.cssText = "display: flex; align-items: center; padding: 12px; margin-bottom: 8px; border-radius: 12px; border: 1px solid " + (isUnlocked ? "rgba(214,179,106,0.3)" : "rgba(233,236,241,0.1)") + "; background: " + (isUnlocked ? "rgba(214,179,106,0.1)" : "rgba(255,255,255,0.02)") + "; cursor: " + (canUnlock ? "pointer" : "default") + "; transition: all 0.2s;";
+            div.innerHTML = '<div style="font-size: 32px; margin-right: 12px; opacity: ' + (isUnlocked ? 1 : 0.5) + ';">' + skill.icon + '</div><div style="flex: 1;"><div style="font-weight: bold; color: ' + (isUnlocked ? '#e9ecf1' : 'rgba(233,236,241,0.5)') + ';">' + skill.name + '</div><div class="small" style="color: ' + (isUnlocked ? 'rgba(233,236,241,0.7)' : 'rgba(233,236,241,0.3)') + '; margin-top: 4px;">' + skill.desc + '</div></div><div style="text-align: right;"><div style="color: ' + (isUnlocked ? '#d6b36a' : (canUnlock ? '#e9ecf1' : 'rgba(233,236,241,0.3)')) + '; font-size: 14px;">' + (isUnlocked ? '✓ 已解锁' : skill.cost + ' 点') + '</div></div>';
+            
+            if (canUnlock) {
+              div.addEventListener("click", function () {
+                unlockSkill(skill.id);
+                renderSkillsList();
+              });
+            }
+            
+            container.appendChild(div);
+          });
+        };
+
+        var renderBiblePanel = function () {
+          var currentDay = state.day || 1;
+          
+          // 计算逻辑：上次读经是第N天，下次读经是第N+5天
+          var daysSinceLastRead = lastReadBibleDay === 0 ? currentDay : (currentDay - lastReadBibleDay);
+          var canReadNow = lastReadBibleDay === 0 || daysSinceLastRead >= 5;
+          
+          if (lastReadBibleDay === 0) {
+            // 从未读过
+            $("bibleReference").textContent = "点击阅读按钮查看经文";
+            $("bibleText").textContent = "";
+            $("bibleReward").style.display = "none";
+            $("btnReadBible").disabled = false;
+            $("btnReadBible").textContent = "📖 开始阅读";
+            $("bibleStatus").textContent = "可以阅读了！";
+          } else if (!canReadNow) {
+            // 还在等待期
+            var daysLeft = Math.max(0, (lastReadBibleDay + 5) - currentDay);
+            $("bibleReference").textContent = "下次阅读需要等待";
+            $("bibleText").textContent = "距离下次读经还有 " + daysLeft + " 天";
+            $("bibleReward").style.display = "none";
+            $("btnReadBible").disabled = true;
+            $("btnReadBible").textContent = "📖 等待中...";
+            $("bibleStatus").textContent = "每5天可以阅读一次";
+          } else if (currentVerse && lastReadBibleDay === currentDay) {
+            // 今天刚读过
+            $("bibleReference").textContent = currentVerse.reference;
+            $("bibleText").textContent = currentVerse.text;
+            $("bibleReward").innerHTML = "✨ " + currentVerse.reward.desc;
+            $("bibleReward").style.display = "block";
+            $("btnReadBible").disabled = true;
+            $("btnReadBible").textContent = "✓ 已阅读";
+            $("bibleStatus").textContent = "本次已完成";
+          } else {
+            // 可以读了
+            $("bibleReference").textContent = "点击阅读按钮查看经文";
+            $("bibleText").textContent = "";
+            $("bibleReward").style.display = "none";
+            $("btnReadBible").disabled = false;
+            $("btnReadBible").textContent = "📖 开始阅读";
+            $("bibleStatus").textContent = "可以阅读了！";
+          }
+        };
+
+        var readBible = function () {
+          var currentDay = state.day || 1;
+          var daysSinceLastRead = currentDay - lastReadBibleDay;
+          var canReadNow = lastReadBibleDay === 0 || daysSinceLastRead >= 5;
+          if (!canReadNow) return;
+          
+          // 根据天数选择经文
+          var verseIndex = (currentDay - 1) % BIBLE_VERSES.length;
+          currentVerse = BIBLE_VERSES[verseIndex];
+          lastReadBibleDay = currentDay;
+          bibleReminderDismissed = false; // 重置提醒状态
+          
+          // 收集这节经文
+          if (!collectedVerses.includes(verseIndex)) {
+            collectedVerses.push(verseIndex);
+          }
+          
+          // 计算奖励倍数
+          var multiplier = hasSkill("blessed_reader") ? 2 : 1;
+          
+          // 应用奖励
+          var reward = currentVerse.reward;
+          switch (reward.type) {
+            case "xp":
+              state.stats.xp = (state.stats.xp || 0) + reward.value * multiplier;
+              checkLevelUp();
+              break;
+            case "harmony":
+              state.community.harmony = clamp(state.community.harmony + reward.value * multiplier, 0, 100);
+              break;
+            case "piety":
+              state.community.piety = clamp(state.community.piety + reward.value * multiplier, 0, 100);
+              break;
+            case "prosperity":
+              state.community.prosperity = clamp(state.community.prosperity + reward.value * multiplier, 0, 100);
+              break;
+            case "crime":
+              state.community.crime = clamp(state.community.crime + reward.value * multiplier, 0, 100);
+              break;
+            case "energy":
+              state.stats.energy = (state.stats.energy || 0) + reward.value * multiplier;
+              break;
+            case "skillPoint":
+              skillPoints = (skillPoints || 0) + reward.value * multiplier;
+              break;
+          }
+          
+          renderBiblePanel();
+          applyStatsToUI();
+          saveGame();
+        };
+        
+        // 祈祷系统
+        var renderPrayerPanel = function () {
+          var currentDay = state.day || 1;
+          
+          // 计算逻辑：上次祈祷是第N天，下次祈祷是第N+5天
+          var daysSinceLastPray = lastPrayedDay === 0 ? currentDay : (currentDay - lastPrayedDay);
+          var canPrayNow = lastPrayedDay === 0 || daysSinceLastPray >= 5;
+          
+          if (lastPrayedDay === 0) {
+            // 从未祈祷过
+            $("prayerResult").style.display = "none";
+            $("prayerOptions").style.display = "block";
+            $("prayerPrompt").style.display = "block";
+            $("btnPray").style.display = "none";
+            $("prayerText").textContent = "你心中所想，皆可诉说";
+            $("prayerStatus").textContent = "可以祈祷了！";
+          } else if (!canPrayNow) {
+            // 还在等待期
+            var daysLeft = Math.max(0, (lastPrayedDay + 5) - currentDay);
+            $("prayerResult").style.display = "block";
+            $("prayerResult").innerHTML = "下次祈祷需要等待 " + daysLeft + " 天";
+            $("prayerOptions").style.display = "none";
+            $("prayerPrompt").style.display = "block";
+            $("btnPray").style.display = "none";
+            $("prayerText").textContent = "稍候再来...";
+            $("prayerStatus").textContent = "每5天可以祈祷一次";
+          } else if (lastPrayedDay === currentDay) {
+            // 今天刚祈祷过
+            $("prayerOptions").style.display = "none";
+            $("prayerPrompt").style.display = "none";
+            $("prayerResult").style.display = "block";
+            $("btnPray").style.display = "none";
+            $("prayerStatus").textContent = "本次已完成";
+          } else {
+            // 可以祈祷了
+            $("prayerResult").style.display = "none";
+            $("prayerOptions").style.display = "block";
+            $("prayerPrompt").style.display = "block";
+            $("btnPray").style.display = "none";
+            $("prayerText").textContent = "你心中所想，皆可诉说";
+            $("prayerStatus").textContent = "可以祈祷了！";
+            
+            // 渲染祈祷选项
+            var optionsHtml = "";
+            PRAYER_THEMES.forEach(function (theme, index) {
+              var isSelected = selectedPrayerTheme === theme.id;
+              optionsHtml += '<div class="opt" style="cursor:pointer;" data-theme="' + theme.id + '">' +
+                '<div style="display:flex;align-items:center;gap:12px;">' +
+                  '<div style="font-size:32px;">' + theme.icon + '</div>' +
+                  '<div style="flex:1;">' +
+                    '<div style="font-weight:bold;color:#e9ecf1;">' + theme.name + '</div>' +
+                    '<div class="small" style="color:rgba(245,247,255,0.7);margin-top:4px;">' + theme.desc + '</div>' +
+                  '</div>' +
+                '</div>' +
+              '</div>';
+            });
+            $("prayerOptions").innerHTML = optionsHtml;
+            
+            // 添加点击事件
+            var opts = $("prayerOptions").querySelectorAll(".opt");
+            for (var i = 0; i < opts.length; i++) {
+              opts[i].addEventListener("click", function (e) {
+                var themeId = e.currentTarget.getAttribute("data-theme");
+                selectPrayerTheme(themeId);
+              });
+            }
+          }
+        };
+        
+        var selectPrayerTheme = function (themeId) {
+          selectedPrayerTheme = themeId;
+          var theme = PRAYER_THEMES.find(function (t) { return t.id === themeId; });
+          if (!theme) return;
+          
+          // 更新显示
+          $("prayerText").textContent = theme.prompt;
+          $("btnPray").style.display = "inline-flex";
+          
+          // 高亮选中的选项
+          var opts = $("prayerOptions").querySelectorAll(".opt");
+          for (var i = 0; i < opts.length; i++) {
+            var opt = opts[i];
+            if (opt.getAttribute("data-theme") === themeId) {
+              opt.style.background = "rgba(255,215,138,0.15)";
+              opt.style.border = "1px solid rgba(255,215,138,0.5)";
+            } else {
+              opt.style.background = "rgba(255,255,255,0.02)";
+              opt.style.border = "1px solid rgba(245,247,255,0.2)";
+            }
+          }
+        };
+        
+        var pray = function () {
+          var currentDay = state.day || 1;
+          var daysSinceLastPray = currentDay - lastPrayedDay;
+          var canPrayNow = lastPrayedDay === 0 || daysSinceLastPray >= 5;
+          if (!canPrayNow || !selectedPrayerTheme) return;
+          
+          var theme = PRAYER_THEMES.find(function (t) { return t.id === selectedPrayerTheme; });
+          if (!theme) return;
+          
+          lastPrayedDay = currentDay;
+          prayerReminderDismissed = false; // 重置提醒状态
+          
+          // 计算奖励倍数
+          var multiplier = hasSkill("devoted_prayer") ? 2 : 1;
+          
+          // 应用奖励
+          var rewardText = "✨ " + "祈祷已蒙垂听！<br>";
+          theme.rewards.forEach(function (reward, index) {
+            if (reward.type === "skillPoint" && reward.value < 1) {
+              // 概率获得技能点
+              if (Math.random() < reward.value * multiplier) {
+                skillPoints = (skillPoints || 0) + 1;
+                rewardText += "获得1个技能点";
+              }
+            } else {
+              // 普通奖励
+              var value = reward.value * multiplier;
+              switch (reward.type) {
+                case "xp":
+                  state.stats.xp = (state.stats.xp || 0) + value;
+                  checkLevelUp();
+                  break;
+                case "harmony":
+                  state.community.harmony = clamp(state.community.harmony + value, 0, 100);
+                  break;
+                case "piety":
+                  state.community.piety = clamp(state.community.piety + value, 0, 100);
+                  break;
+                case "prosperity":
+                  state.community.prosperity = clamp(state.community.prosperity + value, 0, 100);
+                  break;
+                case "crime":
+                  state.community.crime = clamp(state.community.crime + value, 0, 100);
+                  break;
+                case "energy":
+                  state.stats.energy = (state.stats.energy || 0) + value;
+                  break;
+              }
+              rewardText += reward.desc;
+              if (multiplier > 1) rewardText += " (x" + multiplier + ")";
+            }
+            if (index < theme.rewards.length - 1) rewardText += "<br>";
+          });
+          
+          $("prayerResult").innerHTML = rewardText;
+          
+          renderPrayerPanel();
+          applyStatsToUI();
+          saveGame();
+        };
+        
+        // 收藏系统
+        var currentCollectionTab = "verses";
+        
+        var renderCollectionPanel = function () {
+          renderCollectionContent();
+        };
+        
+        var switchCollectionTab = function (tab) {
+          currentCollectionTab = tab;
+          $("btnCollectionVerses").className = "btn" + (tab === "verses" ? " primary" : "");
+          $("btnCollectionBelievers").className = "btn" + (tab === "believers" ? " primary" : "");
+          renderCollectionContent();
+        };
+        
+        var renderCollectionContent = function () {
+          var container = $("collectionContent");
+          
+          if (currentCollectionTab === "verses") {
+            // 显示经文收藏
+            if (collectedVerses.length === 0) {
+              container.innerHTML = '<div style="text-align:center;padding:24px;color:rgba(245,247,255,0.6);">还没有收藏经文<br><br>通过阅读圣经来收集经文</div>';
+              return;
+            }
+            
+            var html = "";
+            collectedVerses.forEach(function (verseIndex) {
+              var verse = BIBLE_VERSES[verseIndex];
+              html += '<div style="padding:14px;margin-bottom:10px;border-radius:12px;border:1px solid rgba(255,215,138,0.25);background:rgba(255,215,138,0.08);">' +
+                '<div style="font-weight:bold;color:#ffd78a;margin-bottom:6px;">' + verse.reference + '</div>' +
+                '<div style="color:rgba(245,247,255,0.85);line-height:1.6;">' + verse.text + '</div>' +
+                '<div class="small" style="color:rgba(154,255,198,0.8);margin-top:8px;">奖励：' + verse.reward.desc + '</div>' +
+              '</div>';
+            });
+            container.innerHTML = '<div style="margin-bottom:8px;color:rgba(245,247,255,0.7);font-weight:800;">已收集: ' + collectedVerses.length + ' / ' + BIBLE_VERSES.length + '</div>' + html;
+          } else {
+            // 显示信众收藏
+            if (collectedBelievers.length === 0) {
+              container.innerHTML = '<div style="text-align:center;padding:24px;color:rgba(245,247,255,0.6);">还没有收集信众故事<br><br>通过完成信众的忏悔来收集</div>';
+              return;
+            }
+            
+            var allScenarios = DATA.scenarios;
+            var html = "";
+            collectedBelievers.forEach(function (scenarioId) {
+              var scenario = allScenarios.find(function (s) { return s.id === scenarioId; });
+              if (scenario) {
+                html += '<div style="padding:14px;margin-bottom:10px;border-radius:12px;border:1px solid rgba(122,134,166,0.25);background:rgba(122,134,166,0.08);">' +
+                  '<div style="font-weight:bold;color:#e9ecf1;margin-bottom:6px;">' + scenario.name + '</div>' +
+                  '<div style="color:rgba(245,247,255,0.85);">' + scenario.summary + '</div>' +
+                  '<div class="small" style="color:rgba(214,179,106,0.8);margin-top:8px;">罪之主题：' + (SIN_LABEL[scenario.sinType] || scenario.sinType) + '</div>' +
+                '</div>';
+              }
+            });
+            container.innerHTML = '<div style="margin-bottom:8px;color:rgba(245,247,255,0.7);font-weight:800;">已收集: ' + collectedBelievers.length + ' / ' + allScenarios.length + '</div>' + html;
+          }
+        };
+        
+        // 收集信众
+        var collectBeliever = function (scenarioId) {
+          if (!collectedBelievers.includes(scenarioId)) {
+            collectedBelievers.push(scenarioId);
+            saveGame();
+          }
+        };
+
+        var checkAchievements = function () {
+          if (state.stats.level >= 5 && !unlockedAchievements.includes("level_5")) {
+            unlockAchievement("level_5");
+          }
+          if (state.stats.level >= 10 && !unlockedAchievements.includes("level_10")) {
+            unlockAchievement("level_10");
+          }
+          if (state.community.crime <= 10 && !unlockedAchievements.includes("peacemaker")) {
+            unlockAchievement("peacemaker");
+          }
+          if (state.community.prosperity >= 80 && state.community.piety >= 80 && state.community.harmony >= 80 && !unlockedAchievements.includes("community_hero")) {
+            unlockAchievement("community_hero");
+          }
+          if (monkMissionsCompleted >= 10 && !unlockedAchievements.includes("monk_master")) {
+            unlockAchievement("monk_master");
+          }
+          if (eventsExperienced >= 5 && !unlockedAchievements.includes("event_survivor")) {
+            unlockAchievement("event_survivor");
+          }
+          if (sinsHeard.size >= 10 && !unlockedAchievements.includes("all_sins")) {
+            unlockAchievement("all_sins");
+          }
+        };
+
+        var renderAchievementsList = function () {
+          var container = $("achievementsList");
+          container.innerHTML = "";
+          
+          ACHIEVEMENTS.forEach(function (achievement) {
+            var isUnlocked = unlockedAchievements.includes(achievement.id);
+            var div = document.createElement("div");
+            div.style.cssText = "display: flex; align-items: center; padding: 12px; margin-bottom: 8px; border-radius: 12px; border: 1px solid " + (isUnlocked ? "rgba(214,179,106,0.3)" : "rgba(233,236,241,0.1)") + "; background: " + (isUnlocked ? "rgba(214,179,106,0.1)" : "rgba(255,255,255,0.02)") + ";";
+            div.innerHTML = '<div style="font-size: 28px; margin-right: 12px; opacity: ' + (isUnlocked ? 1 : 0.3) + ';">' + achievement.icon + '</div><div style="flex: 1;"><div style="font-weight: bold; color: ' + (isUnlocked ? '#e9ecf1' : 'rgba(233,236,241,0.5)') + ';">' + achievement.name + '</div><div class="small" style="color: ' + (isUnlocked ? 'rgba(233,236,241,0.7)' : 'rgba(233,236,241,0.3)') + ';">' + achievement.desc + '</div></div><div style="color: ' + (isUnlocked ? '#d6b36a' : 'rgba(233,236,241,0.3)') + ';">' + (isUnlocked ? '✓' : '🔒') + '</div>';
+            container.appendChild(div);
+          });
+        };
+
         var applyPriestDelta = function (delta) {
           var da = (delta && typeof delta.authority === "number" ? delta.authority : 0) - (delta && typeof delta.empathy === "number" ? delta.empathy : 0);
           var dp = (delta && typeof delta.purity === "number" ? delta.purity : 0) - (delta && typeof delta.worldliness === "number" ? delta.worldliness : 0);
@@ -2290,6 +3528,37 @@
           return { prosperity: wf(w), crime: wf(a), piety: wf(p), harmony: wf(e) };
         };
 
+        var getTraitBonus = function () {
+          var authority = clamp(state.stats.authority, 0, 100) / 100;
+          var purity = clamp(state.stats.purity, 0, 100) / 100;
+          var empathy = 1 - authority;
+          var worldliness = 1 - purity;
+          
+          var bonus = { prosperity: 0, crime: 0, piety: 0, harmony: 0, xp: 0 };
+          
+          var f = function(x) { return Math.floor(x * 3); };
+          
+          // 威严：降低犯罪率，提升虔诚度
+          bonus.crime -= f(authority);
+          bonus.piety += f(authority);
+          
+          // 人心：提升和谐度，降低犯罪率难度
+          bonus.harmony += f(empathy);
+          
+          // 圣洁：大幅提升虔诚度
+          bonus.piety += f(purity);
+          
+          // 世俗：提升繁荣度
+          bonus.prosperity += f(worldliness);
+          
+          // 中庸之道：平衡时获得经验加成
+          var authorityBalance = 1 - Math.abs(authority - 0.5) * 2;
+          var purityBalance = 1 - Math.abs(purity - 0.5) * 2;
+          bonus.xp = Math.floor((authorityBalance + purityBalance) * 5);
+          
+          return bonus;
+        };
+
         var DAILY_TEXT = {
           prosperity: [
             { t: "修补集市道路", d: "召集工匠与佃户，修整碎石路，使商贩愿意逗留。", base: 2, side: { crime: 1 } },
@@ -2351,7 +3620,39 @@
             var k = keys[i];
             var dv = effects && typeof effects[k] === "number" ? effects[k] : 0;
             if (!dv) continue;
-            c[k] = clamp(c[k] + dv, 0, 100);
+            
+            // 边际效益递减：接近极限时效果减弱
+            var current = c[k];
+            var isPositive = dv > 0;
+            var modifiedDv = dv;
+            
+            if (k === "crime") {
+              // 犯罪率：降低时难度增加，升高时正常
+              if (dv < 0) {
+                // 降低犯罪率，当已经很低时更难降低
+                var factor = Math.max(0.3, current / 50);
+                modifiedDv = dv * factor;
+              }
+            } else {
+              // 其他属性：提高时难度增加，降低时正常
+              if (dv > 0) {
+                // 提高属性，当已经很高时更难提高
+                var factor = Math.max(0.3, (100 - current) / 50);
+                modifiedDv = dv * factor;
+              }
+            }
+            
+            c[k] = clamp(c[k] + modifiedDv, 0, 100);
+          }
+          
+          // 自然回归：每天让属性略微向中间值(50)靠拢
+          for (var j = 0; j < keys.length; j++) {
+            var key = keys[j];
+            var currentVal = c[key];
+            var targetVal = 50;
+            // 每天回归0.5点
+            var drift = (targetVal - currentVal) * 0.005;
+            c[key] = clamp(c[key] + drift, 0, 100);
           }
         };
 
@@ -2767,6 +4068,9 @@
             appendLog("系统", monk.name + "归来，任务“" + (mission ? mission.title : "外出") + "”结果：" + tag + "。", true);
             monk.lastReport = reports[reports.length - 1];
             monk.mission = null;
+            
+            monkMissionsCompleted++;
+            checkAchievements();
           }
           return reports;
         };
@@ -2908,19 +4212,45 @@
                 k = "bad";
                 out = getChoiceOutcome(choice, "bad");
               }
-              applyCommunityEffects(out && out.community ? out.community : {});
-              if (out && out.priest) applyPriestDelta(out.priest);
+              var communityEffects = out && out.community ? out.community : {};
+              var priestEffects = out && out.priest ? out.priest : {};
+              applyCommunityEffects(communityEffects);
+              if (out && out.priest) applyPriestDelta(priestEffects);
+              
+              // 生成效果描述
+              var labels = { prosperity: "繁荣度", crime: "犯罪率", piety: "虔诚度", harmony: "和谐度" };
+              var fmt = function (n) {
+                if (!n) return "0";
+                return (n > 0 ? "+" : "") + String(n);
+              };
+              var effectLines = [];
+              var hasEffect = false;
+              for (var key in labels) {
+                if (communityEffects[key] !== undefined && communityEffects[key] !== 0) {
+                  effectLines.push(labels[key] + " " + fmt(communityEffects[key]));
+                  hasEffect = true;
+                }
+              }
+              var effectText = hasEffect ? "影响：" + effectLines.join(" · ") : "";
+              
+              eventsExperienced++;
+              checkAchievements();
+              
               var tag = k === "good" ? "（善）" : k === "mid" ? "（平）" : "（坏）";
+              var resultLabel = k === "good" ? "【好结果】" : k === "mid" ? "【中等结果】" : "【坏结果】";
               appendLog("系统", "随机事件：" + ev.title + "。你选择：" + choice.t + tag + "。", true);
-              $("eventDesc").textContent =
-                (out && out.txt ? out.txt : "结果难以言说。") +
-                "\n\n（概率：善 " +
+              var finalText = resultLabel + "\n\n" + (out && out.txt ? out.txt : "结果难以言说。");
+              if (effectText) {
+                finalText += "\n\n" + effectText;
+              }
+              finalText += "\n\n（概率：善 " +
                 fmtPct(profile.good) +
                 " / 平 " +
                 fmtPct(profile.mid) +
                 " / 坏 " +
                 fmtPct(profile.bad) +
                 "）";
+              $("eventDesc").textContent = finalText;
               box.innerHTML = "";
               $("eventResultRow").style.display = "flex";
               state.dayFlow.pendingEvent = null;
@@ -2939,6 +4269,11 @@
           var day = state.day;
           var atEnd = day >= 30;
           if (!atEnd) return null;
+          
+          if (!unlockedAchievements.includes("30_days")) {
+            unlockAchievement("30_days");
+          }
+          
           var hi = function (v) {
             return v >= 80;
           };
@@ -2947,6 +4282,9 @@
           };
 
           if (hi(c.piety) && hi(c.harmony) && hi(c.prosperity) && lo(c.crime)) {
+            if (!unlockedAchievements.includes("holy_end")) {
+              unlockAchievement("holy_end");
+            }
             return {
               title: "圣神父",
               desc:
@@ -2979,6 +4317,32 @@
           };
         };
 
+        var checkReminders = function() {
+          var currentDay = state.day || 1;
+          
+          // 检查读经提醒：从未读过 或 距离上次超过5天
+          var daysSinceLastRead = lastReadBibleDay === 0 ? currentDay : (currentDay - lastReadBibleDay);
+          var needsBibleReminder = (lastReadBibleDay === 0 && currentDay > 1) || (daysSinceLastRead >= 5);
+          if (needsBibleReminder && !bibleReminderDismissed) {
+            var displayDays = lastReadBibleDay === 0 ? currentDay - 1 : daysSinceLastRead;
+            $("bibleReminderDays").textContent = displayDays;
+            openOverlay(overlayBibleReminder);
+            return true;
+          }
+          
+          // 检查祈祷提醒：从未祈祷过 或 距离上次超过5天
+          var daysSinceLastPray = lastPrayedDay === 0 ? currentDay : (currentDay - lastPrayedDay);
+          var needsPrayerReminder = (lastPrayedDay === 0 && currentDay > 1) || (daysSinceLastPray >= 5);
+          if (needsPrayerReminder && !prayerReminderDismissed) {
+            var displayDays2 = lastPrayedDay === 0 ? currentDay - 1 : daysSinceLastPray;
+            $("prayerReminderDays").textContent = displayDays2;
+            openOverlay(overlayPrayerReminder);
+            return true;
+          }
+          
+          return false;
+        };
+        
         var finalizeDay = function () {
           state.dayFlow.pendingOptions = null;
           state.dayFlow.pendingEvent = null;
@@ -2992,6 +4356,78 @@
           }
           state.day += 1;
           state.dayFlow.done = true;
+          
+          // 检查提醒
+          if (checkReminders()) {
+            saveGame();
+            return;
+          }
+
+          // 灵性等级每日加成（每2级+1）
+          var spiritualLevel = state.stats.level;
+          var bonus = Math.floor(spiritualLevel / 2);
+          var bonusEffects = {
+            prosperity: bonus,
+            piety: bonus,
+            harmony: bonus,
+            crime: -bonus
+          };
+          
+          // 技能效果
+          if (hasSkill("divine_favor")) {
+            bonusEffects.prosperity += 1;
+            bonusEffects.piety += 1;
+            bonusEffects.harmony += 1;
+            bonusEffects.crime -= 1;
+          }
+          if (hasSkill("wise_counsel")) {
+            bonusEffects.prosperity += 1;
+            bonusEffects.piety += 1;
+          }
+          if (hasSkill("peaceful_presence")) {
+            bonusEffects.crime -= 1;
+          }
+          if (hasSkill("community_builder")) {
+            bonusEffects.harmony += 1;
+          }
+          if (hasSkill("healing_touch")) {
+            bonusEffects.harmony += 2;
+          }
+          if (hasSkill("righteous_path")) {
+            bonusEffects.piety += 2;
+          }
+          if (hasSkill("prosperous_hands")) {
+            bonusEffects.prosperity += 2;
+          }
+          if (hasSkill("vigilant_guardian")) {
+            bonusEffects.crime -= 2;
+          }
+          
+          // 特性加成
+          var traitBonus = getTraitBonus();
+          bonusEffects.prosperity += traitBonus.prosperity;
+          bonusEffects.piety += traitBonus.piety;
+          bonusEffects.harmony += traitBonus.harmony;
+          bonusEffects.crime += traitBonus.crime;
+          
+          if (traitBonus.xp > 0) {
+            state.stats.xp = (state.stats.xp || 0) + traitBonus.xp;
+            checkLevelUp();
+          }
+          
+          var hasAnyBonus = false;
+          if (bonusEffects.prosperity !== 0 || bonusEffects.piety !== 0 || bonusEffects.harmony !== 0 || bonusEffects.crime !== 0 || traitBonus.xp > 0) {
+            hasAnyBonus = true;
+            applyCommunityEffects(bonusEffects);
+            var logText = "每日加成：";
+            var parts = [];
+            if (bonusEffects.prosperity !== 0) parts.push("繁荣度 " + (bonusEffects.prosperity > 0 ? "+" : "") + bonusEffects.prosperity);
+            if (bonusEffects.piety !== 0) parts.push("虔诚度 " + (bonusEffects.piety > 0 ? "+" : "") + bonusEffects.piety);
+            if (bonusEffects.harmony !== 0) parts.push("和谐度 " + (bonusEffects.harmony > 0 ? "+" : "") + bonusEffects.harmony);
+            if (bonusEffects.crime !== 0) parts.push("犯罪率 " + bonusEffects.crime);
+            if (traitBonus.xp > 0) parts.push("经验 +" + traitBonus.xp);
+            appendLog("系统", logText + parts.join(" · "), true);
+          }
 
           state.dayFlow.sentMonkForDay = false;
           var reports = resolveMonkReturnsForDay();
@@ -3046,11 +4482,36 @@
           var gainedEnergy = clamp(state.session.sessionEnergy, -50, 80);
           state.stats.energy = clamp(state.stats.energy + gainedEnergy, 0, 9999);
           var gainedXp = forgiven ? 30 : 10;
+          
+          // 技能效果：慈爱的倾听
+          if (hasSkill("merciful_hearing") && forgiven) {
+            gainedXp += 2;
+          }
+          
           state.stats.xp += gainedXp;
+          
+          totalBelieversHelped++;
+          sinsHeard.add(b.sinType);
+          if (forgiven) perfectDays++;
+          
+          // 升级时获得技能点
+          var previousLevel = state.stats.level;
           while (state.stats.xp >= state.stats.level * 100) {
             state.stats.xp -= state.stats.level * 100;
             state.stats.level += 1;
+            skillPoints += 1;
+            saveSkills();
           }
+          
+          if (totalBelieversHelped === 1 && !unlockedAchievements.includes("first_step")) {
+            unlockAchievement("first_step");
+          }
+          if (forgiven && !unlockedAchievements.includes("perfect_day")) {
+            unlockAchievement("perfect_day");
+          }
+          
+          checkAchievements();
+          
           appendLog(
             "系统",
             "回合结算：" + (forgiven ? "你给予了清晰的指引，信众获得宽恕。" : "你仍在学习如何安放他人的重量。"),
@@ -3266,11 +4727,100 @@
         $("btnConfessional").addEventListener("click", function () {
           loadConfessionalHistory();
           setView("confessional");
+          if (!unlockedAchievements.includes("confessional")) {
+            unlockAchievement("confessional");
+          }
         });
         $("btnHow").addEventListener("click", function () {
           var box = $("howBox");
           box.style.display = box.style.display === "none" ? "block" : "none";
         });
+        $("btnAchievements").addEventListener("click", function () {
+          renderAchievementsList();
+          openOverlay(overlayAchievements);
+        });
+        $("btnCloseAchievements").addEventListener("click", function () {
+          closeOverlay(overlayAchievements);
+        });
+        $("btnAchievementContinue").addEventListener("click", function () {
+          closeOverlay(overlayAchievement);
+        });
+        $("btnSkills").addEventListener("click", function () {
+          renderSkillsList();
+          openOverlay(overlaySkills);
+        });
+        $("btnCloseSkills").addEventListener("click", function () {
+          closeOverlay(overlaySkills);
+        });
+        $("btnBible").addEventListener("click", function () {
+          renderBiblePanel();
+          openOverlay(overlayBible);
+        });
+        $("btnCloseBible").addEventListener("click", function () {
+          closeOverlay(overlayBible);
+        });
+        $("btnReadBible").addEventListener("click", function () {
+          readBible();
+        });
+        
+        // 祈祷按钮
+        $("btnPrayer").addEventListener("click", function () {
+          selectedPrayerTheme = null;
+          renderPrayerPanel();
+          openOverlay(overlayPrayer);
+        });
+        $("btnClosePrayer").addEventListener("click", function () {
+          closeOverlay(overlayPrayer);
+        });
+        $("btnPray").addEventListener("click", function () {
+          pray();
+        });
+        
+        // 收藏按钮
+        $("btnCollection").addEventListener("click", function () {
+          renderCollectionPanel();
+          openOverlay(overlayCollection);
+        });
+        $("btnCloseCollection").addEventListener("click", function () {
+          closeOverlay(overlayCollection);
+        });
+        $("btnCollectionVerses").addEventListener("click", function () {
+          switchCollectionTab("verses");
+        });
+        $("btnCollectionBelievers").addEventListener("click", function () {
+          switchCollectionTab("believers");
+        });
+        
+        // 提醒按钮
+        $("btnBibleReminderGo").addEventListener("click", function () {
+          closeOverlay(overlayBibleReminder);
+          renderBiblePanel();
+          openOverlay(overlayBible);
+        });
+        $("btnBibleReminderLater").addEventListener("click", function () {
+          bibleReminderDismissed = true;
+          closeOverlay(overlayBibleReminder);
+          saveGame();
+          // 继续当天流程
+          startSession(state.session.believerIndex + 1);
+          updateStatsUI();
+        });
+        
+        $("btnPrayerReminderGo").addEventListener("click", function () {
+          closeOverlay(overlayPrayerReminder);
+          selectedPrayerTheme = null;
+          renderPrayerPanel();
+          openOverlay(overlayPrayer);
+        });
+        $("btnPrayerReminderLater").addEventListener("click", function () {
+          prayerReminderDismissed = true;
+          closeOverlay(overlayPrayerReminder);
+          saveGame();
+          // 继续当天流程
+          startSession(state.session.believerIndex + 1);
+          updateStatsUI();
+        });
+        
         $("btnQuit").addEventListener("click", function () {
           window.close();
           setTimeout(function () {
@@ -3524,22 +5074,29 @@
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         };
 
-        var drawStainedGlass = function (ctx, w, h, t, accent) {
+        var drawStainedGlass = function (ctx, w, h, t, accent, colorScheme) {
           var cx = w * 0.5;
           var top = h * 0.1;
           var gh = h * 0.62;
           ctx.save();
           ctx.translate(0, 0);
           ctx.globalAlpha = 0.9;
-          ctx.fillStyle = "rgba(255,255,255,0.03)";
-          ctx.fillRect(0, 0, w, h);
-
+          
+          // 背景渐变（使用时间和季节颜色）
+          var scheme = colorScheme || { bgTop: "rgba(214,179,106,0.10)", bgBottom: "rgba(20,24,36,0.02)", glassTint: "rgba(120,170,255,0.05)" };
+          
           var g = ctx.createLinearGradient(0, 0, 0, h);
-          g.addColorStop(0, "rgba(214,179,106,0.10)");
-          g.addColorStop(0.55, "rgba(120,170,255,0.05)");
-          g.addColorStop(1, "rgba(0,0,0,0)");
+          g.addColorStop(0, scheme.bgTop);
+          g.addColorStop(0.55, scheme.glassTint);
+          g.addColorStop(1, scheme.bgBottom);
           ctx.fillStyle = g;
           ctx.fillRect(0, 0, w, h);
+          
+          // 季节色调
+          if (scheme.seasonTint) {
+            ctx.fillStyle = scheme.seasonTint;
+            ctx.fillRect(0, 0, w, h);
+          }
 
           ctx.beginPath();
           ctx.moveTo(cx - w * 0.16, top + gh);
@@ -3556,8 +5113,9 @@
 
           var flicker = 0.5 + 0.5 * Math.sin(t * 0.002);
           var core = ctx.createRadialGradient(cx, top + gh * 0.55, 0, cx, top + gh * 0.55, gh * 0.65);
-          core.addColorStop(0, "rgba(214,179,106," + (0.14 + flicker * 0.08) + ")");
-          core.addColorStop(0.6, "rgba(214,179,106,0.02)");
+          var coreColor = scheme.accent || "rgba(214,179,106,1)";
+          core.addColorStop(0, coreColor.replace("1)", (0.14 + flicker * 0.08) + ")"));
+          core.addColorStop(0.6, coreColor.replace("1)", "0.02)"));
           core.addColorStop(1, "rgba(0,0,0,0)");
           ctx.fillStyle = core;
           ctx.fillRect(0, 0, w, h);
@@ -3780,12 +5338,159 @@
           var w = rect.width;
           var h = rect.height;
           heroCtx.clearRect(0, 0, w, h);
-          drawStainedGlass(heroCtx, w, h, t, "rgba(214,179,106,0.10)");
-          heroCtx.save();
-          heroCtx.globalAlpha = 0.9;
-          heroCtx.fillStyle = "rgba(0,0,0,0.25)";
+          
+          // 计算默认的时间和季节（使用第1天）
+          var timeSeason = getTimeAndSeason(1);
+          var colorScheme = getColorScheme(timeSeason.time, timeSeason.season);
+          
+          // 先画背景
+          var bgGrad = heroCtx.createLinearGradient(0, 0, 0, h);
+          bgGrad.addColorStop(0, "rgba(20,24,36,0.95)");
+          bgGrad.addColorStop(1, "rgba(10,12,18,0.98)");
+          heroCtx.fillStyle = bgGrad;
           heroCtx.fillRect(0, 0, w, h);
-          heroCtx.restore();
+          
+          drawStainedGlass(heroCtx, w, h, t, colorScheme.accent, colorScheme);
+          drawCross(heroCtx, w, h, t);
+          drawCandles(heroCtx, w, h, t);
+          drawParticles(heroCtx, w, h, t);
+        };
+
+        var drawCandles = function (ctx, w, h, t) {
+          var candlePositions = [
+            { x: w * 0.12, y: h * 0.55 },
+            { x: w * 0.88, y: h * 0.55 }
+          ];
+          
+          candlePositions.forEach(function (pos, idx) {
+            var flicker = 0.7 + 0.3 * Math.sin(t * 0.008 + idx * 2);
+            var candleHeight = h * 0.22;
+            var candleWidth = w * 0.035;
+            
+            ctx.save();
+            ctx.translate(pos.x, pos.y);
+            
+            var glow = ctx.createRadialGradient(0, -candleHeight, 0, 0, -candleHeight, candleHeight * 1.5);
+            glow.addColorStop(0, "rgba(255,200,100," + (0.15 * flicker) + ")");
+            glow.addColorStop(1, "rgba(255,150,50,0)");
+            ctx.fillStyle = glow;
+            ctx.fillRect(-candleHeight * 2, -candleHeight * 2, candleHeight * 4, candleHeight * 2);
+            
+            ctx.fillStyle = "rgba(220,200,160,0.9)";
+            ctx.beginPath();
+            ctx.roundRect(-candleWidth / 2, -candleHeight, candleWidth, candleHeight, 4);
+            ctx.fill();
+            
+            ctx.fillStyle = "rgba(200,180,140,0.7)";
+            ctx.beginPath();
+            ctx.ellipse(0, -candleHeight, candleWidth / 2, candleWidth / 4, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = "rgba(60,40,20,0.9)";
+            ctx.fillRect(-1, -candleHeight - 8, 2, 8);
+            
+            var flameHeight = 12 + 6 * Math.sin(t * 0.01 + idx * 3);
+            var flameGradient = ctx.createRadialGradient(0, -candleHeight - flameHeight, 0, 0, -candleHeight - flameHeight, flameHeight * 1.5);
+            flameGradient.addColorStop(0, "rgba(255,255,200," + (0.95 * flicker) + ")");
+            flameGradient.addColorStop(0.3, "rgba(255,180,50," + (0.7 * flicker) + ")");
+            flameGradient.addColorStop(0.7, "rgba(255,100,20," + (0.3 * flicker) + ")");
+            flameGradient.addColorStop(1, "rgba(255,50,0,0)");
+            ctx.fillStyle = flameGradient;
+            ctx.beginPath();
+            ctx.moveTo(0, -candleHeight - 8 - flameHeight);
+            ctx.quadraticCurveTo(-6, -candleHeight - 8 - flameHeight / 2, -4, -candleHeight - 8);
+            ctx.lineTo(4, -candleHeight - 8);
+            ctx.quadraticCurveTo(6, -candleHeight - 8 - flameHeight / 2, 0, -candleHeight - 8 - flameHeight);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.restore();
+          });
+        };
+
+        var drawCross = function (ctx, w, h, t) {
+          var cx = w * 0.5;
+          var cy = h * 0.32;
+          var crossWidth = w * 0.08;
+          var crossHeight = h * 0.22;
+          
+          ctx.save();
+          ctx.translate(cx, cy);
+          
+          var glow = ctx.createRadialGradient(0, 0, 0, 0, 0, crossHeight * 1.5);
+          glow.addColorStop(0, "rgba(214,179,106,0.15)");
+          glow.addColorStop(1, "rgba(214,179,106,0)");
+          ctx.fillStyle = glow;
+          ctx.fillRect(-crossHeight, -crossHeight, crossHeight * 2, crossHeight * 2);
+          
+          ctx.fillStyle = "rgba(180,150,100,0.6)";
+          ctx.beginPath();
+          ctx.roundRect(-crossWidth / 2, -crossHeight / 2, crossWidth, crossHeight, 3);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.roundRect(-crossHeight / 3, -crossHeight / 6, crossHeight / 1.5, crossHeight / 4, 3);
+          ctx.fill();
+          
+          ctx.strokeStyle = "rgba(230,200,140,0.3)";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(-crossWidth / 2, -crossHeight / 2, crossWidth, crossHeight, 3);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.roundRect(-crossHeight / 3, -crossHeight / 6, crossHeight / 1.5, crossHeight / 4, 3);
+          ctx.stroke();
+          
+          ctx.restore();
+        };
+
+        var drawFloorTexture = function (ctx, w, h, t) {
+          var floorY = h * 0.78;
+          
+          ctx.save();
+          
+          ctx.fillStyle = "rgba(60,50,40,0.8)";
+          ctx.fillRect(0, floorY, w, h - floorY);
+          
+          var tileWidth = w / 16;
+          var tileHeight = (h - floorY) / 4;
+          
+          ctx.strokeStyle = "rgba(80,70,60,0.4)";
+          ctx.lineWidth = 1;
+          
+          for (var row = 0; row < 4; row++) {
+            for (var col = 0; col < 16; col++) {
+              var x = col * tileWidth;
+              var y = floorY + row * tileHeight;
+              
+              if ((row + col) % 2 === 0) {
+                ctx.fillStyle = "rgba(70,60,50,0.3)";
+                ctx.fillRect(x, y, tileWidth, tileHeight);
+              }
+              
+              ctx.strokeRect(x, y, tileWidth, tileHeight);
+            }
+          }
+          
+          ctx.restore();
+        };
+
+        var drawParticles = function (ctx, w, h, t) {
+          ctx.save();
+          
+          for (var i = 0; i < 30; i++) {
+            var x = (Math.sin(t * 0.0005 + i * 0.7) * 0.5 + 0.5) * w;
+            var y = (Math.cos(t * 0.0003 + i * 1.1) * 0.5 + 0.5) * h * 0.6;
+            var size = 2 + Math.sin(t * 0.002 + i) * 1.5;
+            var alpha = 0.1 + Math.sin(t * 0.0015 + i * 0.5) * 0.15;
+            
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = "rgba(214,179,106,1)";
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          
+          ctx.restore();
         };
 
         var renderStage = function (t) {
@@ -3796,10 +5501,19 @@
           var w = rect.width;
           var h = rect.height;
           stageCtx.clearRect(0, 0, w, h);
+          
+          // 计算时间和季节
+          var timeSeason = getTimeAndSeason(state.day);
+          var colorScheme = getColorScheme(timeSeason.time, timeSeason.season);
+          
           var sinType = state.session.sinType || "Unknown";
           var accentHex = SIN_COLOR[sinType] || SIN_COLOR.Unknown;
           var accent = rgba(accentHex, 0.12);
-          drawStainedGlass(stageCtx, w, h, t, accent);
+          drawStainedGlass(stageCtx, w, h, t, accent, colorScheme);
+          
+          drawCross(stageCtx, w, h, t);
+          drawCandles(stageCtx, w, h, t);
+          drawParticles(stageCtx, w, h, t);
 
           var node = getNode();
           var speaker = node ? normalizeSpeaker(node.speakerName) : "系统";
@@ -3812,11 +5526,7 @@
           for (var i = 0; i < b.id.length; i++) seed = (seed * 31 + b.id.charCodeAt(i)) | 0;
           drawBelieverFigure(stageCtx, w, h, t, accentHex, rightEm, seed);
 
-          stageCtx.save();
-          stageCtx.globalAlpha = 0.8;
-          stageCtx.fillStyle = "rgba(0,0,0,0.22)";
-          stageCtx.fillRect(0, h * 0.78, w, h * 0.22);
-          stageCtx.restore();
+          drawFloorTexture(stageCtx, w, h, t);
         };
 
         var renderConfStage = function (t) {
@@ -3827,7 +5537,12 @@
           var w = rect.width;
           var h = rect.height;
           confStageCtx.clearRect(0, 0, w, h);
-          drawStainedGlass(confStageCtx, w, h, t, "rgba(214,179,106,0.10)");
+          
+          // 忏悔室使用第1天的配色
+          var timeSeason = getTimeAndSeason(1);
+          var colorScheme = getColorScheme(timeSeason.time, timeSeason.season);
+          
+          drawStainedGlass(confStageCtx, w, h, t, "rgba(214,179,106,0.10)", colorScheme);
 
           drawPriestPhilip(confStageCtx, w, h, t, true);
           drawBelieverFigure(confStageCtx, w, h, t, "#7a86a6", false, 1337);
@@ -3849,6 +5564,8 @@
         updateStartButtons();
         applySettingsToUI();
         loadConfessionalHistory();
+        loadAchievements();
+        loadSkills();
         requestAnimationFrame(tick);
 
         if (hasSave()) {
