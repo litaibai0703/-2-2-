@@ -1,0 +1,3863 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saint Altar Light</title>
+    <style>
+      :root {
+        --bg: #0b0d12;
+        --surface: #141824;
+        --surface2: #0f1320;
+        --text: #e9ecf1;
+        --muted: rgba(233, 236, 241, 0.72);
+        --accent: #d6b36a;
+        --danger: #d65a5a;
+        --border: rgba(233, 236, 241, 0.12);
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: radial-gradient(1200px 600px at 30% 20%, rgba(214, 179, 106, 0.12), transparent 60%),
+          radial-gradient(900px 500px at 70% 10%, rgba(120, 170, 255, 0.08), transparent 55%),
+          var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .app {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .container {
+        width: min(1200px, calc(100% - 48px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0;
+      }
+
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .sigil {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: radial-gradient(circle at 30% 30%, rgba(214, 179, 106, 0.9), rgba(214, 179, 106, 0.15) 55%, rgba(214, 179, 106, 0.05) 70%),
+          rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(214, 179, 106, 0.25);
+        box-shadow: 0 10px 28px rgba(214, 179, 106, 0.08);
+      }
+
+      .title {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+      }
+
+      .title h1 {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: 0.2px;
+      }
+
+      .title .sub {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      .btn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+      }
+
+      .btn:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(233, 236, 241, 0.18);
+        transform: translateY(-1px);
+      }
+
+      .btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn.primary {
+        background: linear-gradient(180deg, rgba(214, 179, 106, 0.18), rgba(214, 179, 106, 0.08));
+        border-color: rgba(214, 179, 106, 0.35);
+      }
+
+      .btn.primary:hover {
+        background: linear-gradient(180deg, rgba(214, 179, 106, 0.24), rgba(214, 179, 106, 0.1));
+        border-color: rgba(214, 179, 106, 0.48);
+      }
+
+      .btn.danger {
+        border-color: rgba(214, 90, 90, 0.45);
+        background: rgba(214, 90, 90, 0.08);
+      }
+
+      .btnRow {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        background: linear-gradient(180deg, rgba(20, 24, 36, 0.95), rgba(15, 19, 32, 0.95));
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .gridStart {
+        display: grid;
+        grid-template-columns: 8fr 4fr;
+        gap: 16px;
+        padding: 16px 0 28px;
+      }
+
+      .hero {
+        padding: 18px;
+        min-height: 520px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero .heroTitle {
+        font-size: 28px;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: 0.2px;
+      }
+
+      .hero .heroDesc {
+        margin-top: 8px;
+        font-size: 15px;
+        color: var(--muted);
+        line-height: 1.6;
+        max-width: 44ch;
+      }
+
+      .heroCanvas {
+        position: absolute;
+        inset: 0;
+        opacity: 0.9;
+      }
+
+      .heroOverlay {
+        position: relative;
+        z-index: 1;
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .panel h2 {
+        font-size: 16px;
+        margin: 0 0 10px;
+        color: rgba(233, 236, 241, 0.92);
+      }
+
+      .hint {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .kbd {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        border: 1px solid rgba(233, 236, 241, 0.18);
+        padding: 2px 6px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .footer {
+        padding: 14px 0 28px;
+        color: rgba(233, 236, 241, 0.55);
+        font-size: 12px;
+      }
+
+      .gameLayout {
+        display: grid;
+        grid-template-columns: 7fr 5fr;
+        gap: 16px;
+        padding: 6px 0 22px;
+      }
+
+      .stageCard {
+        padding: 12px;
+      }
+
+      .stageWrap {
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(233, 236, 241, 0.12);
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      canvas#stage {
+        width: 100%;
+        height: auto;
+        display: block;
+        aspect-ratio: 16 / 9;
+      }
+
+      .stats {
+        padding: 14px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .statRow {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 13px;
+        color: rgba(233, 236, 241, 0.84);
+      }
+
+      .bar {
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(233, 236, 241, 0.12);
+        overflow: hidden;
+      }
+
+      .bar > div {
+        height: 100%;
+        background: linear-gradient(90deg, rgba(214, 179, 106, 0.9), rgba(214, 179, 106, 0.4));
+        width: 0%;
+      }
+
+      .axisLabels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: rgba(233, 236, 241, 0.62);
+        margin-top: 8px;
+      }
+
+      .axisBar {
+        position: relative;
+        height: 10px;
+        border-radius: 999px;
+        margin-top: 6px;
+        background: linear-gradient(90deg, rgba(154, 255, 198, 0.55), rgba(214, 179, 106, 0.55));
+        border: 1px solid rgba(233, 236, 241, 0.12);
+        overflow: hidden;
+      }
+
+      .axisMarker {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(233, 236, 241, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      }
+
+      .dialogueCard {
+        grid-column: 1 / -1;
+        padding: 14px;
+      }
+
+      .speaker {
+        font-size: 12px;
+        color: rgba(233, 236, 241, 0.7);
+      }
+
+      .line {
+        margin-top: 8px;
+        font-size: 16px;
+        line-height: 1.65;
+        min-height: 64px;
+      }
+
+      .options {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      canvas#confStage {
+        width: 100%;
+        height: auto;
+        display: block;
+        aspect-ratio: 16 / 9;
+      }
+
+      .chatCard {
+        grid-column: 1 / -1;
+        padding: 14px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .chatBody {
+        max-height: 44vh;
+        overflow: auto;
+        border: 1px solid rgba(233, 236, 241, 0.1);
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.16);
+        padding: 10px;
+      }
+
+      .chatMsg {
+        display: grid;
+        gap: 6px;
+        padding: 10px;
+        border-radius: 14px;
+        border: 1px solid rgba(233, 236, 241, 0.08);
+        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .chatMsg.user {
+        border-color: rgba(120, 170, 255, 0.18);
+        background: rgba(120, 170, 255, 0.04);
+      }
+
+      .chatMsg.assistant {
+        border-color: rgba(214, 179, 106, 0.18);
+        background: rgba(214, 179, 106, 0.04);
+      }
+
+      .chatMsg .who {
+        font-size: 12px;
+        color: rgba(233, 236, 241, 0.68);
+      }
+
+      .chatMsg .txt {
+        white-space: pre-wrap;
+        line-height: 1.65;
+        font-size: 14px;
+        color: rgba(233, 236, 241, 0.92);
+      }
+
+      .chatInput {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: end;
+      }
+
+      .chatInput textarea {
+        width: 100%;
+        min-height: 72px;
+        resize: vertical;
+        border-radius: 14px;
+        border: 1px solid rgba(233, 236, 241, 0.12);
+        background: rgba(0, 0, 0, 0.18);
+        color: rgba(233, 236, 241, 0.92);
+        padding: 10px 12px;
+        font-family: inherit;
+        font-size: 14px;
+        line-height: 1.55;
+        outline: none;
+      }
+
+      .chatInput textarea:focus {
+        border-color: rgba(214, 179, 106, 0.35);
+        box-shadow: 0 0 0 3px rgba(214, 179, 106, 0.12);
+      }
+
+      .opt {
+        text-align: left;
+        padding: 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(233, 236, 241, 0.14);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .opt:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(233, 236, 241, 0.22);
+      }
+
+      .opt .meta {
+        margin-top: 6px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: rgba(233, 236, 241, 0.65);
+        font-size: 12px;
+      }
+
+      .tag {
+        border: 1px solid rgba(214, 179, 106, 0.3);
+        color: rgba(214, 179, 106, 0.95);
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: rgba(214, 179, 106, 0.08);
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.62);
+        padding: 20px;
+        z-index: 999;
+      }
+
+      .overlay.show {
+        display: flex;
+      }
+
+      .modal {
+        width: min(560px, 100%);
+        padding: 16px;
+      }
+
+      .webModal {
+        width: min(1100px, 100%);
+        height: min(82vh, 720px);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .webFrameWrap {
+        flex: 1;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(233, 236, 241, 0.12);
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      .webFrameWrap iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: transparent;
+      }
+
+      .modal h3 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+
+      .field {
+        margin-top: 12px;
+      }
+
+      .field label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: rgba(233, 236, 241, 0.8);
+      }
+
+      .textInput,
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(233, 236, 241, 0.12);
+        background: rgba(0, 0, 0, 0.18);
+        color: rgba(233, 236, 241, 0.92);
+        outline: none;
+        margin-top: 8px;
+        font-family: inherit;
+        font-size: 14px;
+      }
+
+      .textInput:focus,
+      select:focus {
+        border-color: rgba(214, 179, 106, 0.35);
+        box-shadow: 0 0 0 3px rgba(214, 179, 106, 0.12);
+      }
+
+      input[type="range"] {
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      .row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .small {
+        font-size: 12px;
+        color: rgba(233, 236, 241, 0.62);
+        line-height: 1.5;
+      }
+
+      @media (max-width: 980px) {
+        .gridStart {
+          grid-template-columns: 1fr;
+        }
+        .gameLayout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="container">
+        <div class="topbar">
+          <div class="brand">
+            <div class="sigil" aria-hidden="true"></div>
+            <div class="title">
+              <h1>Saint Altar Light</h1>
+              <div class="sub">独立版 · 神父对话宽恕与成长</div>
+            </div>
+          </div>
+          <div class="btnRow">
+            <button class="btn" id="btnSettings" type="button">设置</button>
+            <button class="btn" id="btnHome" type="button" style="display: none">返回开始页</button>
+          </div>
+        </div>
+
+        <div id="viewStart" class="gridStart">
+          <div class="card hero">
+            <canvas class="heroCanvas" id="heroCanvas"></canvas>
+            <div class="heroOverlay">
+              <div class="heroTitle">在静默中倾听，在光里宽恕。</div>
+              <div class="heroDesc">你将扮演神父，接待一位又一位来访者。通过回应与指引，帮助他们卸下负担，也让自己的灵性逐步成长。</div>
+              <div class="hint" style="margin-top: 14px">
+                操作：<span class="kbd">空格</span> 继续 / <span class="kbd">1-4</span> 选择 / <span class="kbd">Esc</span> 暂停
+              </div>
+            </div>
+          </div>
+          <div class="card panel">
+            <h2>开始</h2>
+            <div class="btnRow">
+              <button class="btn primary" id="btnNew" type="button">新游戏</button>
+              <button class="btn primary" id="btnContinue" type="button" disabled>继续</button>
+              <button class="btn" id="btnConfessional" type="button">忏悔室</button>
+              <button class="btn" id="btnHow" type="button">玩法说明</button>
+              <button class="btn" id="btnQuit" type="button">退出</button>
+            </div>
+            <div id="howBox" class="card" style="margin-top: 12px; padding: 12px; display: none">
+              <div class="small">
+                核心循环：对话推进 → 关键节点选择 → 宽恕结算 → 成长反馈 → 下一位来访者。<br />
+                你每次选择会影响“本回合宽恕能量”和“正确引导次数”。当回合结束时，将根据表现给予经验与等级成长，并自动存档。<br />
+                本独立版为单文件运行：双击本页面即可，无需 Unity。
+              </div>
+            </div>
+            <div class="hint" style="margin-top: 12px" id="saveHint"></div>
+          </div>
+        </div>
+
+        <div id="viewGame" style="display: none">
+          <div class="gameLayout">
+            <div class="card stageCard">
+              <div class="stageWrap">
+                <canvas id="stage" width="1280" height="720"></canvas>
+              </div>
+            </div>
+            <div class="card stats">
+              <div>
+                <div class="statRow"><span>天数</span><span id="statDay">第 1 天</span></div>
+                <div class="statRow"><span>当前来访者</span><span id="statBeliever">-</span></div>
+                <div class="statRow"><span>罪之主题</span><span id="statSin">-</span></div>
+                <div class="statRow"><span>本回合宽恕能量</span><span id="statSessionEnergy">0</span></div>
+              </div>
+              <div style="border-top: 1px solid rgba(233, 236, 241, 0.1); padding-top: 12px">
+                <div class="statRow"><span>总宽恕能量</span><span id="statEnergy">0</span></div>
+                <div class="statRow"><span>灵性等级</span><span id="statLevel">1</span></div>
+                <div class="statRow"><span>经验</span><span id="statXp">0 / 100</span></div>
+                <div class="bar" aria-hidden="true"><div id="xpBar"></div></div>
+              </div>
+              <div style="border-top: 1px solid rgba(233, 236, 241, 0.1); padding-top: 12px">
+                <div class="statRow"><span>威严</span><span id="statAuthority">50</span></div>
+                <div class="statRow"><span>人心</span><span id="statEmpathy">50</span></div>
+                <div class="axisLabels"><span>人心</span><span>威严</span></div>
+                <div class="axisBar" aria-hidden="true">
+                  <div class="axisMarker" id="axisAE"></div>
+                </div>
+                <div style="height: 10px"></div>
+                <div class="statRow"><span>圣洁</span><span id="statPurity">50</span></div>
+                <div class="statRow"><span>世俗</span><span id="statWorldliness">50</span></div>
+                <div class="axisLabels"><span>圣洁</span><span>世俗</span></div>
+                <div class="axisBar" aria-hidden="true" style="background: linear-gradient(90deg, rgba(214, 179, 106, 0.55), rgba(122, 134, 166, 0.55))">
+                  <div class="axisMarker" id="axisPW"></div>
+                </div>
+              </div>
+              <div style="border-top: 1px solid rgba(233, 236, 241, 0.1); padding-top: 12px">
+                <div class="statRow"><span>对话日志</span><span id="statLog">0 条</span></div>
+                <button class="btn" id="btnLog" type="button">打开日志</button>
+              </div>
+              <div style="border-top: 1px solid rgba(233, 236, 241, 0.1); padding-top: 12px">
+                <div class="statRow"><span>繁荣度</span><span id="statProsperity">30</span></div>
+                <div class="bar"><div id="barProsperity"></div></div>
+                <div class="statRow" style="margin-top: 10px"><span>犯罪率</span><span id="statCrime">30</span></div>
+                <div class="bar"><div id="barCrime"></div></div>
+                <div class="statRow" style="margin-top: 10px"><span>虔诚度</span><span id="statPiety">30</span></div>
+                <div class="bar"><div id="barPiety"></div></div>
+                <div class="statRow" style="margin-top: 10px"><span>和谐度</span><span id="statHarmony">30</span></div>
+                <div class="bar"><div id="barHarmony"></div></div>
+              </div>
+
+              <div style="border-top: 1px solid rgba(233, 236, 241, 0.1); padding-top: 12px">
+                <div class="statRow"><span>修士</span><span class="small">派遣与回报</span></div>
+                <div class="small" id="monkList" style="color: rgba(233, 236, 241, 0.62)"></div>
+              </div>
+              <div style="border-top: 1px solid rgba(233, 236, 241, 0.1); padding-top: 12px">
+                <div class="btnRow">
+                  <button class="btn" id="btnPause" type="button">暂停</button>
+                  <button class="btn danger" id="btnReset" type="button">重置存档</button>
+                </div>
+                <div class="small" id="autoSaveText" style="margin-top: 10px"></div>
+              </div>
+            </div>
+            <div class="card dialogueCard">
+              <div class="speaker" id="dlgSpeaker">-</div>
+              <div class="line" id="dlgLine"></div>
+              <div class="btnRow" style="margin-top: 10px">
+                <button class="btn" id="btnContinueLine" type="button" style="display: none">继续</button>
+                <button class="btn" id="btnSkipTyping" type="button" style="display: none">立即显示全文</button>
+              </div>
+              <div class="options" id="dlgOptions"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="viewConfessional" style="display: none">
+          <div class="gameLayout">
+            <div class="card stageCard">
+              <div class="stageWrap">
+                <canvas id="confStage" width="1280" height="720"></canvas>
+              </div>
+            </div>
+            <div class="card stats">
+              <div>
+                <div class="statRow"><span>模式</span><span>忏悔室</span></div>
+                <div class="small" style="margin-top: 10px; color: rgba(233, 236, 241, 0.72); line-height: 1.6">
+                  你可以向神父倾诉自己的罪过、恐惧与困境。回应将尽量体现中世纪欧洲的语气与圣经/教会传统的劝诫。
+                </div>
+                <div class="small" style="margin-top: 10px; color: rgba(233, 236, 241, 0.58)">
+                  提示：在“设置”里选择你要用的来源（OpenAI / 本地 / 网页版）。
+                </div>
+              </div>
+              <div style="border-top: 1px solid rgba(233, 236, 241, 0.1); padding-top: 12px">
+                <div class="btnRow">
+                  <button class="btn" id="btnConfSettings" type="button">打开设置</button>
+                  <button class="btn danger" id="btnConfClear" type="button">清空对话</button>
+                </div>
+                <div class="small" id="confSaveHint" style="margin-top: 10px; color: rgba(233, 236, 241, 0.58)"></div>
+              </div>
+            </div>
+
+            <div class="card chatCard">
+              <div class="speaker">神父</div>
+              <div class="chatBody" id="confChat"></div>
+              <div class="btnRow" id="confWebRow" style="margin-top: 10px; display: none">
+                <button class="btn" id="btnConfCopyPrompt" type="button">复制神父设定</button>
+                <button class="btn" id="btnConfOpenWeb" type="button">打开 DeepSeek 网页</button>
+              </div>
+              <div class="chatInput">
+                <textarea id="confInput" placeholder="向神父陈述你的罪过、困境或疑惧……（Shift+Enter 换行）"></textarea>
+                <button class="btn primary" id="btnConfSend" type="button">送出</button>
+              </div>
+              <div class="small" id="confStatus" style="color: rgba(233, 236, 241, 0.62)"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">保存数据存放于浏览器 localStorage：关闭页面后仍可“继续”。</div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlaySettings" role="dialog" aria-modal="true">
+      <div class="card modal">
+        <h3>设置</h3>
+        <div class="small">仅影响本页面体验；会随存档保存。</div>
+        <div class="field">
+          <label><span>文字速度</span><span id="speedLabel">30 字/秒</span></label>
+          <input id="rngSpeed" type="range" min="10" max="80" step="1" value="30" />
+        </div>
+
+        <div class="field">
+          <label><span>音量（预留）</span><span id="volLabel">60%</span></label>
+          <input id="rngVol" type="range" min="0" max="100" step="1" value="60" />
+        </div>
+        <div class="field">
+          <label><span>忏悔室模型来源</span><span class="small">OpenAI / DeepSeek</span></label>
+          <select id="llmProvider">
+            <option value="openai">OpenAI（需要 Key）</option>
+            <option value="deepseek_api">DeepSeek（API Key，免下载）</option>
+            <option value="local_deepseek">DeepSeek（本地内置，无需安装）</option>
+            <option value="deepseek_web">DeepSeek（网页版，无需下载）</option>
+          </select>
+        </div>
+
+        <div id="openaiBox">
+          <div class="field">
+            <label><span>OpenAI API Key（忏悔室）</span><span class="small">仅保存在本机浏览器</span></label>
+            <input class="textInput" id="openaiKey" type="password" placeholder="sk-..." />
+          </div>
+          <div class="field">
+            <label><span>OpenAI 模型</span><span class="small">默认 gpt-4o-mini</span></label>
+            <input class="textInput" id="openaiModel" type="text" placeholder="gpt-4o-mini" />
+          </div>
+        </div>
+
+        <div id="deepseekApiBox" style="display: none">
+          <div class="field">
+            <label><span>DeepSeek API Key（忏悔室）</span><span class="small">仅保存在本机浏览器</span></label>
+            <input class="textInput" id="deepseekKey" type="password" placeholder="sk-..." />
+          </div>
+          <div class="field">
+            <label><span>DeepSeek 模型</span><span class="small">默认 deepseek-chat</span></label>
+            <input class="textInput" id="deepseekModel" type="text" placeholder="deepseek-chat" />
+          </div>
+          <div class="small">该模式在本页直接调用 DeepSeek 官方 API，不需要下载模型文件，也不需要打开新网页。</div>
+        </div>
+
+        <div id="localBox" style="display: none">
+          <div class="field">
+            <label><span>本地服务地址</span><span class="small">默认 http://localhost:11435</span></label>
+            <input class="textInput" id="localUrl" type="text" placeholder="http://localhost:11435" />
+          </div>
+          <div class="field">
+            <label><span>本地模型名</span><span class="small">仅用于显示</span></label>
+            <input class="textInput" id="localModel" type="text" placeholder="deepseek" />
+          </div>
+          <div class="small">该模式使用随游戏目录附带的本地推理服务（无需安装额外应用）。</div>
+        </div>
+
+        <div id="webBox" style="display: none">
+          <div class="field">
+            <label><span>DeepSeek 网页地址</span><span class="small">用于打开网页版（默认 chat.deepseek.com）</span></label>
+            <input class="textInput" id="webUrl" type="text" placeholder="https://chat.deepseek.com/" />
+          </div>
+          <div class="small">该模式不在游戏内直接联网调用模型：点击“去内嵌网页”会复制设定与内容，并在本页弹窗内打开网页版供你粘贴提问。</div>
+        </div>
+        <div class="row2" style="margin-top: 14px">
+          <button class="btn" id="btnToggleFullscreen" type="button">切换全屏</button>
+          <button class="btn primary" id="btnCloseSettings" type="button">完成</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlayWebChat" role="dialog" aria-modal="true">
+      <div class="card modal webModal">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px">
+          <h3 style="margin: 0">DeepSeek 网页版（内嵌）</h3>
+          <div class="small" style="color: rgba(233, 236, 241, 0.62)">若空白/报错：该站可能禁止被内嵌</div>
+        </div>
+        <div class="webFrameWrap"><iframe id="deepseekFrame" referrerpolicy="no-referrer"></iframe></div>
+        <div class="btnRow" style="margin-top: 2px">
+          <button class="btn" id="btnWebClose" type="button">关闭</button>
+          <button class="btn" id="btnWebOpenExternal" type="button">新窗口打开</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlayPause" role="dialog" aria-modal="true">
+      <div class="card modal">
+        <h3>暂停</h3>
+        <div class="small">你可以继续、返回开始页或退出（浏览器可能拦截关闭）。</div>
+        <div class="btnRow" style="margin-top: 14px">
+          <button class="btn primary" id="btnResume" type="button">继续</button>
+          <button class="btn" id="btnBackHome" type="button">返回开始页</button>
+          <button class="btn danger" id="btnExit" type="button">退出</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlayLog" role="dialog" aria-modal="true">
+      <div class="card modal">
+        <h3>对话日志</h3>
+        <div id="logBody" class="small" style="max-height: 50vh; overflow: auto; padding-right: 6px"></div>
+        <div class="btnRow" style="margin-top: 14px">
+          <button class="btn primary" id="btnCloseLog" type="button">关闭</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlayResult" role="dialog" aria-modal="true">
+      <div class="card modal">
+        <h3 id="resultTitle">结算</h3>
+        <div class="small" id="resultDesc"></div>
+        <div class="btnRow" style="margin-top: 14px">
+          <button class="btn primary" id="btnNextBeliever" type="button">结束今日</button>
+          <button class="btn" id="btnResultHome" type="button">返回开始页</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlayDay" role="dialog" aria-modal="true">
+      <div class="card modal">
+        <h3 id="dayTitle">今日议程</h3>
+        <div class="small" id="dayDesc"></div>
+        <div style="margin-top: 12px; border-top: 1px solid rgba(233, 236, 241, 0.1); padding-top: 12px">
+          <div class="statRow"><span>派遣修士</span><span class="small" id="monkDispatchHint">每天仅一人</span></div>
+          <div class="field" style="margin-top: 10px">
+            <label><span>选择修士</span><span class="small">空闲者可派遣</span></label>
+            <select id="monkSelect"></select>
+          </div>
+          <div class="field">
+            <label><span>任务</span><span class="small">2–4 天后归来</span></label>
+            <select id="monkMissionSelect"></select>
+          </div>
+          <div class="btnRow" style="margin-top: 10px">
+            <button class="btn" id="btnDispatchMonk" type="button">派遣</button>
+            <button class="btn" id="btnSkipDispatch" type="button">今日不派</button>
+          </div>
+          <div class="small" id="monkDispatchStatus" style="margin-top: 8px; color: rgba(233, 236, 241, 0.62)"></div>
+        </div>
+        <div class="options" id="dayOptions" style="margin-top: 12px"></div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlayMonkReport" role="dialog" aria-modal="true">
+      <div class="card modal">
+        <h3 id="monkReportTitle">修士归来</h3>
+        <div class="small" id="monkReportDesc"></div>
+        <div class="options" id="monkReportList" style="margin-top: 12px"></div>
+        <div class="btnRow" style="margin-top: 14px">
+          <button class="btn primary" id="btnMonkReportContinue" type="button">继续今日</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlayEvent" role="dialog" aria-modal="true">
+      <div class="card modal">
+        <h3 id="eventTitle">意外之事</h3>
+        <div class="small" id="eventDesc"></div>
+        <div class="options" id="eventOptions" style="margin-top: 12px"></div>
+        <div class="btnRow" id="eventResultRow" style="margin-top: 14px; display: none">
+          <button class="btn primary" id="btnEventContinue" type="button">继续</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlayEnding" role="dialog" aria-modal="true">
+      <div class="card modal">
+        <h3 id="endingTitle">结局</h3>
+        <div class="small" id="endingDesc"></div>
+        <div class="btnRow" style="margin-top: 14px">
+          <button class="btn primary" id="btnEndingRestart" type="button">重新开始</button>
+          <button class="btn" id="btnEndingHome" type="button">返回开始页</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var STORAGE_KEY = "sal_standalone_save_v2";
+        var OLD_STORAGE_KEYS = ["sal_standalone_save_v1"];
+        var now = function () {
+          return Date.now();
+        };
+
+        var memoryStorage = {};
+        var safeGetItem = function (k) {
+          try {
+            return localStorage.getItem(k);
+          } catch (e) {
+            return Object.prototype.hasOwnProperty.call(memoryStorage, k) ? memoryStorage[k] : null;
+          }
+        };
+        var safeSetItem = function (k, v) {
+          try {
+            localStorage.setItem(k, v);
+            return true;
+          } catch (e) {
+            memoryStorage[k] = String(v);
+            return false;
+          }
+        };
+        var safeRemoveItem = function (k) {
+          try {
+            localStorage.removeItem(k);
+            return true;
+          } catch (e) {
+            delete memoryStorage[k];
+            return false;
+          }
+        };
+
+        var clamp = function (v, a, b) {
+          return Math.max(a, Math.min(b, v));
+        };
+
+        var SIN_LABEL = {
+          Theft: "盗窃",
+          Envy: "嫉妒",
+          Pride: "傲慢",
+          Wrath: "暴怒",
+          Greed: "贪婪",
+          Sloth: "怠惰",
+          Lust: "色欲",
+          Fear: "恐惧",
+          Heresy: "异端",
+          Despair: "绝望",
+        };
+
+        var SIN_COLOR = {
+          Theft: "#77d4ff",
+          Envy: "#9affc6",
+          Pride: "#ffb86b",
+          Wrath: "#ff6b6b",
+          Greed: "#ffd36a",
+          Sloth: "#b4b8ff",
+          Lust: "#ff7bd6",
+          Fear: "#7be0ff",
+          Heresy: "#b28bff",
+          Despair: "#7a86a6",
+          Unknown: "#d6b36a",
+        };
+
+        var DATA = (function () {
+          var scenarios = [
+            {
+              id: "sc_theft_medicine",
+              name: "阿黛尔",
+              sinType: "Theft",
+              difficulty: 2,
+              summary: "孩子高烧不退，她偷走了药商的银币。",
+              opener: "神父……我有罪。我从药商的柜台里摸走了银币。",
+              detail:
+                "我不是强盗。我只是一个织工的妻子。孩子烧得像炭，药价却像领主的税。那一刻我只听见心跳，像敲门声一样急。",
+              turning:
+                "我害怕被人发现，也害怕孩子醒来时问我：‘娘，银币从哪里来？’我既想求怜悯，又怕被惩罚。",
+              end: "我愿意归还，也愿意补偿。只是……我不知道该怎么面对那人的眼睛。",
+            },
+            {
+              id: "sc_envy_guild",
+              name: "马丁",
+              sinType: "Envy",
+              difficulty: 3,
+              summary: "同在行会，他嫉妒同伴的赏识与地位。",
+              opener: "神父，我被一种阴影追着走……我嫉妒同伴的一切。",
+              detail:
+                "他在行会里被称赞，领主的管事也会拍他的肩。我明明做得不差，可每一次掌声都像抽在我脸上。",
+              turning:
+                "我甚至在心里盼他失手，盼他被羞辱。我知道这念头肮脏，却戒不掉。",
+              end: "我想要自由，但我不知道从哪里开始。",
+            },
+            {
+              id: "sc_pride_scribe",
+              name: "伊莎贝尔",
+              sinType: "Pride",
+              difficulty: 3,
+              summary: "她识字，会写羊皮纸，因此轻视村里的人。",
+              opener: "神父，我知道自己在骄傲里走得太远。",
+              detail:
+                "我替领主的书记誊抄过文书。看着那些不识字的人，我心里竟生出一种轻蔑：他们的烦恼像泥土一样粗。",
+              turning:
+                "可当我病倒时，是那些‘粗人’把我背回家。我却仍在心里评判他们。",
+              end: "我想学会谦卑，但我害怕失去‘比别人高一点’的感觉。",
+            },
+            {
+              id: "sc_wrath_mill",
+              name: "罗兰",
+              sinType: "Wrath",
+              difficulty: 4,
+              summary: "磨坊的纠纷让他动手伤了人。",
+              opener: "神父，我的手上沾了别人的血。",
+              detail:
+                "磨坊的水渠被人改了口。我去质问，那人反咬我偷水。我一怒之下抡起木棍……我听见骨头发出可怕的声响。",
+              turning:
+                "现在夜里我总梦见那声音。我害怕上帝的审判，也害怕村人的报复。",
+              end: "我愿意赎罪，可我的怒火像野狗一样，总在胸里咆哮。",
+            },
+            {
+              id: "sc_greed_tithe",
+              name: "奥斯瓦尔德",
+              sinType: "Greed",
+              difficulty: 4,
+              summary: "他在收什一税时动了歪心思。",
+              opener: "神父，我在替人收税时，私藏了一部分。",
+              detail:
+                "我替修道院收什一。谷袋一袋袋堆起来，像神的恩典一样丰。我却想：若少记一袋，谁会知道？",
+              turning:
+                "我开始习惯那份‘无声的好处’。可每当我摸到那袋麦子，心里就像被针扎。",
+              end: "我想停下，但我已经尝到了味道。",
+            },
+            {
+              id: "sc_sloth_vows",
+              name: "卢卡斯",
+              sinType: "Sloth",
+              difficulty: 2,
+              summary: "他发过誓，却总用懒惰和拖延逃避责任。",
+              opener: "神父，我在懒惰里把日子一天天卖掉。",
+              detail:
+                "农忙时我找借口不下地。修道院让我们抄经，我却把羽毛笔放下，告诉自己‘明天再写’。明天又推到后天。",
+              turning:
+                "我不是不知道该做什么。我只是害怕一旦开始，就再也不能躲在借口后面。",
+              end: "我怎样才能把脚从泥里拔出来？",
+            },
+            {
+              id: "sc_lust_secret",
+              name: "艾琳",
+              sinType: "Lust",
+              difficulty: 5,
+              summary: "她与人有了秘密关系，害怕被宗法与流言吞没。",
+              opener: "神父……我犯了不能说出口的罪。",
+              detail:
+                "我与一位已订婚的男人私下见面。起初只是说话，后来……我把自己交给了欲望，也交给了谎言。",
+              turning:
+                "我既渴望那份温热，又厌恶自己的软弱。我害怕被人指着鼻子叫‘肮脏’。",
+              end: "我想求赦免，也想知道该如何停止伤害。",
+            },
+            {
+              id: "sc_fear_plague",
+              name: "雨果",
+              sinType: "Fear",
+              difficulty: 3,
+              summary: "瘟疫传言四起，他被恐惧逼得背弃朋友。",
+              opener: "神父，我因恐惧背弃了一个人。",
+              detail:
+                "村里传说‘黑死’要来。我看见朋友咳嗽，就推开了他。我甚至把他赶出屋子，像赶一条狗。",
+              turning:
+                "后来我才知道他只是受了凉。可我的话像刀一样，已经割开了我们。",
+              end: "我怎么才能弥补？我又怎么才能不再被恐惧牵着走？",
+            },
+            {
+              id: "sc_heresy_questions",
+              name: "西蒙",
+              sinType: "Heresy",
+              difficulty: 4,
+              summary: "他读到异端小册子，开始怀疑教义。",
+              opener: "神父，我的脑子里有可怕的疑问。",
+              detail:
+                "我在集市上买到一张薄薄的羊皮纸。上面写：‘教会只会收钱，神不在这里。’我读了，心里竟觉得有几分像真。",
+              turning:
+                "我知道怀疑会把人引向深渊，可我也害怕：如果我把疑问压下去，岂不是在欺骗自己？",
+              end: "请你告诉我：我是在求真，还是在走向背叛？",
+            },
+            {
+              id: "sc_despair_harvest",
+              name: "贝娅特丽丝",
+              sinType: "Despair",
+              difficulty: 4,
+              summary: "荒年让她陷入绝望，甚至不再祷告。",
+              opener: "神父，我已经很久没有祷告了。",
+              detail:
+                "庄稼一连两年歉收，孩子瘦得像枯枝。我祈祷过，可天像铁一样沉。我开始想：上帝是不是根本不听？",
+              turning:
+                "我不敢说出口，但我甚至希望自己睡过去就别醒来。",
+              end: "我还能被拯救吗？还是我已经被遗弃？",
+            },
+            {
+              id: "sc_theft_forge",
+              name: "吉尔伯特",
+              sinType: "Theft",
+              difficulty: 3,
+              summary: "他偷走铁匠的模具，想在夜里私铸。",
+              opener: "神父，我偷了铁匠铺里的东西……不是为了吃饱，是为了挣快钱。",
+              detail:
+                "我偷走了一个模具，想自己在夜里铸几枚小钱。行会的规矩像锁，可我觉得锁只锁住穷人。",
+              turning:
+                "我知道这是贪念披着聪明的皮。我害怕被揭穿，也害怕自己再也停不下。",
+              end: "我该把模具送回去吗？还是该先向铁匠坦白？",
+            },
+            {
+              id: "sc_envy_heir",
+              name: "阿尔芒",
+              sinType: "Envy",
+              difficulty: 4,
+              summary: "他嫉妒兄长继承土地，心生恶念。",
+              opener: "神父，我嫉妒到想要诅咒自己的血亲。",
+              detail:
+                "父亲说土地归长子。我看见兄长拿走钥匙那一刻，胸口像被火烙。我开始在心里数他的错，盼他跌倒。",
+              turning:
+                "我甚至在祷告里夹带恶意。我害怕自己真的会做出更糟的事。",
+              end: "我不想被嫉妒牵着鼻子走，可我也不想当一辈子‘次等’。",
+            },
+            {
+              id: "sc_pride_knight",
+              name: "杰弗里",
+              sinType: "Pride",
+              difficulty: 4,
+              summary: "他曾立功受封，却把傲慢当作盔甲。",
+              opener: "神父，我的傲慢让我像一座冷石。",
+              detail:
+                "我在战场上救过人，领主给了我一枚徽章。后来每一次有人开口，我都先想：‘他配跟我说话吗？’",
+              turning:
+                "我开始孤独，孤独又让我更傲慢。我不愿承认我需要别人。",
+              end: "我该如何卸下这副盔甲？",
+            },
+            {
+              id: "sc_wrath_home",
+              name: "玛格丽特",
+              sinType: "Wrath",
+              difficulty: 3,
+              summary: "家中的争吵让她把怒火倾泻在孩子身上。",
+              opener: "神父，我把怒气丢给了最无辜的人。",
+              detail:
+                "丈夫整夜酗酒，钱袋空得发响。我忍到极限，转身却对孩子吼叫。我看见他缩起来的样子，心像裂开。",
+              turning:
+                "我恨自己的软弱，也恨生活把我推到墙角。我怕我会变成我最讨厌的人。",
+              end: "我想学会止住怒火，但我不知道从哪一句开始。",
+            },
+            {
+              id: "sc_greed_trade",
+              name: "安瑟姆",
+              sinType: "Greed",
+              difficulty: 3,
+              summary: "他在交易中掺假，只为多赚几个便士。",
+              opener: "神父，我用秤砣欺骗了人。",
+              detail:
+                "我把秤砣磨小一点，让每一笔交易都多出一点。开始时只是‘一点’，后来我把‘一点’当成理所当然。",
+              turning:
+                "我告诉自己：‘大家都这样。’可夜里我又听见那句话像审判：‘你用什么量器量给人，也必用什么量器量给你。’",
+              end: "我该怎么把这条歪路折回来？",
+            },
+            {
+              id: "sc_sloth_watch",
+              name: "彼得",
+              sinType: "Sloth",
+              difficulty: 3,
+              summary: "他值夜偷懒，差点酿成火灾。",
+              opener: "神父，我在该醒着的时候睡着了。",
+              detail:
+                "我负责值夜看火炉。可我把头靠在墙上就睡过去。若不是邻居闻到烟味，整条街都可能烧起来。",
+              turning:
+                "我知道这不是一时失误，是我一直在逃避。可是我一想到承担，就又想躲。",
+              end: "你能给我一个‘从今天开始’的命令吗？",
+            },
+            {
+              id: "sc_lust_betrothal",
+              name: "塞西莉亚",
+              sinType: "Lust",
+              difficulty: 4,
+              summary: "她在订婚前越界，害怕毁掉两家。",
+              opener: "神父，我在婚约之前越过了界线。",
+              detail:
+                "我与未婚夫在夜里见面。我们告诉自己只是说话，可手却不肯停。我一边渴望，一边害怕：若被发现，我会被当作羞耻。",
+              turning:
+                "我开始用谎言遮掩，用香料盖住恐惧。我不知道自己是在爱，还是在逃。",
+              end: "我该怎样回到正直？我还能保住尊严吗？",
+            },
+            {
+              id: "sc_fear_war",
+              name: "科林",
+              sinType: "Fear",
+              difficulty: 4,
+              summary: "战乱将至，他因恐惧想抛下家人独逃。",
+              opener: "神父，我想丢下家人逃走。",
+              detail:
+                "有人说领主的敌人要来烧村。我脑子里只有一个念头：跑。可母亲腿不好，弟弟还小。我却想：‘他们会拖累我。’",
+              turning:
+                "我恨自己竟能这样想。可恐惧像洪水一样，冲垮所有誓言。",
+              end: "我怎样才能让勇气回到身体里？",
+            },
+            {
+              id: "sc_heresy_healer",
+              name: "安娜",
+              sinType: "Heresy",
+              difficulty: 3,
+              summary: "她向草药师求助，被人说成‘异端的手’。",
+              opener: "神父，我被指控走了异端的路。",
+              detail:
+                "孩子发热，我去找草药师。她的草汤救了命，却也引来流言：说我信了邪，说我不信教会。",
+              turning:
+                "我不知道真理在哪里。我只知道那一夜我想救人。可是人们只想要一个可以丢石头的名字。",
+              end: "请告诉我：我该坚持什么？又该放下什么？",
+            },
+            {
+              id: "sc_despair_loss",
+              name: "巴纳巴斯",
+              sinType: "Despair",
+              difficulty: 5,
+              summary: "亲人溺亡后，他再也无法相信祷告。",
+              opener: "神父，我的祷告像掉进井里，再也听不见回声。",
+              detail:
+                "我的弟弟在河里淹死。我跪在泥里求过，求过一遍又一遍。可水只会更冷，天只会更沉。",
+              turning:
+                "我开始厌恶钟声，厌恶经文，厌恶一切‘安慰’。因为安慰像谎。",
+              end: "如果神仍在，为何让我这样空？",
+            },
+          ];
+
+          var buildScenarioNodes = function (s) {
+            var startId = s.id + "_start";
+            var midId = s.id + "_mid";
+            var turnId = s.id + "_turn";
+            var endId = s.id + "_end";
+            var shameId = s.id + "_shame";
+
+            var mkOpt = function (text, bibleReference, isCorrect, forgivenessEnergyReward, nextDialogueId, tags) {
+              return {
+                text: text,
+                bibleReference: bibleReference,
+                isCorrect: !!isCorrect,
+                forgivenessEnergyReward: forgivenessEnergyReward,
+                nextDialogueId: nextDialogueId,
+                tags: Array.isArray(tags) ? tags : [],
+              };
+            };
+
+            return [
+              {
+                id: startId,
+                speakerName: "信众",
+                dialogueText: s.opener,
+                nextNodeId: midId,
+                isDeepConversation: false,
+                options: [
+                  mkOpt("把你的话说清楚。神的光不怕黑暗。", "诗篇 27:1", true, 9, midId, ["stern", "ritual"]),
+                  mkOpt("慢慢说，我在这里听。", "诗篇 46:10", true, 10, midId, ["mercy"]),
+                  mkOpt("你知道你做的是罪吗？", "罗马书 3:23", false, -4, shameId, ["stern"]),
+                ],
+              },
+              {
+                id: shameId,
+                speakerName: "信众",
+                dialogueText: "我知道……可我一想到要被审判，就像喉咙里卡着石子。",
+                nextNodeId: midId,
+                isDeepConversation: false,
+                options: [
+                  mkOpt("恐惧不会替你悔改。把事实说出来。", "箴言 28:13", true, 8, midId, ["stern"]),
+                  mkOpt("先别急着给自己判刑。把你经历的告诉我。", "马太福音 11:28", true, 9, midId, ["mercy"]),
+                ],
+              },
+              {
+                id: midId,
+                speakerName: "信众",
+                dialogueText: s.detail,
+                nextNodeId: turnId,
+                isDeepConversation: true,
+                options: [
+                  mkOpt("你要承担后果，但我们先把路看清。谁会受伤？", "加拉太书 6:2", true, 11, turnId, ["pragmatic", "stern"]),
+                  mkOpt("把你心里的动机说出来：是饥饿，是嫉恨，还是空虚？", "耶利米书 17:9", true, 12, turnId, ["mercy"]),
+                  mkOpt("你需要先停下来，回到规训里。", "提摩太后书 1:7", true, 10, turnId, ["ritual", "stern"]),
+                ],
+              },
+              {
+                id: turnId,
+                speakerName: "信众",
+                dialogueText: s.turning,
+                nextNodeId: endId,
+                isDeepConversation: true,
+                options: [
+                  mkOpt("把亏欠写在心上，也写在行动里：归还、补偿、道歉。", "路加福音 19:8", true, 13, endId, ["pragmatic", "ritual"]),
+                  mkOpt("我不替你找借口，但我也不让你绝望。悔改从今天开始。", "约翰一书 1:9", true, 14, endId, ["mercy", "ritual"]),
+                  mkOpt("你要学会克制。该断就断。", "马太福音 5:29", true, 12, endId, ["stern"]),
+                  mkOpt("你可以被赦免，但别用赦免粉饰你想继续的欲望。", "罗马书 6:1-2", true, 11, endId, ["stern", "mercy"]),
+                ],
+              },
+              {
+                id: endId,
+                speakerName: "信众",
+                dialogueText: s.end,
+                nextNodeId: "",
+                isDeepConversation: false,
+                options: [],
+              },
+            ];
+          };
+
+          var group = {};
+          for (var i = 0; i < scenarios.length; i++) {
+            var sc = scenarios[i];
+            if (!group[sc.sinType]) group[sc.sinType] = [];
+            var nodes = buildScenarioNodes(sc);
+            group[sc.sinType] = group[sc.sinType].concat(nodes);
+          }
+
+          var dialogueTrees = [];
+          var sinTypes = Object.keys(group);
+          for (var s = 0; s < sinTypes.length; s++) {
+            var st = sinTypes[s];
+            dialogueTrees.push({ sinType: st, treeName: (SIN_LABEL[st] || st) + " 忏悔", nodes: group[st] });
+          }
+
+          var believers = [];
+          for (var b = 0; b < scenarios.length; b++) {
+            var sc2 = scenarios[b];
+            believers.push({
+              id: sc2.id,
+              name: sc2.name,
+              sinType: sc2.sinType,
+              difficulty: sc2.difficulty,
+              summary: sc2.summary,
+              startNodeId: sc2.id + "_start",
+            });
+          }
+
+          return { believers: believers, dialogueTrees: dialogueTrees };
+        })();
+
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+
+        var viewStart = $("viewStart");
+        var viewGame = $("viewGame");
+        var viewConfessional = $("viewConfessional");
+        var btnHome = $("btnHome");
+        var btnSettings = $("btnSettings");
+        var overlaySettings = $("overlaySettings");
+        var overlayWebChat = $("overlayWebChat");
+        var overlayPause = $("overlayPause");
+        var overlayLog = $("overlayLog");
+        var overlayResult = $("overlayResult");
+        var overlayDay = $("overlayDay");
+        var overlayEvent = $("overlayEvent");
+        var overlayEnding = $("overlayEnding");
+        var overlayMonkReport = $("overlayMonkReport");
+        var deepseekFrame = $("deepseekFrame");
+
+        var CONF_HISTORY_KEY = "sal_confessional_history_v1";
+        var OPENAI_KEY_STORAGE = "sal_openai_api_key";
+        var OPENAI_MODEL_STORAGE = "sal_openai_model";
+        var LLM_PROVIDER_STORAGE = "sal_llm_provider";
+        var LOCAL_LLM_URL_STORAGE = "sal_local_llm_url";
+        var LOCAL_LLM_MODEL_STORAGE = "sal_local_llm_model";
+        var DEEPSEEK_WEB_URL_STORAGE = "sal_deepseek_web_url";
+        var DEEPSEEK_API_KEY_STORAGE = "sal_deepseek_api_key";
+        var DEEPSEEK_API_MODEL_STORAGE = "sal_deepseek_api_model";
+
+        var DEFAULT_STATS = {
+          energy: 0,
+          xp: 0,
+          level: 1,
+          authority: 50,
+          empathy: 50,
+          purity: 50,
+          worldliness: 50,
+        };
+
+        var DEFAULT_COMMUNITY = { prosperity: 30, crime: 30, piety: 30, harmony: 30 };
+
+        var DEFAULT_MONKS = [
+          {
+            id: "aldric",
+            name: "奥德里克修士",
+            vibe: "铁腕而克制",
+            bias: { authority: 0.35, empathy: -0.15, purity: 0.05, worldliness: 0.05 },
+          },
+          {
+            id: "oswin",
+            name: "奥斯温修士",
+            vibe: "温和而善解",
+            bias: { authority: -0.15, empathy: 0.35, purity: 0.05, worldliness: 0.05 },
+          },
+          {
+            id: "cuthbert",
+            name: "卡斯伯特修士",
+            vibe: "虔敬而严谨",
+            bias: { authority: 0.05, empathy: 0.05, purity: 0.35, worldliness: -0.15 },
+          },
+          {
+            id: "wulfric",
+            name: "伍尔弗里克修士",
+            vibe: "务实而灵活",
+            bias: { authority: 0.05, empathy: 0.05, purity: -0.15, worldliness: 0.35 },
+          },
+        ];
+
+        var normalizeMonks = function (arr) {
+          var list = Array.isArray(arr) ? arr : [];
+          var out = [];
+          for (var i = 0; i < DEFAULT_MONKS.length; i++) {
+            var d = DEFAULT_MONKS[i];
+            var found = null;
+            for (var j = 0; j < list.length; j++) {
+              if (list[j] && list[j].id === d.id) {
+                found = list[j];
+                break;
+              }
+            }
+            out.push({
+              id: d.id,
+              name: d.name,
+              vibe: d.vibe,
+              bias: d.bias,
+              mission: found && found.mission ? found.mission : null,
+              lastReport: found && found.lastReport ? found.lastReport : null,
+            });
+          }
+          return out;
+        };
+
+        var normalizeCommunity = function (c) {
+          var o = c && typeof c === "object" ? c : {};
+          var out = {
+            prosperity: typeof o.prosperity === "number" ? o.prosperity : DEFAULT_COMMUNITY.prosperity,
+            crime: typeof o.crime === "number" ? o.crime : DEFAULT_COMMUNITY.crime,
+            piety: typeof o.piety === "number" ? o.piety : DEFAULT_COMMUNITY.piety,
+            harmony: typeof o.harmony === "number" ? o.harmony : DEFAULT_COMMUNITY.harmony,
+          };
+          out.prosperity = clamp(out.prosperity, 0, 100);
+          out.crime = clamp(out.crime, 0, 100);
+          out.piety = clamp(out.piety, 0, 100);
+          out.harmony = clamp(out.harmony, 0, 100);
+          return out;
+        };
+
+        var clampCommunityDelta = function (v) {
+          return clamp(Math.round(v), -3, 3);
+        };
+
+        var normalizeStats = function (stats) {
+          var s = stats && typeof stats === "object" ? stats : {};
+          var out = {
+            energy: typeof s.energy === "number" ? s.energy : DEFAULT_STATS.energy,
+            xp: typeof s.xp === "number" ? s.xp : DEFAULT_STATS.xp,
+            level: typeof s.level === "number" ? s.level : DEFAULT_STATS.level,
+            authority: typeof s.authority === "number" ? s.authority : DEFAULT_STATS.authority,
+            empathy: typeof s.empathy === "number" ? s.empathy : DEFAULT_STATS.empathy,
+            purity: typeof s.purity === "number" ? s.purity : DEFAULT_STATS.purity,
+            worldliness: typeof s.worldliness === "number" ? s.worldliness : DEFAULT_STATS.worldliness,
+          };
+          out.energy = clamp(out.energy, 0, 9999);
+          out.level = clamp(out.level, 1, 999);
+          out.xp = clamp(out.xp, 0, 999999);
+          out.authority = clamp(out.authority, 0, 100);
+          out.purity = clamp(out.purity, 0, 100);
+          out.empathy = clamp(100 - out.authority, 0, 100);
+          out.worldliness = clamp(100 - out.purity, 0, 100);
+          return out;
+        };
+
+        var state = {
+          view: "start",
+          settings: { textSpeed: 30, volume: 60 },
+          stats: normalizeStats(DEFAULT_STATS),
+          day: 1,
+          community: normalizeCommunity(DEFAULT_COMMUNITY),
+          monks: normalizeMonks(DEFAULT_MONKS),
+          session: {
+            believerIndex: 0,
+            sinType: "Theft",
+            nodeId: "",
+            sessionEnergy: 0,
+            correct: 0,
+            priestDelta: { authority: 0, empathy: 0, purity: 0, worldliness: 0 },
+            log: [],
+            lastLoggedNodeId: "",
+          },
+          typing: { active: false, fullText: "", shown: "", lastAt: 0 },
+          lastAutoSaveAt: 0,
+          paused: false,
+          confessional: { messages: [], busy: false },
+          dayFlow: { done: false, pendingOptions: null, pendingEvent: null, sentMonkForDay: false, pendingMonkReports: null },
+        };
+
+        var treeIndex = (function () {
+          var idx = {};
+          for (var i = 0; i < DATA.dialogueTrees.length; i++) {
+            var t = DATA.dialogueTrees[i];
+            var map = {};
+            for (var j = 0; j < t.nodes.length; j++) {
+              map[t.nodes[j].id] = t.nodes[j];
+            }
+            idx[t.sinType] = { treeName: t.treeName, nodes: map };
+          }
+          return idx;
+        })();
+
+        var hasSave = function () {
+          if (safeGetItem(STORAGE_KEY)) return true;
+          for (var i = 0; i < OLD_STORAGE_KEYS.length; i++) {
+            if (safeGetItem(OLD_STORAGE_KEYS[i])) return true;
+          }
+          return false;
+        };
+
+        var getSaveRaw = function () {
+          var raw = safeGetItem(STORAGE_KEY);
+          if (raw) return { key: STORAGE_KEY, raw: raw };
+          for (var i = 0; i < OLD_STORAGE_KEYS.length; i++) {
+            var k = OLD_STORAGE_KEYS[i];
+            var r = safeGetItem(k);
+            if (r) return { key: k, raw: r };
+          }
+          return { key: "", raw: "" };
+        };
+
+        var formatTime = function (ts) {
+          try {
+            var d = new Date(ts);
+            var hh = String(d.getHours()).padStart(2, "0");
+            var mm = String(d.getMinutes()).padStart(2, "0");
+            var ss = String(d.getSeconds()).padStart(2, "0");
+            return hh + ":" + mm + ":" + ss;
+          } catch (e) {
+            return "-";
+          }
+        };
+
+        var saveGame = function () {
+          var payload = {
+            v: 4,
+            savedAt: now(),
+            settings: state.settings,
+            stats: state.stats,
+            day: state.day,
+            community: state.community,
+            dayFlow: state.dayFlow,
+            monks: state.monks,
+            session: {
+              believerIndex: state.session.believerIndex,
+              sinType: state.session.sinType,
+              nodeId: state.session.nodeId,
+              sessionEnergy: state.session.sessionEnergy,
+              correct: state.session.correct,
+              priestDelta: state.session.priestDelta,
+              lastLoggedNodeId: state.session.lastLoggedNodeId,
+              log: state.session.log.slice(-60),
+            },
+          };
+          safeSetItem(STORAGE_KEY, JSON.stringify(payload));
+          state.lastAutoSaveAt = payload.savedAt;
+          updateStartButtons();
+          updateStatsUI();
+        };
+
+        var loadGame = function () {
+          var sr = getSaveRaw();
+          var raw = sr.raw;
+          if (!raw) return false;
+          try {
+            var payload = JSON.parse(raw);
+            if (!payload || (payload.v !== 1 && payload.v !== 2 && payload.v !== 3 && payload.v !== 4)) return false;
+            if (payload.settings) state.settings = payload.settings;
+            if (payload.stats) state.stats = normalizeStats(payload.stats);
+            state.day = typeof payload.day === "number" ? clamp(Math.floor(payload.day), 1, 9999) : 1;
+            state.community = normalizeCommunity(payload.community || DEFAULT_COMMUNITY);
+            state.dayFlow =
+              payload.dayFlow && typeof payload.dayFlow === "object"
+                ? payload.dayFlow
+                : { done: false, pendingOptions: null, pendingEvent: null, sentMonkForDay: false, pendingMonkReports: null };
+            if (payload.monks) state.monks = normalizeMonks(payload.monks);
+            if (payload.session) {
+              state.session.believerIndex = payload.session.believerIndex || 0;
+              state.session.sinType = payload.session.sinType || "Theft";
+              state.session.nodeId = payload.session.nodeId || "";
+              state.session.sessionEnergy = payload.session.sessionEnergy || 0;
+              state.session.correct = payload.session.correct || 0;
+              state.session.priestDelta = payload.session.priestDelta || { authority: 0, empathy: 0, purity: 0, worldliness: 0 };
+              state.session.lastLoggedNodeId = payload.session.lastLoggedNodeId || "";
+              state.session.log = Array.isArray(payload.session.log) ? payload.session.log : [];
+            }
+            state.lastAutoSaveAt = payload.savedAt || 0;
+            if (payload.v === 1 || payload.v === 2 || payload.v === 3) saveGame();
+            return true;
+          } catch (e) {
+            return false;
+          }
+        };
+
+        var resetSave = function () {
+          safeRemoveItem(STORAGE_KEY);
+          for (var i = 0; i < OLD_STORAGE_KEYS.length; i++) safeRemoveItem(OLD_STORAGE_KEYS[i]);
+          state.lastAutoSaveAt = 0;
+          updateStartButtons();
+          $("saveHint").textContent = "已清除存档。";
+        };
+
+        var setView = function (view) {
+          state.view = view;
+          var isStart = view === "start";
+          var isGame = view === "game";
+          var isConf = view === "confessional";
+          viewStart.style.display = isStart ? "grid" : "none";
+          viewGame.style.display = isGame ? "block" : "none";
+          viewConfessional.style.display = isConf ? "block" : "none";
+          btnHome.style.display = isStart ? "none" : "inline-flex";
+          if (isGame) {
+            updateStatsUI();
+            renderCurrentNode();
+          }
+          if (isConf) {
+            renderConfessional();
+            try {
+              $("confInput").focus();
+            } catch (e) {}
+          }
+        };
+
+        var startNewGame = function () {
+          state.stats = normalizeStats(DEFAULT_STATS);
+          state.day = 1;
+          state.community = normalizeCommunity(DEFAULT_COMMUNITY);
+          state.monks = normalizeMonks(DEFAULT_MONKS);
+          state.dayFlow = { done: false, pendingOptions: null, pendingEvent: null, sentMonkForDay: false, pendingMonkReports: null };
+          state.session = {
+            believerIndex: 0,
+            sinType: "Theft",
+            nodeId: "",
+            sessionEnergy: 0,
+            correct: 0,
+            priestDelta: { authority: 0, empathy: 0, purity: 0, worldliness: 0 },
+            log: [],
+            lastLoggedNodeId: "",
+          };
+          startSession(0);
+          saveGame();
+          setView("game");
+        };
+
+        var continueGame = function () {
+          var ok = loadGame();
+          if (!ok) {
+            startNewGame();
+            return;
+          }
+          if (!state.session.nodeId) {
+            startSession(state.session.believerIndex || 0);
+            saveGame();
+          }
+          applySettingsToUI();
+          setView("game");
+        };
+
+        var currentBeliever = function () {
+          var idx = clamp(state.session.believerIndex, 0, DATA.believers.length - 1);
+          return DATA.believers[idx];
+        };
+
+        var startSession = function (believerIndex) {
+          state.dayFlow.done = false;
+          state.session.believerIndex = ((believerIndex % DATA.believers.length) + DATA.believers.length) % DATA.believers.length;
+          var b = currentBeliever();
+          state.session.sinType = b.sinType;
+          state.session.sessionEnergy = 0;
+          state.session.correct = 0;
+          state.session.priestDelta = { authority: 0, empathy: 0, purity: 0, worldliness: 0 };
+          state.session.lastLoggedNodeId = "";
+          var tree = treeIndex[b.sinType];
+          var startId = b.startNodeId || (b.sinType || "").toLowerCase() + "_start";
+          if (tree && tree.nodes[startId]) {
+            state.session.nodeId = startId;
+          } else {
+            var fallback = tree ? Object.keys(tree.nodes)[0] : "";
+            state.session.nodeId = fallback;
+          }
+          appendLog("系统", "第 " + state.day + " 天：新的来访者进入告解室：" + b.name + "。", true);
+          state.typing.active = false;
+          state.typing.shown = "";
+          state.typing.fullText = "";
+          saveGame();
+        };
+
+        var appendLog = function (speaker, text, isSystem) {
+          var item = {
+            t: now(),
+            speaker: speaker,
+            text: text,
+            system: !!isSystem,
+          };
+          state.session.log.push(item);
+          if (state.session.log.length > 80) state.session.log = state.session.log.slice(-80);
+          updateStatsUI();
+        };
+
+        var normalizeSpeaker = function (speakerName) {
+          if (speakerName === "神父") return "神父";
+          return "信众";
+        };
+
+        var getNode = function () {
+          var t = treeIndex[state.session.sinType];
+          if (!t) return null;
+          var node = t.nodes[state.session.nodeId];
+          return node || null;
+        };
+
+        var showTyping = function (text) {
+          state.typing.active = true;
+          state.typing.fullText = text || "";
+          state.typing.shown = "";
+          state.typing.lastAt = now();
+          updateDialogueUI();
+          tickTyping();
+        };
+
+        var finishTyping = function () {
+          state.typing.active = false;
+          state.typing.shown = state.typing.fullText;
+          updateDialogueUI();
+        };
+
+        var tickTyping = function () {
+          if (!state.typing.active) return;
+          var elapsed = now() - state.typing.lastAt;
+          var cps = clamp(state.settings.textSpeed || 30, 10, 80);
+          var add = Math.floor((elapsed / 1000) * cps);
+          if (add <= 0) {
+            requestAnimationFrame(tickTyping);
+            return;
+          }
+          state.typing.lastAt = now();
+          var nextLen = clamp(state.typing.shown.length + add, 0, state.typing.fullText.length);
+          state.typing.shown = state.typing.fullText.slice(0, nextLen);
+          updateDialogueUI();
+          if (state.typing.shown.length >= state.typing.fullText.length) {
+            state.typing.active = false;
+            renderOptions();
+            updateDialogueUI();
+            return;
+          }
+          requestAnimationFrame(tickTyping);
+        };
+
+        var updateStartButtons = function () {
+          $("btnContinue").disabled = !hasSave();
+          if (hasSave()) {
+            var raw = getSaveRaw().raw;
+            try {
+              var payload = JSON.parse(raw);
+              if (payload && payload.savedAt) {
+                $("saveHint").textContent = "检测到存档：" + formatTime(payload.savedAt) + "。";
+                return;
+              }
+            } catch (e) {}
+          }
+          $("saveHint").textContent = "";
+        };
+
+        var updateStatsUI = function () {
+          if (state.view !== "game") return;
+          var b = currentBeliever();
+          $("statDay").textContent = "第 " + String(state.day) + " 天";
+          $("statBeliever").textContent = b.name + " · 难度 " + b.difficulty;
+          $("statSin").textContent = SIN_LABEL[state.session.sinType] || state.session.sinType;
+          $("statSessionEnergy").textContent = String(state.session.sessionEnergy);
+          $("statEnergy").textContent = String(state.stats.energy);
+          $("statLevel").textContent = String(state.stats.level);
+          var xpInLevel = state.stats.xp % 100;
+          $("statXp").textContent = xpInLevel + " / 100";
+          $("xpBar").style.width = clamp((xpInLevel / 100) * 100, 0, 100).toFixed(2) + "%";
+          $("statAuthority").textContent = String(Math.round(state.stats.authority));
+          $("statEmpathy").textContent = String(Math.round(state.stats.empathy));
+          $("statPurity").textContent = String(Math.round(state.stats.purity));
+          $("statWorldliness").textContent = String(Math.round(state.stats.worldliness));
+
+          $("axisAE").style.left = (clamp(state.stats.authority / 100, 0, 1) * 100).toFixed(2) + "%";
+          $("axisPW").style.left = (clamp(state.stats.worldliness / 100, 0, 1) * 100).toFixed(2) + "%";
+
+          var c = state.community;
+          $("statProsperity").textContent = String(Math.round(c.prosperity));
+          $("barProsperity").style.width = clamp(c.prosperity, 0, 100).toFixed(2) + "%";
+          $("statCrime").textContent = String(Math.round(c.crime));
+          $("barCrime").style.width = clamp(c.crime, 0, 100).toFixed(2) + "%";
+          $("statPiety").textContent = String(Math.round(c.piety));
+          $("barPiety").style.width = clamp(c.piety, 0, 100).toFixed(2) + "%";
+          $("statHarmony").textContent = String(Math.round(c.harmony));
+          $("barHarmony").style.width = clamp(c.harmony, 0, 100).toFixed(2) + "%";
+
+          var monkBox = $("monkList");
+          var lines = [];
+          for (var i = 0; i < state.monks.length; i++) {
+            var m = state.monks[i];
+            if (m.mission) {
+              var ms = getMissionById(m.mission.missionId);
+              lines.push(m.name + "：外出（" + (ms ? ms.title : "任务") + "），归来第 " + m.mission.returnDay + " 天");
+            } else {
+              lines.push(m.name + "：在院（" + m.vibe + "）");
+            }
+          }
+          monkBox.textContent = lines.join("\n");
+
+          $("statLog").textContent = state.session.log.length + " 条";
+          $("autoSaveText").textContent = state.lastAutoSaveAt ? "上次自动存档：" + formatTime(state.lastAutoSaveAt) : "尚未存档";
+        };
+
+        var loadConfessionalHistory = function () {
+          var raw = safeGetItem(CONF_HISTORY_KEY);
+          if (!raw) {
+            state.confessional.messages = [];
+            return;
+          }
+          try {
+            var payload = JSON.parse(raw);
+            var msgs = payload && Array.isArray(payload.messages) ? payload.messages : [];
+            var cleaned = [];
+            for (var i = 0; i < msgs.length; i++) {
+              var m = msgs[i];
+              if (!m || (m.role !== "user" && m.role !== "assistant")) continue;
+              var c = String(m.content || "");
+              if (!c) continue;
+              cleaned.push({ role: m.role, content: c.slice(0, 4000) });
+            }
+            state.confessional.messages = cleaned.slice(-40);
+          } catch (e) {
+            state.confessional.messages = [];
+          }
+        };
+
+        var saveConfessionalHistory = function () {
+          var payload = { v: 1, savedAt: now(), messages: state.confessional.messages.slice(-40) };
+          safeSetItem(CONF_HISTORY_KEY, JSON.stringify(payload));
+        };
+
+        var getOpenAIKey = function () {
+          return String(safeGetItem(OPENAI_KEY_STORAGE) || "").trim();
+        };
+
+        var getOpenAIModel = function () {
+          var m = String(safeGetItem(OPENAI_MODEL_STORAGE) || state.settings.openaiModel || "gpt-4o-mini").trim();
+          return m || "gpt-4o-mini";
+        };
+
+        var getDeepSeekApiKey = function () {
+          return String(safeGetItem(DEEPSEEK_API_KEY_STORAGE) || "").trim();
+        };
+
+        var getDeepSeekApiModel = function () {
+          var m = String(safeGetItem(DEEPSEEK_API_MODEL_STORAGE) || state.settings.deepseekApiModel || "deepseek-chat").trim();
+          return m || "deepseek-chat";
+        };
+
+        var getLlmProvider = function () {
+          var p = String(safeGetItem(LLM_PROVIDER_STORAGE) || state.settings.llmProvider || "local_deepseek").trim();
+          return p || "local_deepseek";
+        };
+
+        var getLocalLlmUrl = function () {
+          var u = String(safeGetItem(LOCAL_LLM_URL_STORAGE) || state.settings.localLlmUrl || "http://localhost:11435").trim();
+          return u || "http://localhost:11435";
+        };
+
+        var getLocalLlmModel = function () {
+          var m = String(safeGetItem(LOCAL_LLM_MODEL_STORAGE) || state.settings.localLlmModel || "deepseek").trim();
+          return m || "deepseek";
+        };
+
+        var getDeepSeekWebUrl = function () {
+          var u = String(safeGetItem(DEEPSEEK_WEB_URL_STORAGE) || state.settings.deepseekWebUrl || "https://chat.deepseek.com/").trim();
+          return u || "https://chat.deepseek.com/";
+        };
+
+        var copyText = function (txt) {
+          var text = String(txt || "");
+          if (!text) return Promise.resolve(false);
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text).then(
+              function () {
+                return true;
+              },
+              function () {
+                return false;
+              }
+            );
+          }
+          try {
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.left = "-9999px";
+            ta.style.top = "-9999px";
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            var ok = document.execCommand("copy");
+            document.body.removeChild(ta);
+            return Promise.resolve(!!ok);
+          } catch (e) {
+            return Promise.resolve(false);
+          }
+        };
+
+        var appendConfMsg = function (role, content) {
+          state.confessional.messages.push({ role: role, content: String(content || "") });
+          if (state.confessional.messages.length > 60) state.confessional.messages = state.confessional.messages.slice(-60);
+          saveConfessionalHistory();
+          renderConfessional();
+        };
+
+        var renderConfessional = function () {
+          if (state.view !== "confessional") return;
+          var box = $("confChat");
+          var status = $("confStatus");
+          var hint = $("confSaveHint");
+          var provider = getLlmProvider();
+          if (provider === "openai") {
+            var key = getOpenAIKey();
+            hint.textContent = key ? "来源：OpenAI。模型：" + getOpenAIModel() : "来源：OpenAI。未配置 API Key：请在设置中填写或切换到 DeepSeek（本地）。";
+          } else if (provider === "deepseek_api") {
+            var dk = getDeepSeekApiKey();
+            hint.textContent = dk ? "来源：DeepSeek（API）。模型：" + getDeepSeekApiModel() : "来源：DeepSeek（API）。未配置 API Key：请在设置中填写或切换到其他模式。";
+          } else if (provider === "deepseek_web") {
+            hint.textContent = "来源：DeepSeek（网页版，无需下载）。点击‘送出’会复制内容并打开网页版。";
+          } else {
+            hint.textContent = "来源：DeepSeek（本地，无需 Key）。模型：" + getLocalLlmModel();
+          }
+          status.textContent = state.confessional.busy ? "神父正在沉思……" : "";
+          box.innerHTML = "";
+
+          var webRow = $("confWebRow");
+          var input = $("confInput");
+          var sendBtn = $("btnConfSend");
+          if (provider === "deepseek_web") {
+            webRow.style.display = "flex";
+            sendBtn.textContent = "去内嵌网页";
+            input.placeholder = "此模式会打开 DeepSeek 网页版：先把告解写在这里，然后点‘去网页版’（会自动复制）。";
+          } else {
+            webRow.style.display = "none";
+            sendBtn.textContent = "送出";
+            input.placeholder = "向神父陈述你的罪过、困境或疑惧……（Shift+Enter 换行）";
+          }
+
+          if (state.confessional.messages.length === 0) {
+            var first =
+              "孩子，你可以在此把心中之重说出来。\n" +
+              "我会以经文与规训回应你，并指引你走向悔改与补偿。\n" +
+              "先告诉我：你为何而来？";
+            state.confessional.messages.push({ role: "assistant", content: first });
+          }
+
+          for (var i = 0; i < state.confessional.messages.length; i++) {
+            var m = state.confessional.messages[i];
+            var el = document.createElement("div");
+            el.className = "chatMsg " + (m.role === "user" ? "user" : "assistant");
+            var who = m.role === "user" ? "你" : "神父";
+            el.innerHTML = '<div class="who">' + escapeHtml(who) + '</div><div class="txt">' + escapeHtml(m.content) + "</div>";
+            box.appendChild(el);
+          }
+          try {
+            box.scrollTop = box.scrollHeight;
+          } catch (e) {}
+          saveConfessionalHistory();
+        };
+
+        var systemPromptConfessional = function (provider) {
+          var idLine = "";
+          if (provider === "local_deepseek") {
+            idLine = "你正在由本地部署的 DeepSeek 模型生成回应（离线/本机），不是 OpenAI。\n";
+          }
+          if (provider === "deepseek_web") {
+            idLine = "你正在由 DeepSeek 网页版生成回应，不是 OpenAI。\n";
+          }
+          if (provider === "deepseek_api") {
+            idLine = "你正在由 DeepSeek 官方 API 生成回应，不是 OpenAI。\n";
+          }
+          if (provider === "openai") {
+            idLine = "本对话的模型来源为 OpenAI。\n";
+          }
+          return (
+            idLine +
+            "你是一位中世纪欧洲的天主教神父/修道院长，正在告解室聆听来访者。\n" +
+            "你必须：\n" +
+            "- 使用中文回答，但语气要有中世纪的庄重与克制（不使用现代网络语）。\n" +
+            "- 回应要体现基督教与圣经知识：可引用经文（可用中文经文引用格式），并给出悔改与补偿的可执行建议。\n" +
+            "- 同时兼具慈悲与规训：可以温柔，也可以严肃，但不羞辱来访者。\n" +
+            "- 不要向来访者提及任何模型/接口/厂商名字，也不要提及任何现代技术细节。\n" +
+            "- 若来访者提到自伤/伤人风险，先劝其立即寻求现实中的紧急帮助与可信之人，再给出安抚。\n" +
+            "输出结构建议：先简短复述其罪与恐惧→指出其责任与希望→给出1-3条具体悔改行动→以一段简短祷词/祝祷收束。"
+          );
+        };
+
+        var callOpenAIChat = function (history) {
+          var key = getOpenAIKey();
+          var model = getOpenAIModel();
+          return fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + key,
+            },
+            body: JSON.stringify({
+              model: model,
+              temperature: 0.7,
+              max_tokens: 520,
+              messages: [{ role: "system", content: systemPromptConfessional("openai") }].concat(history),
+            }),
+          }).then(function (r) {
+            return r.json().then(function (j) {
+              if (!r.ok) {
+                var msg = (j && j.error && j.error.message) || "请求失败";
+                throw new Error(msg);
+              }
+              return j;
+            });
+          });
+        };
+
+        var callDeepSeekApiChat = function (history) {
+          var key = getDeepSeekApiKey();
+          var model = getDeepSeekApiModel();
+          return fetch("/api/deepseek/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + key,
+            },
+            body: JSON.stringify({
+              model: model,
+              temperature: 0.7,
+              max_tokens: 520,
+              messages: [{ role: "system", content: systemPromptConfessional("deepseek_api") }].concat(history),
+            }),
+          }).then(function (r) {
+            return r.json().then(function (j) {
+              if (!r.ok) {
+                var msg = (j && j.error && j.error.message) || "请求失败";
+                throw new Error(msg);
+              }
+              return j;
+            });
+          });
+        };
+
+        var callLocalDeepSeekChat = function (history) {
+          var base = getLocalLlmUrl().replace(/\/+$/g, "");
+          var url = base + "/v1/chat/completions";
+          return fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              model: getLocalLlmModel(),
+              temperature: 0.7,
+              max_tokens: 520,
+              messages: [{ role: "system", content: systemPromptConfessional("local_deepseek") }].concat(history),
+            }),
+          }).then(function (r) {
+            return r.json().then(function (j) {
+              if (!r.ok) {
+                var msg = (j && j.error && j.error.message) || (j && j.error) || "请求失败";
+                throw new Error(msg);
+              }
+              return j;
+            });
+          });
+        };
+
+        var sendConfessional = function () {
+          if (state.confessional.busy) return;
+          var provider = getLlmProvider();
+          if (provider === "deepseek_web") {
+            var input = $("confInput");
+            var text = String(input.value || "").trim();
+            if (!text) return;
+            input.value = "";
+
+            var payload =
+              "请严格遵守以下设定（系统指令）：\n" +
+              systemPromptConfessional("deepseek_web") +
+              "\n\n来访者的告解：\n" +
+              text;
+
+            state.confessional.busy = true;
+            renderConfessional();
+
+            copyText(payload).then(function (ok) {
+              if (ok) {
+                appendConfMsg("assistant", "我已将‘神父设定’与告解内容写入你的剪贴板。现在我为你打开网页版，你只需粘贴后发送即可。\n（提示：Ctrl+V 粘贴）");
+              } else {
+                appendConfMsg(
+                  "assistant",
+                  "我无法自动写入剪贴板。你可以点击‘复制神父设定’，然后把告解内容一并粘贴到网页版。"
+                );
+              }
+              openDeepSeekEmbed();
+            }).finally(function () {
+              state.confessional.busy = false;
+              renderConfessional();
+            });
+            return;
+          }
+          if (provider === "deepseek_api") {
+            var dk = getDeepSeekApiKey();
+            if (!dk) {
+              $("confStatus").textContent = "请先在设置中填写 DeepSeek API Key，或切换到其他模式。";
+              applySettingsToUI();
+              openOverlay(overlaySettings);
+              return;
+            }
+          }
+          if (provider === "openai") {
+            var key = getOpenAIKey();
+            if (!key) {
+              $("confStatus").textContent = "请先在设置中填写 OpenAI API Key，或切换到 DeepSeek（本地）。";
+              openOverlay(overlaySettings);
+              return;
+            }
+          }
+          var input = $("confInput");
+          var text = String(input.value || "").trim();
+          if (!text) return;
+          input.value = "";
+          appendConfMsg("user", text);
+
+          state.confessional.busy = true;
+          renderConfessional();
+
+          var history = state.confessional.messages
+            .filter(function (m) {
+              return m && (m.role === "user" || m.role === "assistant");
+            })
+            .slice(-16)
+            .map(function (m) {
+              return { role: m.role, content: m.content };
+            });
+
+          var req =
+            provider === "openai"
+              ? callOpenAIChat(history)
+              : provider === "deepseek_api"
+              ? callDeepSeekApiChat(history)
+              : callLocalDeepSeekChat(history);
+
+          req.then(function (res) {
+            var content = "";
+            if (provider === "openai" || provider === "local_deepseek" || provider === "deepseek_api") {
+              content =
+                res && res.choices && res.choices[0] && res.choices[0].message && typeof res.choices[0].message.content === "string"
+                  ? res.choices[0].message.content
+                  : "";
+            }
+            appendConfMsg("assistant", (content || "（神父沉默良久，却没有说出话。）").trim());
+          })
+            .catch(function (err) {
+              var hint = "";
+              if (provider !== "openai") hint = "\n\n（若你使用 DeepSeek 本地模式：请先启动随游戏提供的本地模型服务。）";
+              appendConfMsg("assistant", "我听见你的话，却一时无法回应。请稍后再试。\n（错误：" + String(err && err.message ? err.message : err) + "）" + hint);
+            })
+            .finally(function () {
+              state.confessional.busy = false;
+              renderConfessional();
+            });
+        };
+
+        var TAG_EFFECTS = {
+          mercy: { empathy: 0.45, purity: 0.12 },
+          stern: { authority: 0.45, purity: 0.12 },
+          ritual: { purity: 0.55, authority: 0.12 },
+          pragmatic: { worldliness: 0.55, empathy: 0.12 },
+        };
+
+        var applyPriestDelta = function (delta) {
+          var da = (delta && typeof delta.authority === "number" ? delta.authority : 0) - (delta && typeof delta.empathy === "number" ? delta.empathy : 0);
+          var dp = (delta && typeof delta.purity === "number" ? delta.purity : 0) - (delta && typeof delta.worldliness === "number" ? delta.worldliness : 0);
+
+          if (da) {
+            state.stats.authority = clamp(state.stats.authority + da, 0, 100);
+            state.stats.empathy = clamp(100 - state.stats.authority, 0, 100);
+            state.session.priestDelta.authority = (state.session.priestDelta.authority || 0) + da;
+            state.session.priestDelta.empathy = (state.session.priestDelta.empathy || 0) - da;
+          }
+          if (dp) {
+            state.stats.purity = clamp(state.stats.purity + dp, 0, 100);
+            state.stats.worldliness = clamp(100 - state.stats.purity, 0, 100);
+            state.session.priestDelta.purity = (state.session.priestDelta.purity || 0) + dp;
+            state.session.priestDelta.worldliness = (state.session.priestDelta.worldliness || 0) - dp;
+          }
+        };
+
+        var computePriestDeltaFromOption = function (opt) {
+          var delta = { authority: 0, empathy: 0, purity: 0, worldliness: 0 };
+          var tags = opt && Array.isArray(opt.tags) ? opt.tags : [];
+          for (var i = 0; i < tags.length; i++) {
+            var tag = tags[i];
+            var eff = TAG_EFFECTS[tag];
+            if (!eff) continue;
+            if (typeof eff.authority === "number") delta.authority += eff.authority;
+            if (typeof eff.empathy === "number") delta.empathy += eff.empathy;
+            if (typeof eff.purity === "number") delta.purity += eff.purity;
+            if (typeof eff.worldliness === "number") delta.worldliness += eff.worldliness;
+          }
+          return delta;
+        };
+
+        var updateDialogueUI = function () {
+          var node = getNode();
+          if (!node) {
+            $("dlgSpeaker").textContent = "系统";
+            $("dlgLine").textContent = "未找到对话数据。请点击重置存档或刷新页面。";
+            $("dlgOptions").innerHTML = "";
+            $("btnContinueLine").style.display = "none";
+            $("btnSkipTyping").style.display = "none";
+            return;
+          }
+          var speaker = normalizeSpeaker(node.speakerName);
+          $("dlgSpeaker").textContent = speaker;
+          $("dlgLine").textContent = state.typing.active ? state.typing.shown : node.dialogueText;
+          $("btnSkipTyping").style.display = state.typing.active ? "inline-flex" : "none";
+          var options = Array.isArray(node.options) ? node.options : [];
+          var hasOptions = options.length > 0;
+          var canContinue = !hasOptions && !state.typing.active;
+          $("btnContinueLine").style.display = canContinue ? "inline-flex" : "none";
+        };
+
+        var renderOptions = function () {
+          var node = getNode();
+          var box = $("dlgOptions");
+          box.innerHTML = "";
+          if (!node) return;
+          if (state.typing.active) return;
+          var options = Array.isArray(node.options) ? node.options : [];
+          for (var i = 0; i < options.length; i++) {
+            (function (idx) {
+              var opt = options[idx];
+              var btn = document.createElement("button");
+              btn.className = "btn opt";
+              btn.type = "button";
+              btn.innerHTML =
+                '<div style="font-size:14px;line-height:1.55">' +
+                escapeHtml("[" + (idx + 1) + "] " + opt.text) +
+                "</div>" +
+                '<div class="meta"><span class="tag">' +
+                escapeHtml(opt.bibleReference || "经文") +
+                "</span><span>选择后见分晓</span></div>";
+              btn.addEventListener("click", function () {
+                chooseOption(idx);
+              });
+              box.appendChild(btn);
+            })(i);
+          }
+        };
+
+        var escapeHtml = function (s) {
+          return String(s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/\"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+        };
+
+        var renderCurrentNode = function () {
+          var node = getNode();
+          if (!node) {
+            updateDialogueUI();
+            return;
+          }
+          if (state.session.lastLoggedNodeId !== node.id) {
+            appendLog(normalizeSpeaker(node.speakerName), node.dialogueText, false);
+            state.session.lastLoggedNodeId = node.id;
+            saveGame();
+          }
+          showTyping(node.dialogueText);
+          renderOptions();
+          updateDialogueUI();
+          updateStatsUI();
+        };
+
+        var goToNode = function (nodeId) {
+          state.session.nodeId = nodeId;
+          saveGame();
+          renderCurrentNode();
+        };
+
+        var computeAspectWeights = function () {
+          var a = clamp(state.stats.authority, 0, 100) / 100;
+          var p = clamp(state.stats.purity, 0, 100) / 100;
+          var e = 1 - a;
+          var w = 1 - p;
+          var wf = function (x) {
+            return 0.7 + 0.6 * x;
+          };
+          return { prosperity: wf(w), crime: wf(a), piety: wf(p), harmony: wf(e) };
+        };
+
+        var DAILY_TEXT = {
+          prosperity: [
+            { t: "修补集市道路", d: "召集工匠与佃户，修整碎石路，使商贩愿意逗留。", base: 2, side: { crime: 1 } },
+            { t: "减免小摊税", d: "今日减半征收，让人们把银币花在面包与麦酒上。", base: 1, side: { prosperity: 1 } },
+            { t: "收紧税契", d: "重核账册以备冬粮；村人怨声暗起。", base: 2, side: { harmony: -1 } },
+          ],
+          crime: [
+            { t: "加派巡夜", d: "在巷口点火把，令每夜有两人巡行。", base: -2, side: { harmony: -1 } },
+            { t: "审判小盗", d: "公开惩戒惯犯，以儆效尤。", base: -2, side: { piety: 1 } },
+            { t: "赎罪劳役", d: "让犯人以劳役偿还，免其皮鞭。", base: -1, side: { harmony: 1 } },
+          ],
+          piety: [
+            { t: "举行圣徒庆典", d: "钟声与烛火并起，人们跪下，愿誓言更真。", base: 2, side: { prosperity: -1 } },
+            { t: "修缮小礼拜堂", d: "用石灰抹平裂缝，让祷词不再漏风。", base: 1, side: { harmony: 1 } },
+            { t: "施舍与讲道", d: "把面包分给穷者，并宣讲悔改。", base: 1, side: { crime: -1 } },
+          ],
+          harmony: [
+            { t: "调解邻里争端", d: "在教堂门廊听双方陈述，让怨恨止于今日。", base: 2, side: { crime: -1 } },
+            { t: "设立公共井规", d: "订立取水次序，免争抢与谣言。", base: 1, side: { prosperity: 1 } },
+            { t: "宽赦旧怨", d: "劝人放下，彼此饶恕；也有人不满‘太软’。", base: 2, side: { crime: 1 } },
+          ],
+        };
+
+        var pick = function (arr) {
+          if (!arr || arr.length === 0) return null;
+          return arr[Math.floor(Math.random() * arr.length)];
+        };
+
+        var buildDayOptions = function () {
+          var w = computeAspectWeights();
+          var aspects = ["prosperity", "crime", "piety", "harmony"];
+          var out = [];
+          for (var i = 0; i < aspects.length; i++) {
+            var a = aspects[i];
+            var base = pick(DAILY_TEXT[a]);
+            var scaled = clampCommunityDelta((base.base || 0) * w[a]);
+            var side = base.side || {};
+            var effects = {
+              prosperity: 0,
+              crime: 0,
+              piety: 0,
+              harmony: 0,
+            };
+            effects[a] += scaled;
+            var keys = Object.keys(side);
+            for (var k = 0; k < keys.length; k++) {
+              var kk = keys[k];
+              if (typeof side[kk] === "number") effects[kk] += clampCommunityDelta(side[kk]);
+            }
+            out.push({ aspect: a, title: base.t, desc: base.d, effects: effects });
+          }
+          return out;
+        };
+
+        var applyCommunityEffects = function (effects) {
+          var c = state.community;
+          var keys = ["prosperity", "crime", "piety", "harmony"];
+          for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            var dv = effects && typeof effects[k] === "number" ? effects[k] : 0;
+            if (!dv) continue;
+            c[k] = clamp(c[k] + dv, 0, 100);
+          }
+        };
+
+        var EVENT_POOL = [
+          {
+            title: "国王的使者",
+            desc: "王室使者到来，要你为军需筹措。村人脸色发白。",
+            a: {
+              t: "征收粮税以从命",
+              tag: "authority",
+              s: {
+                txt: "你以权威压下反对，粮袋被一车车装走。秩序暂时维持。",
+                community: { crime: -1, prosperity: -1 },
+                priest: { authority: 0.35 },
+              },
+              f: {
+                txt: "怨声化作夜里的石头。有人趁乱偷窃，邻里互相猜疑。",
+                community: { crime: 2, harmony: -2 },
+                priest: { authority: -0.2 },
+              },
+            },
+            b: {
+              t: "以教会名义求缓",
+              tag: "purity",
+              s: {
+                txt: "使者暂缓征收。你以祈祷与誓言换得一日喘息。",
+                community: { piety: 2, harmony: 1 },
+                priest: { purity: 0.35 },
+              },
+              f: {
+                txt: "使者冷笑：教会也要给国王交账。你失了颜面，众人心里发凉。",
+                community: { prosperity: -1, harmony: -1, crime: 1 },
+                priest: { authority: -0.2 },
+              },
+            },
+          },
+          {
+            title: "战火的阴影",
+            desc: "远处传来征兵与掠夺的消息。恐惧在酒馆里蔓延。",
+            a: {
+              t: "组织守望与栅栏",
+              tag: "authority",
+              s: { txt: "守望有效。盗贼不敢靠近，夜里火把整齐如星。", community: { crime: -2, harmony: -1 }, priest: { authority: 0.25 } },
+              f: { txt: "守望变成争吵。有人拒绝出力，邻里关系裂开。", community: { harmony: -2, crime: 1 }, priest: { authority: -0.15 } },
+            },
+            b: {
+              t: "安抚并备粮",
+              tag: "empathy",
+              s: { txt: "你先安顿人心，再安排储粮。恐惧没消失，但没有失控。", community: { harmony: 2, prosperity: -1 }, priest: { authority: -0.1, purity: 0.1 } },
+              f: { txt: "谣言像霉菌。有人抢粮，有人夜逃。", community: { crime: 2, harmony: -1, prosperity: -1 }, priest: { authority: -0.1 } },
+            },
+          },
+          {
+            title: "女巫的传言",
+            desc: "有人指认‘女巫’在井边咒人，孩子哭声不断。",
+            a: {
+              t: "严厉禁绝迷信",
+              tag: "purity",
+              s: { txt: "你以经文击碎流言。人们羞愧地收起符咒。", community: { piety: 2, harmony: 1 }, priest: { purity: 0.3 } },
+              f: { txt: "你越严厉，越有人暗地里更信。无辜者被拖上石阶。", community: { harmony: -2, crime: 1, piety: 1 }, priest: { authority: 0.15 } },
+            },
+            b: {
+              t: "私下劝导与调查",
+              tag: "empathy",
+              s: { txt: "你找到误会的源头，把人拉回理性。井边恢复安静。", community: { harmony: 2, crime: -1 }, priest: { authority: -0.1, purity: 0.1 } },
+              f: { txt: "你拖延了。愤怒先一步点燃，街角起了斗殴。", community: { crime: 2, harmony: -1 }, priest: { authority: -0.1 } },
+            },
+          },
+          {
+            title: "瘟疫的咳声",
+            desc: "几户人家发热咳嗽，市场骤冷。",
+            a: {
+              t: "隔离与祈祷",
+              tag: "purity",
+              s: { txt: "隔离及时，蔓延被压住。祈祷让人不至绝望。", community: { piety: 2, crime: -1, prosperity: -1 }, priest: { purity: 0.35 } },
+              f: { txt: "隔离来得太迟。恐惧让人互相躲避，市场凋零。", community: { prosperity: -2, harmony: -1, crime: 1 }, priest: { purity: -0.1 } },
+            },
+            b: {
+              t: "开仓济贫",
+              tag: "worldliness",
+              s: { txt: "你让饥饿先停下。人们记得这一碗汤。", community: { harmony: 2, piety: 1, prosperity: -1 }, priest: { authority: -0.1, purity: 0.1 } },
+              f: { txt: "粮仓见底。次日便有人翻墙偷取，争抢起。", community: { crime: 2, harmony: -1, prosperity: -1 }, priest: { authority: -0.1 } },
+            },
+          },
+          {
+            title: "丰收的预兆",
+            desc: "雨水适时，麦穗沉甸。人心微暖。",
+            a: {
+              t: "举行感恩弥撒",
+              tag: "purity",
+              s: { txt: "钟声与烛火让人们想起敬畏。丰收被当作恩典。", community: { piety: 2, harmony: 1 }, priest: { purity: 0.25 } },
+              f: { txt: "有人说你借机邀名。庆典后，口舌四起。", community: { harmony: -1, crime: 1 }, priest: { authority: -0.1 } },
+            },
+            b: {
+              t: "组织修仓备冬",
+              tag: "worldliness",
+              s: { txt: "仓廪充足。冬天看起来不那么可怕。", community: { prosperity: 2, crime: -1 }, priest: { authority: 0.15 } },
+              f: { txt: "修仓耗费过多。有人抱怨你只会算账。", community: { prosperity: -1, harmony: -1 }, priest: { authority: 0.1 } },
+            },
+          },
+          {
+            title: "集市纠纷",
+            desc: "屠夫与面包师为摊位争吵，围观者越聚越多。",
+            a: {
+              t: "当众裁断",
+              tag: "authority",
+              profile: { good: 0.35, mid: 0.2, bad: 0.45 },
+              s: { txt: "你一句话落下，双方各退半步。", community: { harmony: 1, crime: -1 }, priest: { authority: 0.2 } },
+              m: { txt: "你裁断得含糊。争吵停了，但各自心里不服。", community: { harmony: -1 }, priest: { authority: 0.05 } },
+              f: { txt: "裁断引发偏袒之疑，围观者吵成一团。", community: { harmony: -2, crime: 1 }, priest: { authority: -0.15 } },
+            },
+            b: {
+              t: "私下调解",
+              tag: "empathy",
+              profile: { good: 0.45, mid: 0.35, bad: 0.2 },
+              s: { txt: "你让他们在门廊里谈到夜色。第二天，摊位照常开张。", community: { harmony: 2 }, priest: { authority: -0.1 } },
+              m: { txt: "你稳住了场面，但两家仍互相冷眼。", community: { harmony: 1 }, priest: { authority: -0.05 } },
+              f: { txt: "他们一转身又吵。谣言把你说成软弱。", community: { harmony: -1, crime: 1 }, priest: { authority: -0.15 } },
+            },
+          },
+          {
+            title: "夜盗圣器",
+            desc: "有人闯入小礼拜堂，试图偷走银质烛台。",
+            a: {
+              t: "追查并惩戒",
+              tag: "authority",
+              s: { txt: "你抓到惯偷。公开惩戒让其他人收敛。", community: { crime: -2, piety: 1 }, priest: { authority: 0.25 } },
+              f: { txt: "你抓错了人。冤屈让社区裂开。", community: { harmony: -2, crime: 1 }, priest: { authority: -0.2 } },
+            },
+            b: {
+              t: "以赎罪换回",
+              tag: "empathy",
+              s: { txt: "你用赎罪劳役换回烛台。盗贼的眼神低下去。", community: { harmony: 1, crime: -1 }, priest: { authority: -0.1, purity: 0.1 } },
+              f: { txt: "他们以为你软弱。次夜，偷盗更大胆。", community: { crime: 2, piety: -1 }, priest: { authority: -0.15 } },
+            },
+          },
+          {
+            title: "修道院账册",
+            desc: "修道院的账册出现缺口。有人说是管事贪墨。",
+            a: {
+              t: "彻查账册",
+              tag: "worldliness",
+              s: { txt: "你找出漏洞与偷手。钱追回一半，规矩立住。", community: { prosperity: 2, crime: -1 }, priest: { authority: 0.15 } },
+              f: { txt: "你得罪了人。夜里有人砸窗，报复来得很快。", community: { crime: 2, harmony: -1 }, priest: { authority: 0.15 } },
+            },
+            b: {
+              t: "先护住名声",
+              tag: "purity",
+              s: { txt: "你把风声压下，修道院免于羞辱。", community: { harmony: 1, piety: 1 }, priest: { purity: 0.2 } },
+              f: { txt: "名声保住了，窟窿没补。缺口拖成更大的洞。", community: { prosperity: -2, crime: 1 }, priest: { purity: -0.1 } },
+            },
+          },
+          {
+            title: "异乡商队",
+            desc: "一支来自北方的商队请求在此过夜，带来盐与布。",
+            a: {
+              t: "开放并收取规费",
+              tag: "worldliness",
+              profile: { good: 0.3, mid: 0.45, bad: 0.25 },
+              s: { txt: "商队带来热闹。盐价下降，集市更兴旺。", community: { prosperity: 2, harmony: 1 }, priest: { authority: 0.1 } },
+              m: { txt: "商队只短暂停留。你收了规费，但并未改变太多。", community: { prosperity: 1 }, priest: { authority: 0.05 } },
+              f: { txt: "商队里混入骗子。有人被骗光铜币。", community: { crime: 2, harmony: -1 }, priest: { authority: -0.1 } },
+            },
+            b: {
+              t: "拒之门外",
+              tag: "authority",
+              profile: { good: 0.5, mid: 0.15, bad: 0.35 },
+              s: { txt: "你守住了秩序，也守住了警惕。", community: { crime: -1 }, priest: { authority: 0.2 } },
+              m: { txt: "商队离开。你避免了风险，也错过了热闹。", community: { prosperity: -1 }, priest: { authority: 0.1 } },
+              f: { txt: "拒绝激怒了商队。次日，他们在路口散布坏话，生意冷了。", community: { prosperity: -2, harmony: -1 }, priest: { authority: 0.1 } },
+            },
+          },
+          {
+            title: "教区学童",
+            desc: "几个孩子想学字，但父母担心他们忘了犁地。",
+            a: {
+              t: "设立夜学",
+              tag: "empathy",
+              profile: { good: 0.25, mid: 0.55, bad: 0.2 },
+              s: { txt: "夜学开始。孩子眼里多了光。", community: { piety: 1, harmony: 2 }, priest: { authority: -0.1, purity: 0.1 } },
+              m: { txt: "夜学开了几次便稀疏。孩子学到一点，却难以坚持。", community: { harmony: 1 }, priest: { authority: -0.05 } },
+              f: { txt: "夜学被嘲笑为无用。孩子被逼回田里。", community: { harmony: -1, piety: -1 }, priest: { authority: -0.1 } },
+            },
+            b: {
+              t: "先训诫父母",
+              tag: "authority",
+              profile: { good: 0.3, mid: 0.2, bad: 0.5 },
+              s: { txt: "你让父母同意试一试。字母写在木板上。", community: { piety: 2 }, priest: { authority: 0.15 } },
+              m: { txt: "父母表面应声，背地里仍让孩子劳作。", community: { piety: 1, harmony: -1 }, priest: { authority: 0.05 } },
+              f: { txt: "你训诫得太硬。父母反而更抵触。", community: { harmony: -2 }, priest: { authority: 0.1 } },
+            },
+          },
+        ];
+
+        var getEventModifier = function (tag) {
+          var a = clamp(state.stats.authority, 0, 100) / 100;
+          var p = clamp(state.stats.purity, 0, 100) / 100;
+          var e = 1 - a;
+          var w = 1 - p;
+          var m = 0;
+          if (tag === "authority") m = (a - 0.5) * 0.28;
+          if (tag === "empathy") m = (e - 0.5) * 0.28;
+          if (tag === "purity") m = (p - 0.5) * 0.28;
+          if (tag === "worldliness") m = (w - 0.5) * 0.28;
+          var c = state.community;
+          m += ((c.harmony - 50) / 100) * 0.08;
+          m -= ((c.crime - 50) / 100) * 0.08;
+          return clamp(m, -0.22, 0.22);
+        };
+
+        var normalizeEventProfile = function (p) {
+          var out = {
+            good: p && typeof p.good === "number" ? p.good : 0.4,
+            mid: p && typeof p.mid === "number" ? p.mid : 0,
+            bad: p && typeof p.bad === "number" ? p.bad : 0.6,
+          };
+          out.good = clamp(out.good, 0, 1);
+          out.mid = clamp(out.mid, 0, 1);
+          out.bad = clamp(out.bad, 0, 1);
+          var s = out.good + out.mid + out.bad;
+          if (s <= 0) return { good: 0.4, mid: 0, bad: 0.6 };
+          out.good /= s;
+          out.mid /= s;
+          out.bad /= s;
+          return out;
+        };
+
+        var getChoiceOutcome = function (choice, k) {
+          if (!choice) return null;
+          if (k === "good") return choice.good || choice.s || null;
+          if (k === "mid") return choice.mid || choice.m || null;
+          return choice.bad || choice.f || null;
+        };
+
+        var computeEventProfile = function (choice) {
+          var base = normalizeEventProfile(choice && choice.profile ? choice.profile : null);
+          if (!getChoiceOutcome(choice, "mid")) base.mid = 0;
+          var s0 = base.good + base.mid + base.bad;
+          if (s0 <= 0) base = { good: 0.4, mid: 0, bad: 0.6 };
+
+          var m = getEventModifier(choice && choice.tag ? choice.tag : "");
+          base.good = clamp(base.good + m, 0.05, 0.9);
+          base.bad = clamp(base.bad - m, 0.05, 0.9);
+          base.mid = clamp(base.mid, 0, 0.8);
+
+          var s = base.good + base.mid + base.bad;
+          base.good /= s;
+          base.mid /= s;
+          base.bad /= s;
+          return base;
+        };
+
+        var rollEventOutcome = function (profile) {
+          var r = Math.random();
+          if (r < profile.good) return "good";
+          if (r < profile.good + profile.mid) return "mid";
+          return "bad";
+        };
+
+        var fmtPct = function (x) {
+          return Math.round(clamp(x, 0, 1) * 100) + "%";
+        };
+
+        var MONK_MISSIONS = [
+          {
+            id: "night_patrol",
+            title: "巡夜与守望",
+            desc: "沿巷口点火把，组织两班巡夜，压住盗心。",
+            tag: "authority",
+            duration: [2, 4],
+            profile: { good: 0.35, mid: 0.25, bad: 0.4 },
+            good: { txt: "巡夜成效显著。惯偷避开，夜里安静了。", community: { crime: -3, harmony: -1 } },
+            mid: { txt: "巡夜让人安心，但也让人紧张。", community: { crime: -1, harmony: -1 } },
+            bad: { txt: "巡夜引发冲突。有人拒绝出力，反而更乱。", community: { crime: 2, harmony: -2 } },
+          },
+          {
+            id: "alms",
+            title: "施粥与探访",
+            desc: "带着面包与汤，探访病弱与贫者，安抚人心。",
+            tag: "empathy",
+            duration: [2, 4],
+            profile: { good: 0.45, mid: 0.35, bad: 0.2 },
+            good: { txt: "施粥像火一样温暖。争吵少了，偷窃也收敛。", community: { harmony: 3, crime: -1, piety: 1, prosperity: -1 } },
+            mid: { txt: "许多人得到帮助，但粮仓也薄了一些。", community: { harmony: 2, prosperity: -1 } },
+            bad: { txt: "有人趁施粥混乱抢夺。好意引来恶意。", community: { crime: 2, harmony: -1, prosperity: -1 } },
+          },
+          {
+            id: "chapel",
+            title: "修缮礼拜堂",
+            desc: "抹灰补缝，整饬烛台与圣坛，让祷告更体面。",
+            tag: "purity",
+            duration: [2, 4],
+            profile: { good: 0.3, mid: 0.45, bad: 0.25 },
+            good: { txt: "礼拜堂焕然一新。人们更愿意来祈祷。", community: { piety: 3, harmony: 1, prosperity: -1 } },
+            mid: { txt: "修缮有所成，但也消耗了不少工时。", community: { piety: 2, prosperity: -1 } },
+            bad: { txt: "修缮中出事故。有人受伤，怨气升起。", community: { harmony: -2, piety: 1, prosperity: -1 } },
+          },
+          {
+            id: "market",
+            title: "调停集市与贸易",
+            desc: "与商贩谈判，定规费与摊位，换来盐与布的流动。",
+            tag: "worldliness",
+            duration: [2, 4],
+            profile: { good: 0.3, mid: 0.45, bad: 0.25 },
+            good: { txt: "商贩愿意停留。银币转起来了。", community: { prosperity: 3, harmony: 1, crime: -1 } },
+            mid: { txt: "交易稍有起色，但并不稳定。", community: { prosperity: 2 } },
+            bad: { txt: "被骗或被敲诈。商队带来坏名声。", community: { crime: 2, prosperity: -1, harmony: -1 } },
+          },
+        ];
+
+        var getMonkById = function (id) {
+          for (var i = 0; i < state.monks.length; i++) {
+            if (state.monks[i].id === id) return state.monks[i];
+          }
+          return null;
+        };
+
+        var getMissionById = function (id) {
+          for (var i = 0; i < MONK_MISSIONS.length; i++) {
+            if (MONK_MISSIONS[i].id === id) return MONK_MISSIONS[i];
+          }
+          return null;
+        };
+
+        var clampMonkDelta = function (v) {
+          return clamp(Math.round(v), -4, 4);
+        };
+
+        var applyMissionEffects = function (effects) {
+          var out = { prosperity: 0, crime: 0, piety: 0, harmony: 0 };
+          var keys = ["prosperity", "crime", "piety", "harmony"];
+          for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            var dv = effects && typeof effects[k] === "number" ? effects[k] : 0;
+            out[k] = clampMonkDelta(dv);
+          }
+          applyCommunityEffects(out);
+          return out;
+        };
+
+        var computeMonkMissionProfile = function (monk, mission) {
+          var base = normalizeEventProfile(mission && mission.profile ? mission.profile : { good: 0.4, mid: 0.2, bad: 0.4 });
+          var m = getEventModifier(mission && mission.tag ? mission.tag : "");
+
+          var b = monk && monk.bias ? monk.bias : {};
+          var tag = mission && mission.tag ? mission.tag : "";
+          var bm = 0;
+          if (tag === "authority") bm = typeof b.authority === "number" ? b.authority : 0;
+          if (tag === "empathy") bm = typeof b.empathy === "number" ? b.empathy : 0;
+          if (tag === "purity") bm = typeof b.purity === "number" ? b.purity : 0;
+          if (tag === "worldliness") bm = typeof b.worldliness === "number" ? b.worldliness : 0;
+          bm = clamp(bm, -0.35, 0.35);
+
+          base.good = clamp(base.good + m + bm, 0.05, 0.9);
+          base.bad = clamp(base.bad - m - bm, 0.05, 0.9);
+          base.mid = clamp(base.mid, 0, 0.8);
+
+          var s = base.good + base.mid + base.bad;
+          base.good /= s;
+          base.mid /= s;
+          base.bad /= s;
+          return base;
+        };
+
+        var dispatchMonk = function (monkId, missionId) {
+          if (state.dayFlow.sentMonkForDay) return { ok: false, msg: "今日已派遣过修士。" };
+          var monk = getMonkById(monkId);
+          if (!monk) return { ok: false, msg: "修士不存在。" };
+          if (monk.mission) return { ok: false, msg: "该修士正在外出。" };
+          var mission = getMissionById(missionId);
+          if (!mission) return { ok: false, msg: "任务不存在。" };
+          var d0 = mission.duration && mission.duration[0] ? mission.duration[0] : 2;
+          var d1 = mission.duration && mission.duration[1] ? mission.duration[1] : 4;
+          var dur = Math.floor(d0 + Math.random() * (d1 - d0 + 1));
+          monk.mission = { missionId: mission.id, startDay: state.day, returnDay: state.day + dur };
+          state.dayFlow.sentMonkForDay = true;
+          appendLog("系统", "你派遣了" + monk.name + "去执行：" + mission.title + "。预计第 " + monk.mission.returnDay + " 天归来。", true);
+          saveGame();
+          return { ok: true, msg: "已派遣。预计第 " + monk.mission.returnDay + " 天归来。" };
+        };
+
+        var resolveMonkReturnsForDay = function () {
+          var reports = [];
+          for (var i = 0; i < state.monks.length; i++) {
+            var monk = state.monks[i];
+            if (!monk.mission) continue;
+            if (monk.mission.returnDay !== state.day) continue;
+            var mission = getMissionById(monk.mission.missionId);
+            var profile = computeMonkMissionProfile(monk, mission);
+            var k = rollEventOutcome(profile);
+            var out = mission ? getChoiceOutcome(mission, k) : null;
+            if (!out) {
+              k = "mid";
+              out = mission ? getChoiceOutcome(mission, "mid") : null;
+            }
+            if (!out) {
+              k = "bad";
+              out = mission ? getChoiceOutcome(mission, "bad") : null;
+            }
+            var applied = applyMissionEffects(out && out.community ? out.community : {});
+            var tag = k === "good" ? "善" : k === "mid" ? "平" : "坏";
+            var line =
+              "（概率：善 " + fmtPct(profile.good) + " / 平 " + fmtPct(profile.mid) + " / 坏 " + fmtPct(profile.bad) + "）";
+            reports.push({
+              monkId: monk.id,
+              monkName: monk.name,
+              monkVibe: monk.vibe,
+              missionTitle: mission ? mission.title : "外出",
+              outcome: tag,
+              text: (out && out.txt ? out.txt : "他归来时神色难辨。") + "\n" + line,
+              effects: applied,
+            });
+            appendLog("系统", monk.name + "归来，任务“" + (mission ? mission.title : "外出") + "”结果：" + tag + "。", true);
+            monk.lastReport = reports[reports.length - 1];
+            monk.mission = null;
+          }
+          return reports;
+        };
+
+        var maybeStartEvent = function () {
+          if (Math.random() > 0.65) return false;
+          state.dayFlow.pendingEvent = pick(EVENT_POOL);
+          return true;
+        };
+
+        var openDayOverlay = function () {
+          var opts = state.dayFlow.pendingOptions;
+          if (!opts) {
+            opts = buildDayOptions();
+            state.dayFlow.pendingOptions = opts;
+          }
+          $("dayTitle").textContent = "第 " + state.day + " 天 · 社区议程";
+          $("dayDesc").textContent = "你每天只能推动一件事。其余的，留给时间与人心。";
+
+          var monkSelect = $("monkSelect");
+          var missionSelect = $("monkMissionSelect");
+          var hint = $("monkDispatchHint");
+          var status = $("monkDispatchStatus");
+          var btnDispatch = $("btnDispatchMonk");
+          var btnSkip = $("btnSkipDispatch");
+
+          var idle = [];
+          for (var mi = 0; mi < state.monks.length; mi++) {
+            if (!state.monks[mi].mission) idle.push(state.monks[mi]);
+          }
+
+          monkSelect.innerHTML = "";
+          for (var ii = 0; ii < idle.length; ii++) {
+            var o = document.createElement("option");
+            o.value = idle[ii].id;
+            o.textContent = idle[ii].name + "（" + idle[ii].vibe + "）";
+            monkSelect.appendChild(o);
+          }
+          if (idle.length === 0) {
+            var o0 = document.createElement("option");
+            o0.value = "";
+            o0.textContent = "暂无空闲修士";
+            monkSelect.appendChild(o0);
+          }
+
+          missionSelect.innerHTML = "";
+          for (var mm = 0; mm < MONK_MISSIONS.length; mm++) {
+            var mo = document.createElement("option");
+            mo.value = MONK_MISSIONS[mm].id;
+            mo.textContent = MONK_MISSIONS[mm].title;
+            missionSelect.appendChild(mo);
+          }
+
+          var canSend = !state.dayFlow.sentMonkForDay && idle.length > 0;
+          hint.textContent = state.dayFlow.sentMonkForDay ? "今日已派遣" : "每天仅一人";
+          status.textContent = state.dayFlow.sentMonkForDay ? "你已在今日派遣了一名修士。" : "";
+          monkSelect.disabled = !canSend;
+          missionSelect.disabled = !canSend;
+          btnDispatch.disabled = !canSend;
+          btnSkip.disabled = state.dayFlow.sentMonkForDay;
+
+          btnDispatch.onclick = function () {
+            var mid = String(monkSelect.value || "");
+            var msid = String(missionSelect.value || "");
+            var r = dispatchMonk(mid, msid);
+            status.textContent = r.msg;
+            openDayOverlay();
+          };
+          btnSkip.onclick = function () {
+            state.dayFlow.sentMonkForDay = true;
+            status.textContent = "你选择今日不派遣修士。";
+            saveGame();
+            openDayOverlay();
+          };
+
+          var box = $("dayOptions");
+          box.innerHTML = "";
+          var labels = { prosperity: "繁荣度", crime: "犯罪率", piety: "虔诚度", harmony: "和谐度" };
+          var fmt = function (n) {
+            if (!n) return "0";
+            return (n > 0 ? "+" : "") + String(n);
+          };
+          for (var i = 0; i < opts.length; i++) {
+            (function (opt) {
+              var btn = document.createElement("button");
+              btn.className = "opt";
+              var eff = opt.effects || {};
+              var line =
+                labels.prosperity + fmt(eff.prosperity) + " · " +
+                labels.crime + fmt(eff.crime) + " · " +
+                labels.piety + fmt(eff.piety) + " · " +
+                labels.harmony + fmt(eff.harmony);
+              btn.innerHTML =
+                '<div class="top"><div class="t">' +
+                escapeHtml("【" + labels[opt.aspect] + "】" + opt.title) +
+                '</div></div><div class="meta"><span>' +
+                escapeHtml(opt.desc) +
+                '</span><span class="tag">' +
+                escapeHtml(line) +
+                "</span></div>";
+              btn.addEventListener("click", function () {
+                closeOverlay(overlayDay);
+                applyCommunityEffects(opt.effects);
+                appendLog("系统", "社区议程已决：" + opt.title + "。", true);
+                if (maybeStartEvent()) {
+                  openEventOverlay();
+                } else {
+                  finalizeDay();
+                }
+                saveGame();
+                updateStatsUI();
+              });
+              box.appendChild(btn);
+            })(opts[i]);
+          }
+          openOverlay(overlayDay);
+        };
+
+        var openEventOverlay = function () {
+          var ev = state.dayFlow.pendingEvent;
+          if (!ev) {
+            finalizeDay();
+            return;
+          }
+          $("eventTitle").textContent = ev.title;
+          $("eventDesc").textContent = ev.desc;
+          $("eventResultRow").style.display = "none";
+          var box = $("eventOptions");
+          box.innerHTML = "";
+          var mk = function (choice, label) {
+            var btn = document.createElement("button");
+            btn.className = "opt";
+            btn.innerHTML = '<div class="top"><div class="t">' + escapeHtml(choice.t) + "</div></div>";
+            btn.addEventListener("click", function () {
+              var profile = computeEventProfile(choice);
+              var k = rollEventOutcome(profile);
+              var out = getChoiceOutcome(choice, k);
+              if (!out) {
+                k = "bad";
+                out = getChoiceOutcome(choice, "bad");
+              }
+              applyCommunityEffects(out && out.community ? out.community : {});
+              if (out && out.priest) applyPriestDelta(out.priest);
+              var tag = k === "good" ? "（善）" : k === "mid" ? "（平）" : "（坏）";
+              appendLog("系统", "随机事件：" + ev.title + "。你选择：" + choice.t + tag + "。", true);
+              $("eventDesc").textContent =
+                (out && out.txt ? out.txt : "结果难以言说。") +
+                "\n\n（概率：善 " +
+                fmtPct(profile.good) +
+                " / 平 " +
+                fmtPct(profile.mid) +
+                " / 坏 " +
+                fmtPct(profile.bad) +
+                "）";
+              box.innerHTML = "";
+              $("eventResultRow").style.display = "flex";
+              state.dayFlow.pendingEvent = null;
+              saveGame();
+              updateStatsUI();
+            });
+            return btn;
+          };
+          box.appendChild(mk(ev.a, "A"));
+          box.appendChild(mk(ev.b, "B"));
+          openOverlay(overlayEvent);
+        };
+
+        var checkEnding = function () {
+          var c = state.community;
+          var day = state.day;
+          var atEnd = day >= 30;
+          if (!atEnd) return null;
+          var hi = function (v) {
+            return v >= 80;
+          };
+          var lo = function (v) {
+            return v <= 20;
+          };
+
+          if (hi(c.piety) && hi(c.harmony) && hi(c.prosperity) && lo(c.crime)) {
+            return {
+              title: "圣神父",
+              desc:
+                "你的教区像被擦亮的烛台：富足、安宁、敬虔与和睦一同上升。\n" +
+                "人们记得你，不是因为你逼迫过谁，而是因为你让秩序与慈悲并行。",
+            };
+          }
+          if (lo(c.piety) && lo(c.harmony) && lo(c.prosperity) && hi(c.crime)) {
+            return {
+              title: "摆烂神父",
+              desc:
+                "你把日子交给了风。穷困与盗窃像野草一样蔓延，祈祷也变得稀薄。\n" +
+                "人们仍活着，但不再相信会更好。",
+            };
+          }
+          if (lo(c.harmony)) {
+            return { title: "破碎教区", desc: "你做了许多事，却没能把人们重新拉到一张桌前。\n争吵与猜忌把社区撕成碎布。" };
+          }
+          if (hi(c.prosperity) && lo(c.piety)) {
+            return { title: "俗世管家", desc: "银币与粮仓充盈，祷告却变得敷衍。\n你擅长治理，却不再被敬畏。" };
+          }
+          if (lo(c.crime) && lo(c.harmony)) {
+            return { title: "铁腕执事", desc: "盗贼收敛，街巷安静。\n但安静里也有恐惧，人们学会了沉默。" };
+          }
+          return {
+            title: "平凡神父",
+            desc:
+              "你没有把世界变成传说，却也没让它坠入深渊。\n" +
+              "霍格文思区在你的守望下，带着伤口继续前行。",
+          };
+        };
+
+        var finalizeDay = function () {
+          state.dayFlow.pendingOptions = null;
+          state.dayFlow.pendingEvent = null;
+          var ending = checkEnding();
+          if (ending) {
+            $("endingTitle").textContent = ending.title;
+            $("endingDesc").textContent = ending.desc;
+            openOverlay(overlayEnding);
+            saveGame();
+            return;
+          }
+          state.day += 1;
+          state.dayFlow.done = true;
+
+          state.dayFlow.sentMonkForDay = false;
+          var reports = resolveMonkReturnsForDay();
+          if (reports && reports.length) {
+            state.dayFlow.pendingMonkReports = reports;
+            openMonkReportOverlay();
+            saveGame();
+            updateStatsUI();
+            return;
+          }
+
+          startSession(state.session.believerIndex + 1);
+          saveGame();
+          renderCurrentNode();
+          updateStatsUI();
+        };
+
+        var openMonkReportOverlay = function () {
+          var list = state.dayFlow.pendingMonkReports;
+          if (!list || !list.length) return;
+          $("monkReportTitle").textContent = "第 " + state.day + " 天 · 修士归来";
+          $("monkReportDesc").textContent = "他们带回消息，也带回后果。";
+          var box = $("monkReportList");
+          box.innerHTML = "";
+          var fmt = function (n) {
+            if (!n) return "0";
+            return (n > 0 ? "+" : "") + String(n);
+          };
+          for (var i = 0; i < list.length; i++) {
+            var r = list[i];
+            var eff = r.effects || {};
+            var line =
+              "繁荣" + fmt(eff.prosperity) + " · 犯罪" + fmt(eff.crime) + " · 虔诚" + fmt(eff.piety) + " · 和谐" + fmt(eff.harmony);
+            var btn = document.createElement("button");
+            btn.className = "opt";
+            btn.innerHTML =
+              '<div class="top"><div class="t">' +
+              escapeHtml(r.monkName + " · " + r.missionTitle + "（" + r.outcome + "）") +
+              '</div></div><div class="meta"><span>' +
+              escapeHtml(r.text) +
+              '</span><span class="tag">' +
+              escapeHtml(line) +
+              "</span></div>";
+            box.appendChild(btn);
+          }
+          openOverlay(overlayMonkReport);
+        };
+
+        var settleSession = function () {
+          var b = currentBeliever();
+          var forgiven = state.session.correct >= 2 && state.session.sessionEnergy >= 18;
+          var gainedEnergy = clamp(state.session.sessionEnergy, -50, 80);
+          state.stats.energy = clamp(state.stats.energy + gainedEnergy, 0, 9999);
+          var gainedXp = forgiven ? 30 : 10;
+          state.stats.xp += gainedXp;
+          while (state.stats.xp >= state.stats.level * 100) {
+            state.stats.xp -= state.stats.level * 100;
+            state.stats.level += 1;
+          }
+          appendLog(
+            "系统",
+            "回合结算：" + (forgiven ? "你给予了清晰的指引，信众获得宽恕。" : "你仍在学习如何安放他人的重量。"),
+            true
+          );
+
+          applyPriestDelta(
+            forgiven
+              ? { authority: 0.18, purity: 0.35 }
+              : { authority: -0.12, purity: -0.12 }
+          );
+
+          saveGame();
+          var title = forgiven ? "宽恕达成" : "宽恕未竟";
+          var fmt = function (v) {
+            var n = Math.round(v * 10) / 10;
+            return (n >= 0 ? "+" : "") + String(n);
+          };
+          var desc =
+            "来访者：" +
+            b.name +
+            "（" +
+            (SIN_LABEL[state.session.sinType] || state.session.sinType) +
+            "）" +
+            "\n" +
+            "本回合能量：" +
+            state.session.sessionEnergy +
+            "\n" +
+            "正确引导：" +
+            state.session.correct +
+            "\n" +
+            "获得经验：+" +
+            gainedXp +
+            "\n" +
+            "威严：" +
+            fmt(state.session.priestDelta.authority || 0) +
+            " → " +
+            Math.round(state.stats.authority) +
+            "\n" +
+            "人心：" +
+            fmt(state.session.priestDelta.empathy || 0) +
+            " → " +
+            Math.round(state.stats.empathy) +
+            "\n" +
+            "圣洁：" +
+            fmt(state.session.priestDelta.purity || 0) +
+            " → " +
+            Math.round(state.stats.purity) +
+            "\n" +
+            "世俗：" +
+            fmt(state.session.priestDelta.worldliness || 0) +
+            " → " +
+            Math.round(state.stats.worldliness) +
+            "\n" +
+            "总能量：" +
+            state.stats.energy +
+            " · 等级：" +
+            state.stats.level;
+          $("resultTitle").textContent = title;
+          $("resultDesc").textContent = desc;
+          overlayResult.classList.add("show");
+        };
+
+        var chooseOption = function (optIndex) {
+          if (state.typing.active) {
+            finishTyping();
+            renderOptions();
+            return;
+          }
+          var node = getNode();
+          if (!node) return;
+          var options = Array.isArray(node.options) ? node.options : [];
+          if (optIndex < 0 || optIndex >= options.length) return;
+          var opt = options[optIndex];
+          var priestLine = opt.text;
+          appendLog("神父", priestLine, false);
+          if (opt.isCorrect) state.session.correct += 1;
+          state.session.sessionEnergy += opt.forgivenessEnergyReward || 0;
+          applyPriestDelta(computePriestDeltaFromOption(opt));
+          saveGame();
+          updateStatsUI();
+          var nextId = opt.nextDialogueId || node.nextNodeId || "";
+          if (!nextId) {
+            settleSession();
+            return;
+          }
+          goToNode(nextId);
+        };
+
+        var continueLine = function () {
+          var node = getNode();
+          if (!node) return;
+          if (state.typing.active) {
+            finishTyping();
+            renderOptions();
+            return;
+          }
+          var options = Array.isArray(node.options) ? node.options : [];
+          if (options.length > 0) return;
+          var nextId = node.nextNodeId || "";
+          if (!nextId) {
+            settleSession();
+            return;
+          }
+          goToNode(nextId);
+        };
+
+        var openOverlay = function (el) {
+          el.classList.add("show");
+        };
+
+        var closeOverlay = function (el) {
+          el.classList.remove("show");
+        };
+
+        var openDeepSeekEmbed = function () {
+          try {
+            deepseekFrame.src = getDeepSeekWebUrl();
+          } catch (e) {
+          }
+          openOverlay(overlayWebChat);
+        };
+
+        var applySettingsToUI = function () {
+          $("rngSpeed").value = String(state.settings.textSpeed);
+          $("speedLabel").textContent = state.settings.textSpeed + " 字/秒";
+          $("rngVol").value = String(state.settings.volume);
+          $("volLabel").textContent = state.settings.volume + "%";
+
+          var provider = String(safeGetItem(LLM_PROVIDER_STORAGE) || state.settings.llmProvider || "local_deepseek");
+          $("llmProvider").value = provider;
+
+          var openaiM = String(safeGetItem(OPENAI_MODEL_STORAGE) || state.settings.openaiModel || "gpt-4o-mini");
+          $("openaiModel").value = openaiM;
+          var k = safeGetItem(OPENAI_KEY_STORAGE);
+          $("openaiKey").value = k ? String(k) : "";
+
+          var dk = safeGetItem(DEEPSEEK_API_KEY_STORAGE);
+          $("deepseekKey").value = dk ? String(dk) : "";
+          var dm = String(safeGetItem(DEEPSEEK_API_MODEL_STORAGE) || state.settings.deepseekApiModel || "deepseek-chat");
+          $("deepseekModel").value = dm;
+
+          var lu = String(safeGetItem(LOCAL_LLM_URL_STORAGE) || state.settings.localLlmUrl || "http://localhost:11435");
+          $("localUrl").value = lu;
+          var lm = String(safeGetItem(LOCAL_LLM_MODEL_STORAGE) || state.settings.localLlmModel || "deepseek");
+          $("localModel").value = lm;
+
+          var wu = String(safeGetItem(DEEPSEEK_WEB_URL_STORAGE) || state.settings.deepseekWebUrl || "https://chat.deepseek.com/");
+          $("webUrl").value = wu;
+
+          var isLocal = provider === "local_deepseek";
+          var isWeb = provider === "deepseek_web";
+          $("openaiBox").style.display = provider === "openai" ? "block" : "none";
+          $("deepseekApiBox").style.display = provider === "deepseek_api" ? "block" : "none";
+          $("localBox").style.display = isLocal ? "block" : "none";
+          $("webBox").style.display = isWeb ? "block" : "none";
+        };
+
+        var updateSettingsFromUI = function () {
+          state.settings.textSpeed = clamp(parseInt($("rngSpeed").value, 10) || 30, 10, 80);
+          state.settings.volume = clamp(parseInt($("rngVol").value, 10) || 60, 0, 100);
+
+          var provider = String($("llmProvider").value || "local_deepseek");
+          state.settings.llmProvider = provider;
+          safeSetItem(LLM_PROVIDER_STORAGE, provider);
+
+          var openaiModel = String($("openaiModel").value || "").trim() || "gpt-4o-mini";
+          state.settings.openaiModel = openaiModel;
+          safeSetItem(OPENAI_MODEL_STORAGE, openaiModel);
+
+          var key = String($("openaiKey").value || "").trim();
+          if (key) safeSetItem(OPENAI_KEY_STORAGE, key);
+
+          var dkey = String($("deepseekKey").value || "").trim();
+          if (dkey) safeSetItem(DEEPSEEK_API_KEY_STORAGE, dkey);
+          var dmodel = String($("deepseekModel").value || "").trim() || "deepseek-chat";
+          state.settings.deepseekApiModel = dmodel;
+          safeSetItem(DEEPSEEK_API_MODEL_STORAGE, dmodel);
+
+          var lu = String($("localUrl").value || "").trim() || "http://localhost:11435";
+          state.settings.localLlmUrl = lu;
+          safeSetItem(LOCAL_LLM_URL_STORAGE, lu);
+
+          var lm = String($("localModel").value || "").trim() || "deepseek";
+          state.settings.localLlmModel = lm;
+          safeSetItem(LOCAL_LLM_MODEL_STORAGE, lm);
+
+          var wu = String($("webUrl").value || "").trim() || "https://chat.deepseek.com/";
+          state.settings.deepseekWebUrl = wu;
+          safeSetItem(DEEPSEEK_WEB_URL_STORAGE, wu);
+
+          applySettingsToUI();
+          saveGame();
+          renderConfessional();
+        };
+
+        var tryToggleFullscreen = function () {
+          var doc = document;
+          var el = document.documentElement;
+          if (!doc.fullscreenElement) {
+            if (el.requestFullscreen) el.requestFullscreen();
+            return;
+          }
+          if (doc.exitFullscreen) doc.exitFullscreen();
+        };
+
+        $("btnNew").addEventListener("click", function () {
+          startNewGame();
+        });
+        $("btnContinue").addEventListener("click", function () {
+          continueGame();
+        });
+        $("btnConfessional").addEventListener("click", function () {
+          loadConfessionalHistory();
+          setView("confessional");
+        });
+        $("btnHow").addEventListener("click", function () {
+          var box = $("howBox");
+          box.style.display = box.style.display === "none" ? "block" : "none";
+        });
+        $("btnQuit").addEventListener("click", function () {
+          window.close();
+          setTimeout(function () {
+            alert("浏览器可能阻止了关闭窗口。你可以直接关闭标签页/窗口。");
+          }, 60);
+        });
+
+        btnHome.addEventListener("click", function () {
+          setView("start");
+        });
+
+        $("btnConfSettings").addEventListener("click", function () {
+          applySettingsToUI();
+          openOverlay(overlaySettings);
+        });
+        $("btnConfClear").addEventListener("click", function () {
+          var ok = confirm("确定要清空忏悔室对话吗？");
+          if (!ok) return;
+          state.confessional.messages = [];
+          safeRemoveItem(CONF_HISTORY_KEY);
+          renderConfessional();
+        });
+        $("btnConfSend").addEventListener("click", function () {
+          sendConfessional();
+        });
+
+        $("btnConfOpenWeb").addEventListener("click", function () {
+          openDeepSeekEmbed();
+        });
+
+        $("btnConfCopyPrompt").addEventListener("click", function () {
+          var txt = "请严格遵守以下设定（系统指令）：\n" + systemPromptConfessional("deepseek_web");
+          copyText(txt).then(function (ok) {
+            $("confStatus").textContent = ok ? "已复制。打开网页版后直接粘贴即可。" : "复制失败：请手动选中复制。";
+            setTimeout(function () {
+              if (!state.confessional.busy) $("confStatus").textContent = "";
+            }, 1800);
+          });
+        });
+
+        $("btnWebClose").addEventListener("click", function () {
+          closeOverlay(overlayWebChat);
+        });
+        $("btnWebOpenExternal").addEventListener("click", function () {
+          try {
+            window.open(getDeepSeekWebUrl(), "_blank", "noopener,noreferrer");
+          } catch (e) {
+          }
+        });
+
+        $("btnEventContinue").addEventListener("click", function () {
+          closeOverlay(overlayEvent);
+          finalizeDay();
+        });
+        $("confInput").addEventListener("keydown", function (e) {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendConfessional();
+          }
+        });
+
+        btnSettings.addEventListener("click", function () {
+          applySettingsToUI();
+          openOverlay(overlaySettings);
+        });
+
+        $("btnCloseSettings").addEventListener("click", function () {
+          updateSettingsFromUI();
+          closeOverlay(overlaySettings);
+        });
+        $("rngSpeed").addEventListener("input", function () {
+          updateSettingsFromUI();
+        });
+        $("rngVol").addEventListener("input", function () {
+          updateSettingsFromUI();
+        });
+        $("llmProvider").addEventListener("change", function () {
+          updateSettingsFromUI();
+        });
+        $("openaiModel").addEventListener("input", function () {
+          updateSettingsFromUI();
+        });
+        $("openaiKey").addEventListener("input", function () {
+          updateSettingsFromUI();
+        });
+        $("localUrl").addEventListener("input", function () {
+          updateSettingsFromUI();
+        });
+        $("localModel").addEventListener("input", function () {
+          updateSettingsFromUI();
+        });
+        $("btnToggleFullscreen").addEventListener("click", function () {
+          tryToggleFullscreen();
+        });
+
+        $("btnPause").addEventListener("click", function () {
+          openOverlay(overlayPause);
+        });
+        $("btnResume").addEventListener("click", function () {
+          closeOverlay(overlayPause);
+        });
+        $("btnBackHome").addEventListener("click", function () {
+          closeOverlay(overlayPause);
+          setView("start");
+        });
+        $("btnExit").addEventListener("click", function () {
+          window.close();
+          setTimeout(function () {
+            alert("浏览器可能阻止了关闭窗口。你可以直接关闭标签页/窗口。");
+          }, 60);
+        });
+
+        $("btnLog").addEventListener("click", function () {
+          var html = "";
+          for (var i = 0; i < state.session.log.length; i++) {
+            var it = state.session.log[i];
+            var t = formatTime(it.t);
+            var s = it.system ? "系统" : it.speaker;
+            html += "<div style=\"margin-bottom:8px\"><span style=\"color:rgba(233,236,241,.55)\">[" +
+              escapeHtml(t) +
+              "]</span> <span style=\"color:rgba(214,179,106,.95)\">" +
+              escapeHtml(s) +
+              ":</span> " +
+              escapeHtml(it.text) +
+              "</div>";
+          }
+          $("logBody").innerHTML = html || "<div>暂无日志</div>";
+          openOverlay(overlayLog);
+        });
+        $("btnCloseLog").addEventListener("click", function () {
+          closeOverlay(overlayLog);
+        });
+
+        $("btnContinueLine").addEventListener("click", function () {
+          continueLine();
+        });
+        $("btnSkipTyping").addEventListener("click", function () {
+          finishTyping();
+          renderOptions();
+        });
+
+        $("btnReset").addEventListener("click", function () {
+          var ok = confirm("确定要重置存档吗？此操作不可撤销。\n\n如果你想重新体验开局，请选择确定。");
+          if (!ok) return;
+          resetSave();
+          startNewGame();
+        });
+
+        $("btnNextBeliever").addEventListener("click", function () {
+          closeOverlay(overlayResult);
+          openDayOverlay();
+        });
+        $("btnResultHome").addEventListener("click", function () {
+          closeOverlay(overlayResult);
+          setView("start");
+        });
+
+        $("btnEndingRestart").addEventListener("click", function () {
+          closeOverlay(overlayEnding);
+          resetSave();
+          startNewGame();
+        });
+        $("btnEndingHome").addEventListener("click", function () {
+          closeOverlay(overlayEnding);
+          setView("start");
+        });
+
+        $("btnMonkReportContinue").addEventListener("click", function () {
+          closeOverlay(overlayMonkReport);
+          state.dayFlow.pendingMonkReports = null;
+          startSession(state.session.believerIndex + 1);
+          saveGame();
+          renderCurrentNode();
+          updateStatsUI();
+        });
+
+        var handleKeyDown = function (e) {
+          if (e.key === "Escape") {
+            if (overlaySettings.classList.contains("show")) {
+              closeOverlay(overlaySettings);
+              return;
+            }
+            if (overlayDay.classList.contains("show")) {
+              return;
+            }
+            if (overlayEvent.classList.contains("show")) {
+              return;
+            }
+            if (overlayEnding.classList.contains("show")) {
+              return;
+            }
+            if (overlayMonkReport.classList.contains("show")) {
+              return;
+            }
+            if (overlayLog.classList.contains("show")) {
+              closeOverlay(overlayLog);
+              return;
+            }
+            if (overlayResult.classList.contains("show")) {
+              return;
+            }
+            if (state.view === "game") {
+              if (overlayPause.classList.contains("show")) closeOverlay(overlayPause);
+              else openOverlay(overlayPause);
+            }
+            return;
+          }
+          if (state.view !== "game") return;
+          if (overlayPause.classList.contains("show")) return;
+          if (overlaySettings.classList.contains("show")) return;
+          if (overlayDay.classList.contains("show")) return;
+          if (overlayEvent.classList.contains("show")) return;
+          if (overlayEnding.classList.contains("show")) return;
+          if (overlayLog.classList.contains("show")) return;
+          if (overlayResult.classList.contains("show")) return;
+          if (overlayMonkReport.classList.contains("show")) return;
+
+          if (e.key === " ") {
+            e.preventDefault();
+            continueLine();
+            return;
+          }
+
+          var n = parseInt(e.key, 10);
+          if (!isNaN(n) && n >= 1 && n <= 4) {
+            e.preventDefault();
+            chooseOption(n - 1);
+          }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        var heroCanvas = $("heroCanvas");
+        var heroCtx = heroCanvas.getContext("2d");
+
+        var stage = $("stage");
+        var stageCtx = stage.getContext("2d");
+
+        var confStage = $("confStage");
+        var confStageCtx = confStage.getContext("2d");
+
+        var resizeCanvasToCss = function (canvas, ctx) {
+          var dpr = window.devicePixelRatio || 1;
+          var rect = canvas.getBoundingClientRect();
+          var w = Math.max(1, Math.floor(rect.width * dpr));
+          var h = Math.max(1, Math.floor(rect.height * dpr));
+          if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
+          }
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        };
+
+        var drawStainedGlass = function (ctx, w, h, t, accent) {
+          var cx = w * 0.5;
+          var top = h * 0.1;
+          var gh = h * 0.62;
+          ctx.save();
+          ctx.translate(0, 0);
+          ctx.globalAlpha = 0.9;
+          ctx.fillStyle = "rgba(255,255,255,0.03)";
+          ctx.fillRect(0, 0, w, h);
+
+          var g = ctx.createLinearGradient(0, 0, 0, h);
+          g.addColorStop(0, "rgba(214,179,106,0.10)");
+          g.addColorStop(0.55, "rgba(120,170,255,0.05)");
+          g.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, w, h);
+
+          ctx.beginPath();
+          ctx.moveTo(cx - w * 0.16, top + gh);
+          ctx.lineTo(cx - w * 0.16, top + gh * 0.25);
+          ctx.quadraticCurveTo(cx - w * 0.16, top, cx, top);
+          ctx.quadraticCurveTo(cx + w * 0.16, top, cx + w * 0.16, top + gh * 0.25);
+          ctx.lineTo(cx + w * 0.16, top + gh);
+          ctx.closePath();
+          ctx.fillStyle = "rgba(233,236,241,0.04)";
+          ctx.fill();
+          ctx.strokeStyle = "rgba(233,236,241,0.10)";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          var flicker = 0.5 + 0.5 * Math.sin(t * 0.002);
+          var core = ctx.createRadialGradient(cx, top + gh * 0.55, 0, cx, top + gh * 0.55, gh * 0.65);
+          core.addColorStop(0, "rgba(214,179,106," + (0.14 + flicker * 0.08) + ")");
+          core.addColorStop(0.6, "rgba(214,179,106,0.02)");
+          core.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = core;
+          ctx.fillRect(0, 0, w, h);
+
+          for (var i = 0; i < 26; i++) {
+            var px = cx + (Math.sin(t * 0.001 + i) * 0.5 + 0.5) * w * 0.28 - w * 0.14;
+            var py = top + (Math.cos(t * 0.0013 + i * 1.7) * 0.5 + 0.5) * gh * 0.9;
+            var pr = 8 + (i % 5) * 4;
+            ctx.beginPath();
+            ctx.arc(px, py, pr, 0, Math.PI * 2);
+            ctx.fillStyle = accent;
+            ctx.globalAlpha = 0.03 + 0.02 * (i % 3);
+            ctx.fill();
+          }
+          ctx.restore();
+        };
+
+        var drawSilhouette = function (ctx, w, h, t, side, color, emphasis) {
+          var baseX = side === "left" ? w * 0.28 : w * 0.72;
+          var baseY = h * 0.86;
+          var bob = Math.sin(t * 0.002 + (side === "left" ? 0 : 1.2)) * 6;
+          var scale = 1 + (emphasis ? 0.02 : 0);
+          ctx.save();
+          ctx.translate(baseX, baseY + bob);
+          ctx.scale(scale, scale);
+
+          ctx.globalAlpha = emphasis ? 0.92 : 0.72;
+          var glow = ctx.createRadialGradient(0, -140, 0, 0, -140, 260);
+          glow.addColorStop(0, color);
+          glow.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = glow;
+          ctx.fillRect(-320, -520, 640, 900);
+
+          ctx.fillStyle = "rgba(0,0,0,0.30)";
+          ctx.beginPath();
+          ctx.ellipse(0, 8, 140, 22, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = "rgba(233,236,241," + (emphasis ? 0.10 : 0.07) + ")";
+          ctx.beginPath();
+          ctx.moveTo(-70, -20);
+          ctx.quadraticCurveTo(-30, -220, 0, -240);
+          ctx.quadraticCurveTo(30, -220, 70, -20);
+          ctx.quadraticCurveTo(90, 80, 0, 110);
+          ctx.quadraticCurveTo(-90, 80, -70, -20);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.strokeStyle = "rgba(233,236,241," + (emphasis ? 0.22 : 0.16) + ")";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          ctx.fillStyle = side === "left" ? "rgba(214,179,106,0.18)" : color;
+          ctx.globalAlpha = emphasis ? 0.28 : 0.18;
+          ctx.beginPath();
+          ctx.arc(0, -210, 26, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.restore();
+        };
+
+        var drawPriestPhilip = function (ctx, w, h, t, emphasis) {
+          var baseX = w * 0.28;
+          var baseY = h * 0.86;
+          var bob = Math.sin(t * 0.002) * 4;
+          var scale = 1 + (emphasis ? 0.02 : 0);
+          ctx.save();
+          ctx.translate(baseX, baseY + bob);
+          ctx.scale(scale, scale);
+
+          ctx.globalAlpha = emphasis ? 0.98 : 0.92;
+
+          ctx.fillStyle = "rgba(0,0,0,0.28)";
+          ctx.beginPath();
+          ctx.ellipse(0, 10, 150, 26, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          var glow = ctx.createRadialGradient(0, -160, 0, 0, -160, 320);
+          glow.addColorStop(0, "rgba(214,179,106," + (emphasis ? 0.22 : 0.14) + ")");
+          glow.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = glow;
+          ctx.fillRect(-360, -640, 720, 980);
+
+          ctx.fillStyle = "rgba(24,20,18,0.86)";
+          ctx.beginPath();
+          ctx.moveTo(-92, -30);
+          ctx.quadraticCurveTo(-70, -260, 0, -300);
+          ctx.quadraticCurveTo(70, -260, 92, -30);
+          ctx.quadraticCurveTo(110, 110, 0, 150);
+          ctx.quadraticCurveTo(-110, 110, -92, -30);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.fillStyle = "rgba(10,9,12,0.82)";
+          ctx.beginPath();
+          ctx.moveTo(-92, -30);
+          ctx.quadraticCurveTo(-36, -190, 0, -220);
+          ctx.quadraticCurveTo(36, -190, 92, -30);
+          ctx.quadraticCurveTo(60, -70, 0, -84);
+          ctx.quadraticCurveTo(-60, -70, -92, -30);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.fillStyle = "rgba(211,182,150,0.95)";
+          ctx.beginPath();
+          ctx.ellipse(0, -242, 34, 44, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = "rgba(70,56,42,0.92)";
+          ctx.beginPath();
+          ctx.ellipse(0, -260, 30, 26, 0, Math.PI * 0.05, Math.PI * 0.95);
+          ctx.fill();
+          ctx.fillStyle = "rgba(211,182,150,0.92)";
+          ctx.beginPath();
+          ctx.ellipse(0, -262, 18, 14, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = "rgba(30,22,18,0.55)";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(-14, -256);
+          ctx.quadraticCurveTo(-6, -262, 2, -258);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(14, -256);
+          ctx.quadraticCurveTo(6, -262, -2, -258);
+          ctx.stroke();
+
+          ctx.fillStyle = "rgba(20,16,14,0.78)";
+          ctx.beginPath();
+          ctx.ellipse(-12, -242, 4.5, 3.5, 0, 0, Math.PI * 2);
+          ctx.ellipse(12, -242, 4.5, 3.5, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = "rgba(92,70,54,0.65)";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(0, -236);
+          ctx.quadraticCurveTo(-3, -224, 0, -216);
+          ctx.stroke();
+
+          ctx.strokeStyle = "rgba(92,70,54,0.62)";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(-10, -206);
+          ctx.quadraticCurveTo(0, -200, 10, -206);
+          ctx.stroke();
+
+          ctx.fillStyle = "rgba(214,179,106,0.85)";
+          ctx.fillRect(-3, -120, 6, 44);
+          ctx.fillRect(-16, -106, 32, 6);
+
+          ctx.strokeStyle = "rgba(233,236,241," + (emphasis ? 0.16 : 0.10) + ")";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          ctx.restore();
+        };
+
+        var drawBelieverFigure = function (ctx, w, h, t, colorHex, emphasis, seed) {
+          var baseX = w * 0.72;
+          var baseY = h * 0.86;
+          var bob = Math.sin(t * 0.002 + 1.2) * 6;
+          var scale = 1 + (emphasis ? 0.02 : 0);
+          ctx.save();
+          ctx.translate(baseX, baseY + bob);
+          ctx.scale(scale, scale);
+
+          var hue = (seed % 360 + 360) % 360;
+          var cloak = "hsla(" + hue + ",18%,18%," + (emphasis ? 0.88 : 0.78) + ")";
+          var skin = "rgba(214,190,165," + (emphasis ? 0.92 : 0.86) + ")";
+
+          ctx.fillStyle = "rgba(0,0,0,0.26)";
+          ctx.beginPath();
+          ctx.ellipse(0, 10, 150, 26, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          var glow = ctx.createRadialGradient(0, -150, 0, 0, -150, 320);
+          glow.addColorStop(0, rgba(colorHex, emphasis ? 0.22 : 0.14));
+          glow.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = glow;
+          ctx.fillRect(-360, -640, 720, 980);
+
+          ctx.fillStyle = cloak;
+          ctx.beginPath();
+          ctx.moveTo(-88, -18);
+          ctx.quadraticCurveTo(-70, -230, 0, -260);
+          ctx.quadraticCurveTo(70, -230, 88, -18);
+          ctx.quadraticCurveTo(110, 110, 0, 140);
+          ctx.quadraticCurveTo(-110, 110, -88, -18);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.fillStyle = skin;
+          ctx.beginPath();
+          ctx.ellipse(0, -214, 30, 40, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = "rgba(30,22,18,0.42)";
+          ctx.beginPath();
+          ctx.ellipse(0, -190, 54, 22, 0, 0, Math.PI);
+          ctx.fill();
+
+          ctx.restore();
+        };
+
+        var rgba = function (hex, a) {
+          var h = String(hex || "").replace("#", "");
+          if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+          var r = parseInt(h.slice(0, 2), 16);
+          var g = parseInt(h.slice(2, 4), 16);
+          var b = parseInt(h.slice(4, 6), 16);
+          return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+        };
+
+        var renderHero = function (t) {
+          if (!heroCtx) return;
+          resizeCanvasToCss(heroCanvas, heroCtx);
+          var rect = heroCanvas.getBoundingClientRect();
+          var w = rect.width;
+          var h = rect.height;
+          heroCtx.clearRect(0, 0, w, h);
+          drawStainedGlass(heroCtx, w, h, t, "rgba(214,179,106,0.10)");
+          heroCtx.save();
+          heroCtx.globalAlpha = 0.9;
+          heroCtx.fillStyle = "rgba(0,0,0,0.25)";
+          heroCtx.fillRect(0, 0, w, h);
+          heroCtx.restore();
+        };
+
+        var renderStage = function (t) {
+          if (state.view !== "game") return;
+          if (!stageCtx) return;
+          resizeCanvasToCss(stage, stageCtx);
+          var rect = stage.getBoundingClientRect();
+          var w = rect.width;
+          var h = rect.height;
+          stageCtx.clearRect(0, 0, w, h);
+          var sinType = state.session.sinType || "Unknown";
+          var accentHex = SIN_COLOR[sinType] || SIN_COLOR.Unknown;
+          var accent = rgba(accentHex, 0.12);
+          drawStainedGlass(stageCtx, w, h, t, accent);
+
+          var node = getNode();
+          var speaker = node ? normalizeSpeaker(node.speakerName) : "系统";
+          var leftEm = speaker === "神父";
+          var rightEm = speaker === "信众";
+
+          drawPriestPhilip(stageCtx, w, h, t, leftEm);
+          var b = currentBeliever();
+          var seed = 0;
+          for (var i = 0; i < b.id.length; i++) seed = (seed * 31 + b.id.charCodeAt(i)) | 0;
+          drawBelieverFigure(stageCtx, w, h, t, accentHex, rightEm, seed);
+
+          stageCtx.save();
+          stageCtx.globalAlpha = 0.8;
+          stageCtx.fillStyle = "rgba(0,0,0,0.22)";
+          stageCtx.fillRect(0, h * 0.78, w, h * 0.22);
+          stageCtx.restore();
+        };
+
+        var renderConfStage = function (t) {
+          if (state.view !== "confessional") return;
+          if (!confStageCtx) return;
+          resizeCanvasToCss(confStage, confStageCtx);
+          var rect = confStage.getBoundingClientRect();
+          var w = rect.width;
+          var h = rect.height;
+          confStageCtx.clearRect(0, 0, w, h);
+          drawStainedGlass(confStageCtx, w, h, t, "rgba(214,179,106,0.10)");
+
+          drawPriestPhilip(confStageCtx, w, h, t, true);
+          drawBelieverFigure(confStageCtx, w, h, t, "#7a86a6", false, 1337);
+
+          confStageCtx.save();
+          confStageCtx.globalAlpha = 0.82;
+          confStageCtx.fillStyle = "rgba(0,0,0,0.22)";
+          confStageCtx.fillRect(0, h * 0.78, w, h * 0.22);
+          confStageCtx.restore();
+        };
+
+        var tick = function (t) {
+          renderHero(t);
+          renderStage(t);
+          renderConfStage(t);
+          requestAnimationFrame(tick);
+        };
+
+        updateStartButtons();
+        applySettingsToUI();
+        loadConfessionalHistory();
+        requestAnimationFrame(tick);
+
+        if (hasSave()) {
+          try {
+            loadGame();
+            applySettingsToUI();
+          } catch (e) {}
+        }
+      })();
+    </script>
+  </body>
+</html>
