@@ -5,10 +5,18 @@ set "SCRIPT_DIR=%~dp0"
 for %%I in ("%SCRIPT_DIR%..") do set "REPO_DIR=%%~fI"
 
 set "INPUT_HTML=%~1"
-if "%INPUT_HTML%"=="" set "INPUT_HTML=%REPO_DIR%\SaintAltarLight_Standalone.html"
+if "%INPUT_HTML%"=="" (
+  if exist "%SCRIPT_DIR%SaintAltarLight_Standalone.html" (
+    set "INPUT_HTML=%SCRIPT_DIR%SaintAltarLight_Standalone.html"
+  ) else (
+    set "INPUT_HTML=%REPO_DIR%\SaintAltarLight_Standalone.html"
+  )
+)
 
 set "OUTPUT_HTML=%~2"
-if "%OUTPUT_HTML%"=="" set "OUTPUT_HTML=%REPO_DIR%\out.html"
+if "%OUTPUT_HTML%"=="" (
+  for %%P in ("%INPUT_HTML%") do set "OUTPUT_HTML=%%~dpPout.html"
+)
 
 set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 if not exist "%VSWHERE%" (
@@ -49,10 +57,11 @@ if errorlevel 1 (
   exit /b 1
 )
 
-cd /d "%REPO_DIR%"
-
 if not exist "%INPUT_HTML%" (
   echo [ERROR] Input HTML not found: "%INPUT_HTML%"
+  echo Searched default locations:
+  echo   "%SCRIPT_DIR%SaintAltarLight_Standalone.html"
+  echo   "%REPO_DIR%\SaintAltarLight_Standalone.html"
   echo.
   pause
   exit /b 2

@@ -60,8 +60,7 @@ static fs::path resolveDefaultInput(const fs::path& exePath) {
 
 static fs::path resolveDefaultOutput(const fs::path& exePath) {
   const fs::path exeDir = exePath.has_parent_path() ? exePath.parent_path() : fs::current_path();
-  const fs::path repoDir = exeDir / "..";
-  return repoDir / "out.html";
+  return exeDir / "out.html";
 }
 
 static void waitForEnterIfDoubleClicked(bool isDoubleClickMode) {
